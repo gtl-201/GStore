@@ -74,6 +74,7 @@ var Layout = (function() {
           if( $('body').hasClass('g-sidenav-show') && !$('body').hasClass('g-sidenav-pinned')) {
               $('body').removeClass('g-sidenav-show').addClass('g-sidenav-hidden');
           }
+		  console.log('123');
       })
     }
 

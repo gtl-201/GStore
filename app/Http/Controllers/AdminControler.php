@@ -18,4 +18,8 @@ class AdminControler extends Controller
     function product(){
         return view('Admin.product');
     }
+
+    function handleLogin(){
+        return view('Admin.Access.login');
+    }
 }
