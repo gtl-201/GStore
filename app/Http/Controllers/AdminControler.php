@@ -15,4 +15,7 @@ class AdminControler extends Controller
     function icons(){
         return view('Admin.icons');
     }
+    function product(){
+        return view('Admin.product');
+    }
 }

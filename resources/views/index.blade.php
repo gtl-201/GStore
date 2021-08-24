@@ -17,6 +17,7 @@
     <!-- Page plugins -->
     <!-- Argon CSS -->
     <link rel="stylesheet" href="/css/argon.css" type="text/css">
+    <link rel="stylesheet" href="/css/custom.css" type="text/css">
 </head>
 
 <body>
@@ -47,7 +48,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="examples/map.html">
+                            <a class="nav-link" href="{{ URL::to('/admin/product') }}">
                                 <i class="ni ni-pin-3 text-primary"></i>
                                 <span class="nav-link-text">Google</span>
                             </a>
@@ -396,6 +397,7 @@
         <div class="pb-5">
             @yield('dashboard')
             @yield('icons')
+            @yield('product')
         </div>
         <!-- END MainContent -->
 
