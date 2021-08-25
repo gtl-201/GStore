@@ -20,5 +20,9 @@ Route::get('/admin/login', [AdminControler::class, 'login']);
 Route::get('/admin/dashboard', [AdminControler::class, 'index']);
 Route::get('/admin/icons', [AdminControler::class, 'icons']);
 Route::get('/admin/product', [AdminControler::class, 'product']);
+Route::get('/admin/logout', [AdminControler::class, 'handleLogout']);
 
 Route::post('/admin/login', [AdminControler::class, 'handleLogin']);
+
+
+

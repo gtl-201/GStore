@@ -8,3 +8,16 @@
     background-color: #05142f !important;
     transition: 0.2s;
 }
+.nav-child:hover{
+    background-color: #fefefe;
+}
+.nav-child-active{
+    background-color: #fefefe;
+}
+.link-nav-child{
+    font-size: sm;
+    color: black;
+}
+.link-nav-child-active{
+    font-weight: 700;
+}

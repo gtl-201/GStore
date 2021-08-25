@@ -49,6 +49,56 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ URL::to('/admin/product') }}">
+                                <i class="ni ni-bullet-list-67 text-default fa-w-10"></i>
+                                <span class="nav-link-text fa-w-90">Sản phẩm</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <div class="nav-link d-flex justify-content-between" id='phieuxuatkho'
+                                onclick="activeDropDownPhieu()">
+                                <span>
+                                    <i class="ni ni-bullet-list-67 text-default" style="min-width: 2rem"></i>
+                                    <span class="nav-link-text">Phiếu</span>
+                                </span>
+                                <i class="ni ni-bold-up text-default" style="min-width: fit-content; transition: 0.3s" id='bold-up-phieu'></i>
+                            </div>
+                            <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-Phieu'
+                                style="background-color: #c7e3ff; transition: 0.3s">
+                                <li
+                                    class="nav-item nav-child mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('/admin/product') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Tất cả</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item nav-child mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('/admin/product') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Nhập kho</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item nav-child mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('/admin/product') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Xuất kho</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item nav-child mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('/admin/product') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Chuyển kho</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        {{-- <li class="nav-item">
+                            <a class="nav-link">
                                 <i class="ni ni-pin-3 text-primary"></i>
                                 <span class="nav-link-text">Google</span>
                             </a>
@@ -57,12 +107,6 @@
                             <a class="nav-link" href="examples/profile.html">
                                 <i class="ni ni-single-02 text-yellow"></i>
                                 <span class="nav-link-text">Profile</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="examples/tables.html">
-                                <i class="ni ni-bullet-list-67 text-default"></i>
-                                <span class="nav-link-text">Tables</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -82,13 +126,9 @@
                                 <i class="ni ni-send text-dark"></i>
                                 <span class="nav-link-text">Upgrade</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
-                    <script>
-                        window.location.pathname == '/admin/dashboard' ? document.getElementsByClassName('nav-link')[0].classList.add('active')
-                        : window.location.pathname == '/admin/icons' ? document.getElementsByClassName('nav-link')[1].classList.add('active')
-                        : null;
-                    </script>
+                    <script src="/js/leftBarChoosed.js"></script>
                     <!-- Divider -->
                     <hr class="my-3">
                     <!-- Heading -->
@@ -381,7 +421,7 @@
                                     <span>Support</span>
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a href="{{URL::to('admin/')}}" class="dropdown-item">
+                                <a href="{{ URL::to('admin/logout') }}" class="dropdown-item">
                                     <i class="ni ni-user-run"></i>
                                     <span>Logout</span>
                                 </a>
@@ -406,8 +446,7 @@
             <div class="row align-items-center justify-content-lg-between">
                 <div class="col-lg-6">
                     <div class="copyright text-center  text-lg-left  text-muted">
-                        &copy; 2020 <a href="#" class="font-weight-bold ml-1"
-                            target="_blank">G Company</a>
+                        &copy; 2020 <a href="#" class="font-weight-bold ml-1" target="_blank">G Company</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -423,8 +462,7 @@
                             <a href="#" class="nav-link" target="_blank">Blog</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#"
-                                class="nav-link" target="_blank">MIT License</a>
+                            <a href="#" class="nav-link" target="_blank">MIT License</a>
                         </li>
                     </ul>
                 </div>
