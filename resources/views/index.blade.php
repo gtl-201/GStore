@@ -49,7 +49,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ URL::to('/admin/product') }}">
-                                <i class="ni ni-bullet-list-67 text-default fa-w-10"></i>
+                                <i class="ni ni-bullet-list-67 text-green fa-w-10"></i>
                                 <span class="nav-link-text fa-w-90">Sản phẩm</span>
                             </a>
                         </li>
@@ -58,7 +58,7 @@
                             <div class="nav-link d-flex justify-content-between" id='phieuxuatkho'
                                 onclick="activeDropDownPhieu()">
                                 <span>
-                                    <i class="ni ni-bullet-list-67 text-default" style="min-width: 2rem"></i>
+                                    <i class="ni ni-archive-2 text-blue" style="min-width: 2rem; font-size: 16px"></i>
                                     <span class="nav-link-text">Phiếu</span>
                                 </span>
                                 <i class="ni ni-bold-up text-default" style="min-width: fit-content; transition: 0.3s" id='bold-up-phieu'></i>
