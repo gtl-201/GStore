@@ -67,28 +67,28 @@
                             <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-Phieu'
                                 style="background-color: #c7e3ff; transition: 0.3s">
                                 <li
-                                    class="nav-item nav-child mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-phieu mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Tất cả</span>
                                     </a>
                                 </li>
                                 <li
-                                    class="nav-item nav-child mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-phieu mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Nhập kho</span>
                                     </a>
                                 </li>
                                 <li
-                                    class="nav-item nav-child mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-phieu mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Xuất kho</span>
                                     </a>
                                 </li>
                                 <li
-                                    class="nav-item nav-child mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-phieu mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Chuyển kho</span>
@@ -110,28 +110,28 @@
                             <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-kho'
                                 style="background-color: #c7e3ff; transition: 0.3s">
                                 <li
-                                    class="nav-item nav-child mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
+                                    class="nav-item nav-child-kho mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/warehouse/all') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
-                                        <span class="text-sm">Tất cả</span>
+                                        <span class="text-sm">Dánh sách</span>
                                     </a>
                                 </li>
                                 <li
-                                    class="nav-item nav-child mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-kho mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Nhập kho</span>
                                     </a>
                                 </li>
                                 <li
-                                    class="nav-item nav-child mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-kho mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Xuất kho</span>
                                     </a>
                                 </li>
                                 <li
-                                    class="nav-item nav-child mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-kho mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Chuyển kho</span>
