@@ -27,4 +27,9 @@ class Admin extends Model
             return false;
         }
     }
+    static function getAllWareHouse()
+    {
+        return DB::table('warehouse')->select('*')
+            ->get();
+    }
 }

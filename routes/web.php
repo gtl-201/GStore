@@ -22,6 +22,12 @@ Route::get('/admin/icons', [AdminControler::class, 'icons']);
 Route::get('/admin/product', [AdminControler::class, 'product']);
 Route::get('/admin/logout', [AdminControler::class, 'handleLogout']);
 
+Route::get('/admin/chooseWarehouse', [AdminControler::class, 'chooseWarehouse']);
+Route::post('/admin/chooseWarehouse', [AdminControler::class, 'chooseWarehouseHandle']);
+
+Route::get('/admin/warehouse/all', [AdminControler::class, 'allWarehouse']);
+
+
 Route::post('/admin/login', [AdminControler::class, 'handleLogin']);
 
 

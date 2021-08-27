@@ -36,7 +36,7 @@ class AdminControler extends Controller
         if($rs){
             // print($rs);
             Session::put('userName',$user);
-            return redirect('admin/dashboard');
+            return redirect('admin/chooseWarehouse');
         }else{
             // print($rs);
             Session::put('userName',null);
@@ -46,6 +46,21 @@ class AdminControler extends Controller
 
     function handleLogout(){
         Session::put('userName',null);
+        Session::put('warehouseChoosed',null);
         return redirect('admin/login');
+    }
+
+    function chooseWarehouse(){
+        $rs = Admin::getAllWareHouse();
+        return view('Admin.ChooseWarehouse')->with('warehouseList',$rs);
+    }
+    function chooseWarehouseHandle(Request $rq){
+        Session::put('warehouseChoosed', $rq->name);
+        return redirect('admin/dashboard');
+    }
+
+    function allWarehouse(){
+        $rs = Admin::getAllWarehouse();
+        return view('Admin.warehouse')->with('warehouseList',$rs);
     }
 }
