@@ -7,39 +7,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Admin extends Model
+class Admin extends Authenticatable
 {
     use HasFactory;
-    public static function login($user, $pass)
-    {
-        try {
-            $checkErr = DB::select('select * from admin where user_name = ?', [$user]);
-            if ($checkErr === '') {
-                return false;
-            }
-        } catch (Exception $err) {
-            return false;
-        }
-        try {
-            return DB::select('select * from admin where user_name = ? and password = ?', [$user, $pass]);
-        } catch (Exception $err) {
-            return false;
-        }
-    }
+    
+    protected $table = 'admin';
+
+    protected $fillable = ['name', 'avartar', 'email', 'user_name', 'phone' ,'address', 'password', 'roles'];
+
+    protected $hidden = ['password'];
     static function getAllWareHouse()
     {
-        return DB::table('warehouse')->select('*')
-            ->get();
+        return DB::table('warehouse')->get();
     }
 
-    static function createWarehouse($name, $address, $avt, $status)
-    {
-        try {
-            DB::insert('INSERT INTO `warehouse`(`name`, `address`, `status`, `avatar`) VALUES (?, ?, ?, ?)', [$name, $address, $status, $avt]);
-        } catch (Exception $err) {
-            return false;
-        }
-        return true;
-    }
+
 }

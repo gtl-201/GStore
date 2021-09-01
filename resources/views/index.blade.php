@@ -448,7 +448,7 @@
                                     </span>
                                     <div class="media-body  ml-2  d-none d-lg-block">
                                         <span class="mb-0 text-sm  font-weight-bold"> @php
-                                            echo Session::get('userName');
+                                            echo Auth::guard('admin')->user()->name;
                                         @endphp </span>
                                     </div>
                                 </div>
