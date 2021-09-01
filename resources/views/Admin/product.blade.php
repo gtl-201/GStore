@@ -115,7 +115,7 @@
                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </a>
-                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" id="dropDownWh">
                                                 <a class="dropdown-item" href="#">Action</a>
                                                 <a class="dropdown-item" href="#">Another action</a>
                                                 <a class="dropdown-item" href="#">Something else here</a>

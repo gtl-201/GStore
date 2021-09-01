@@ -1,23 +1,94 @@
-.card .table tbody tr:hover
-{
-    background-color: #f1f1f1 ;
+.pagination {
+    padding: 20px;
+}
+table.dataTable > thead .sorting:before,
+table.dataTable > thead .sorting:after,
+table.dataTable > thead .sorting_asc:before,
+table.dataTable > thead .sorting_asc:after,
+table.dataTable > thead .sorting_desc:before,
+table.dataTable > thead .sorting_desc:after,
+table.dataTable > thead .sorting_asc_disabled:before,
+table.dataTable > thead .sorting_asc_disabled:after,
+table.dataTable > thead .sorting_desc_disabled:before,
+table.dataTable > thead .sorting_desc_disabled:after {
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    padding-left: 0.5rem;
+    padding-bottom: 6.2px;
+    /* opacity: 0 !important; */
+}
+.toast{
+    position: absolute;
+    left: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 13px;
+    height: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #5e72e4;
+    /* border-radius: 10px; */
+    transition: 0.3s;
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #7b8ef8;
+    /* border-radius: 10px; */
+  }
+/* =========================================================================> */
+.card .table tbody tr:hover {
+    background-color: #f1f1f1;
     transition: 0.2s;
 }
-.shadow .table tbody tr:hover
-{
+.shadow .table tbody tr:hover {
     background-color: #05142f !important;
     transition: 0.2s;
 }
-.nav-child:hover{
+.nav-child:hover {
     background-color: #fefefe;
 }
-.nav-child-active{
+.nav-child-active {
     background-color: #fefefe;
 }
-.link-nav-child{
+.link-nav-child {
     font-size: sm;
     color: black;
 }
-.link-nav-child-active{
+.link-nav-child-active {
     font-weight: 700;
+}
+.dropdown-menu .dropdown-item:hover {
+    background-color: #12ccee !important;
+}
+/* .dropdown-menu .dropdown-item{
+    padding-left: 3px;
+    padding-right: 3px;
+} */
+#table_Theme_info {
+    color: #56aaff;
+    padding-top: 25px;
+}
+#table_Theme_length label {
+    color: #56aaff;
+}
+#table_Theme_filter label {
+    color: #56aaff;
+}
+.table.dataTable > thead > tr > th {
+    font-size: 14px;
+    font-weight: 900;
+}
+header{
+    height: 0;
 }

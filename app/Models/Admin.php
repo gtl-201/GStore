@@ -32,4 +32,14 @@ class Admin extends Model
         return DB::table('warehouse')->select('*')
             ->get();
     }
+
+    static function createWarehouse($name, $address, $avt, $status)
+    {
+        try {
+            DB::insert('INSERT INTO `warehouse`(`name`, `address`, `status`, `avatar`) VALUES (?, ?, ?, ?)', [$name, $address, $status, $avt]);
+        } catch (Exception $err) {
+            return false;
+        }
+        return true;
+    }
 }

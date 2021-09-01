@@ -8,16 +8,20 @@
     <meta name="author" content="Creative Tim">
     <title>G Store</title>
     <!-- Favicon -->
-    <link rel="icon" href="/img/brand/gtlLogo3.png" type="image/png">
+    <link rel="icon" href="{{ asset('img/brand/gtlLogo3.png') }}" type="image/png">
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
     <!-- Icons -->
-    <link rel="stylesheet" href="/vendor/nucleo/css/nucleo.css" type="text/css">
-    <link rel="stylesheet" href="/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+    <link rel="stylesheet" href="{{ asset('vendor/nucleo/css/nucleo.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" type="text/css">
     <!-- Page plugins -->
     <!-- Argon CSS -->
-    <link rel="stylesheet" href="/css/argon.css" type="text/css">
-    <link rel="stylesheet" href="/css/custom.css" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/argon.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/argon.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}" type="text/css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+    <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
+
 </head>
 
 <body>
@@ -61,8 +65,8 @@
                                     <i class="ni ni-archive-2 text-blue" style="min-width: 2rem; font-size: 16px"></i>
                                     <span class="nav-link-text">Phiếu</span>
                                 </span>
-                                <i class="ni ni-bold-right text-default" style="min-width: fit-content; transition: 0.3s"
-                                    id='bold-right-phieu'></i>
+                                <i class="ni ni-bold-right text-default"
+                                    style="min-width: fit-content; transition: 0.3s" id='bold-right-phieu'></i>
                             </div>
                             <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-Phieu'
                                 style="background-color: #c7e3ff; transition: 0.3s">
@@ -104,14 +108,14 @@
                                     <i class="ni ni-archive-2 text-blue" style="min-width: 2rem; font-size: 16px"></i>
                                     <span class="nav-link-text">Kho Hàng</span>
                                 </span>
-                                <i class="ni ni-bold-right text-default" style="min-width: fit-content; transition: 0.3s"
-                                    id='bold-right-kho'></i>
+                                <i class="ni ni-bold-right text-default"
+                                    style="min-width: fit-content; transition: 0.3s" id='bold-right-kho'></i>
                             </div>
                             <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-kho'
                                 style="background-color: #c7e3ff; transition: 0.3s">
                                 <li
                                     class="nav-item nav-child-kho mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/warehouse/all') }}">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/warehouse') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Dánh sách</span>
                                     </a>
@@ -241,8 +245,8 @@
                                 <input class="form-control" placeholder="Search" type="text">
                             </div>
                         </div>
-                        <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main"
-                            aria-label="Close">
+                        <button type="button" class="close" data-action="search-close"
+                            data-target="#navbar-search-main" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </form>
@@ -260,19 +264,21 @@
                             </div>
                         </li>
                         <li class="nav-item d-sm-none">
-                            <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
+                            <a class="nav-link" href="#" data-action="search-show"
+                                data-target="#navbar-search-main">
                                 <i class="ni ni-zoom-split-in"></i>
                             </a>
                         </li>
+
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                            <a class="nav-link" href="#">
                                 <i class="ni ni-bell-55"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
+                            <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right">
                                 <!-- Dropdown header -->
                                 <div class="px-3 py-3">
-                                    <h6 class="text-sm text-muted m-0">You have <strong class="text-primary">13</strong>
+                                    <h6 class="text-sm text-muted m-0">You have <strong
+                                            class="text-primary">13</strong>
                                         notifications.</h6>
                                 </div>
                                 <!-- List group -->
@@ -383,9 +389,10 @@
                                     all</a>
                             </div>
                         </li>
+
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                            <a class="nav-link" href="#" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 <i class="ni ni-ungroup"></i>
                             </a>
                             <div
@@ -433,8 +440,8 @@
                     </ul>
                     <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
                         <li class="nav-item dropdown">
-                            <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                            <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 <div class="media align-items-center">
                                     <span class="avatar avatar-sm rounded-circle">
                                         <img alt="Image placeholder" src="/img/theme/team-4.jpg">
@@ -518,16 +525,23 @@
     </div>
     <!-- Argon Scripts -->
     <!-- Core -->
-    <script src="/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/vendor/js-cookie/js.cookie.js"></script>
-    <script src="/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
-    <script src="/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+    <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/js-cookie/js.cookie.js') }}"></script>
+    <script src="{{ asset('vendor/jquery.scrollbar/jquery.scrollbar.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js') }}"></script>
     <!-- Optional JS -->
-    <script src="/vendor/chart.js/dist/Chart.min.js"></script>
-    <script src="/vendor/chart.js/dist/Chart.extension.js"></script>
+    <script src="{{ asset('vendor/chart.js/dist/Chart.min.js') }}"></script>
+    <script src="{{ asset('vendor/chart.js/dist/Chart.extension.js') }}"></script>
     <!-- Argon JS -->
-    <script src="/js/argon.js?v=1.2.0"></script>
+    <script src="{{ asset('js/argon.js?v=1.2.0') }}"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" type="text/javascript"
+        charset="utf-8" async defer></script>
 </body>
 
 </html>
