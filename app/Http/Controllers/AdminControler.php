@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -28,24 +29,26 @@ class AdminControler extends Controller
     }
 
     function handleLogin(Request $result)
-    {
-        $user = $result->user;
-        $pass = $result->pass;
-        $rs = Admin::login($user, $pass);
-        if ($rs) {
-            // print($rs);
-            Session::put('userName', $user);
+    {   
+        
+        $data = [
+            'user_name' => $result->user,
+            'password' => $result->pass
+        ];
+        if (Auth::guard('admin')->attempt($data)) {
+            
             return redirect('admin/chooseWarehouse');
-        } else {
-            // print($rs);
-            Session::put('userName', null);
-            return view('Admin.Access.login')->with('err', 'Tên đăng nhập hoặc mật khẩu không tồn tại');
+        }
+        else{
+            
+            return redirect()->back()->with('err', 'Tên đăng nhập hoặc mật khẩu không tồn tại');
+
         }
     }
 
     function handleLogout()
     {
-        Session::put('userName', null);
+        Auth::guard('admin')->logout();
         Session::put('warehouseChoosed', null);
         return redirect('admin/login');
     }

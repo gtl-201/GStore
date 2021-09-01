@@ -107,9 +107,9 @@
 
                                         <td class="text-right">
                                             <div class="dropdown">
-                                                <a class="text-light px-3">
+                                                {{-- <a class="text-light px-3">
                                                     <i class="fas fa-ellipsis-v"></i>
-                                                </a>
+                                                </a> --}}
                                                 {{-- <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"> --}}
                                                 {{-- <button class="dropdown-item btn-update" data-target="#edit"
                                                     data-url={{ route('warehouseAjax.update', $item->id) }}><i
