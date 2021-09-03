@@ -17,7 +17,6 @@
     <!-- Page plugins -->
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{{ asset('css/argon.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/argon.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}" type="text/css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
     <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
@@ -51,11 +50,53 @@
                                 <span class="nav-link-text">Icons</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ URL::to('/admin/product') }}">
                                 <i class="ni ni-bullet-list-67 text-green fa-w-10"></i>
                                 <span class="nav-link-text fa-w-90">Sản phẩm</span>
                             </a>
+                        </li> --}}
+                        <li class="nav-item">
+                            <div class="nav-link d-flex justify-content-between" id='sanpham'
+                                onclick="activeDropDownsanpham()">
+                                <span>
+                                    <i class="ni ni-archive-2 text-blue" style="min-width: 2rem; font-size: 16px"></i>
+                                    <span class="nav-link-text">Sản phẩm</span>
+                                </span>
+                                <i class="ni ni-bold-right text-default"
+                                    style="min-width: fit-content; transition: 0.3s" id='bold-right-sanpham'></i>
+                            </div>
+                            <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-sanpham'
+                                style="background-color: #c7e3ff; transition: 0.3s">
+                                <li
+                                    class="nav-item nav-child-sanpham mx-2 mt-0 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/color') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Màu</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Size</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Nhãn hàng</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Sản phẩm</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="nav-item">
@@ -71,7 +112,7 @@
                             <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-Phieu'
                                 style="background-color: #c7e3ff; transition: 0.3s">
                                 <li
-                                    class="nav-item nav-child-phieu mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-phieu mx-2 mt-0 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Tất cả</span>
@@ -114,7 +155,7 @@
                             <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-kho'
                                 style="background-color: #c7e3ff; transition: 0.3s">
                                 <li
-                                    class="nav-item nav-child-kho mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-kho mx-2 mt-0 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('admin/warehouse') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Dánh sách</span>

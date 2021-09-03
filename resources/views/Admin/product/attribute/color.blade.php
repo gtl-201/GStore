@@ -9,9 +9,8 @@
 
         <!-- Page plugins -->
         <!-- Argon CSS -->
-        <link rel="stylesheet" href="../css/argon.css" type="text/css">
-        <link rel="stylesheet" href="../css/custom.css" type="text/css">
-
+        <link rel="stylesheet" href="{{ asset('css/argon.css') }}" type="text/css">
+        <link rel="stylesheet" href="{{ asset('css/custom.css') }}" type="text/css">
     </header>
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
@@ -61,44 +60,29 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    <th scope="col" class="sort col-3" data-sort="name">Tên</th>
-                                    <th scope="col" class="sort col-4" data-sort="budget">Địa chỉ</th>
-                                    <th scope="col" class="sort col-1" data-sort="status">Trạng thái</th>
-                                    {{-- <th scope="col">Users</th> --}}
-                                    {{-- <th scope="col" class="sort" data-sort="completion">Completion</th> --}}
+                                    <th scope="col" class="sort col-3" data-sort="name">Mã màu</th>
+                                    <th scope="col" class="sort col-4" data-sort="budget">Tên màu</th>
                                     <th scope="col" class="col-1">Ngày cập nhật</th>
                                     <th scope="col" class="col-1"></th>
                                 </tr>
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
-                                @forelse ($warehouse as $item)
-                                    <tr id='warehouseTr-{{ $item->id }}'>
+                                @forelse ($color as $item)
+                                    <tr id='colorTr-{{ $item->id }}'>
                                         <th scope="row">
                                             <div class="media align-items-center">
-                                                <a href="#" class="avatar rounded-circle mr-3">
-                                                    <img id="avt-{{ $item->id }}" alt=""
-                                                        src="../../{{ $item->avatar }}">
-                                                </a>
+                                                <div id='hexIndex-{{ $item->id }}' href="#" class="avatar rounded-circle mr-3" style="background-color: {{ $item->hex }}">
+                                                </div>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
-                                                        {{ $item->name }}
+                                                        {{ $item->hex }}
                                                     </span>
                                                 </div>
                                             </div>
                                         </th>
 
-                                        <td class="text-sm" id="address-{{ $item->id }}">
-                                            {{ $item->address }}
-                                        </td>
-
-                                        <td>
-                                            <span class="badge badge-dot mr-4">
-                                                <i id="statusIcon-{{ $item->id }}"
-                                                    class="@php echo $item->status == 1 ? 'bg-success' : 'bg-danger'; @endphp"></i>
-                                                <span class="status" id="statusText-{{ $item->id }}">
-                                                    @php echo $item->status == 1 ? 'Hoạt động' : 'Đã khoá'; @endphp
-                                                </span>
-                                            </span>
+                                        <td class="text-sm" id="color-{{ $item->id }}">
+                                            {{ $item->color }}
                                         </td>
 
                                         <td class="text-sm" id="updated-{{ $item->id }}">
@@ -107,15 +91,6 @@
 
                                         <td class="text-right">
                                             <div class="dropdown">
-                                                {{-- <a class="text-light px-3">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </a> --}}
-                                                {{-- <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"> --}}
-                                                {{-- <button class="dropdown-item btn-update" data-target="#edit"
-                                                    data-url={{ route('warehouseAjax.update', $item->id) }}><i
-                                                        class="ni ni-ui-04"></i>Cập nhật</button>
-                                                <button onclick='delllll({{$item -> id}})' type="button" data-toggle="modal" class="btn-delete"><i class="far fa-minus-square"></i>Xoá</button> --}}
-                                                {{-- </div> --}}
                                                 <button ​type="button" data-toggle="modal"
                                                     onclick="editWh({{ $item->id }})"
                                                     class="btn btn-warning btn-edit">Edit</button>
@@ -136,8 +111,8 @@
     </div>
 
     <!-- Modal -->
-    @include('Admin.warehouse.add')
-    @include('Admin.warehouse.update')
+    @include('Admin.product.attribute.addColor')
+    @include('Admin.product.attribute.updateColor')
 
     {{-- <script type="text/javascript" charset="utf-8">
         $.ajaxSetup({
@@ -165,7 +140,7 @@
                     },
                 },
                 "order": [
-                    [4, "asc"]
+                    [2, "asc"]
                 ]
             });
         });
@@ -188,7 +163,7 @@
                     },
                 },
                 "order": [
-                    [4, "asc"]
+                    [2, "asc"]
                 ]
             });
         }
@@ -207,66 +182,51 @@
                 },
                 type: 'post',
                 url: url,
-                enctype: 'multipart/form-data',
                 contentType: false,
                 processData: false,
                 data: formSend,
                 success: function(response) {
                     $('#table_Theme').DataTable().destroy();
                     // $('#table_Theme').empty();
+
                     let item = response.data;
-                    let th = `<tr id='warehouseTr-${ item.id }'>
-                            <th scope='row'>
-                                <div class='media align-items-center'>
-                                    <a href='#' class='avatar rounded-circle mr-3'>
-                                        <img id='avt-${item.id}' src='../../${item.avatar}'>
-                                    </a>
-                                    <div class='media-body'>
-                                        <span class='name mb-0 text-sm' id='name-${ item.id }'>
-                                            ${ item.name }
-                                        </span>
+                    let th = `<tr id='colorTr-${ item.id }'>
+                                <th scope="row">
+                                    <div class="media align-items-center">
+                                        <div id='hexIndex-${ item.id }' href="#" class="avatar rounded-circle mr-3" style="background-color: ${ item.hex }">
+                                        </div>
+                                        <div class="media-body">
+                                            <span class="name mb-0 text-sm" id="name-${ item.id }">
+                                                ${ item.hex }
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </th>`;
-                    let td1 = `<td class='text-sm' id='address-${item.id}'>
-                                ${ item.address }
+                                </th>`;
+                    let td1 = `<td class="text-sm" id="color-${ item.id }">
+                                ${ item.color }
                             </td>`
 
-                    let td2 = `<td>
-                                <span class='badge badge-dot mr-4'>
-                                    <i id='statusIcon-${ item.id }'
-                                        class='${ item.status == 1 ? 'bg-success' : 'bg-danger' }'></i>
-                                    <span class='status' id='statusText-${ item.id }'>
-                                        ${item.status == 1 ? 'Hoạt động' : 'Đã khoá'}
-                                    </span>
-                                </span>
-                            </td>`;
+                    let td2 = ` <td class="text-sm" id="updated-${ item.id }">
+                                    ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
+                                 </td>`;
 
-                    let td3 = `<td class='text-sm' id='updated-${ item.id }'>
-                                ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
-                            </td>`;
-
-                    let td4 = `<td class='text-right'>
-                                <div class='dropdown'>
-                                    <a class='btn btn-sm btn-icon-only text-light' href='#' role='button'
-                                        data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                        <i class='fas fa-ellipsis-v'></i>
-                                    </a>
-                                    <button ​type='button' data-toggle='modal'
-                                        onclick='editWh(${ item.id })'
-                                        class='btn btn-warning btn-edit'>Edit</button>
-                                    <button ​type='button' data-toggle='modal' class='btn btn-danger btn-delete'
-                                        onclick='deleteWh(${ item.id })'>Delete</button>
-                                </div>
-                            </td>
-                        </tr>`;
+                    let td3 = `<td class="text-right">
+                                    <div class="dropdown">
+                                        <button ​type="button" data-toggle="modal"
+                                            onclick="editWh(${ item.id })"
+                                            class="btn btn-warning btn-edit">Edit</button>
+                                        <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
+                                            onclick="deleteWh(${ item.id })">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>`;
 
                     console.log(response.data);
                     toastr.options.positionClass = 'toast-bottom-left'
                     toastr.success(response.message, 'Thành công ✨🎉✨');
                     $('#myAddModal').modal('toggle');
                     $('#form-add')[0].reset();
-                    $('tbody').prepend(th + td1 + td2 + td3 + td4);
+                    $('tbody').prepend(th + td1 + td2 + td3);
                     rebuild();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -282,7 +242,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "warehouse/" + id,
+                    url: "color/" + id,
                     type: 'DELETE',
                     contentType: false,
                     processData: false,
@@ -291,7 +251,7 @@
                         // $('#table_Theme').empty();
                         toastr.options.positionClass = 'toast-bottom-left'
                         toastr.success('Xoá kho thành công', 'Thành công ✨🎉✨')
-                        $('#warehouseTr-' + res.id).remove();
+                        $('#colorTr-' + res.id).remove();
                         rebuild();
                     },
                     error: function(res) {
@@ -303,12 +263,11 @@
         }
 
         function editWh(id) {
-            $.get('warehouse/' + id, function(e) {
-                $('#name-edit').val(e.name);
-                $('#address-edit').val(e.address);
-                $('#imageDemoUpdate').prop('src', "../../" + e.avatar);
-                $('#id-edit').val(e.id);
-                // $('#statusCheck-edit').val(e.status);
+            $.get('color/' + id, function(e) {
+                $('#id').val(id);
+                $('#color-edit').val(e.color);
+                $('#hex-edit').val(e.hex);
+                $("#hexDemoUpdate").css("background-color", e.hex);
                 $('#myUpdateModal').modal('toggle');
                 setTimeout(() => {
                     e.status !== 1 ? $('#index2').click() : $('#index1').click();
@@ -322,16 +281,16 @@
 
             let formData = new FormData($('#form-edit')[0]);
             console.log(formData);
-            let name = $('#name-edit').val();
-            let address = $('#address-edit').val();
+            let color = $('#color-edit').val();
+            let hex = $('#hex-edit').val();
             // let avatar = $('#avatar-edit').val();
 
-            if (name !== '' && address !== '') {
+            if (color !== '' && hex !== '') {
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "warehouse/update",
+                    url: "color/update",
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -340,19 +299,18 @@
                         $('#table_Theme').DataTable().destroy();
                         // $('#table_Theme').empty();
                         let data = res.data;
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
-                        $('#avt-' + data.id).attr("src", "../" + data.avatar);
-                        $('#name-' + data.id).text(data.name);
-                        $('#address-' + data.id).text(data.address);
-                        $('#statusIcon-' + data.id).attr('class', data.status == 1 ? "bg-success" :
-                            "bg-danger");
+                        
+                        $('#hexIndex-' + data.id).css("background-color", data.hex);
+                        // document.getElementById('hexIndex-2').style.backgroundColor= e.hex;
+                        $('#name-' + data.id).text(data.hex);
+                        $('#color-' + data.id).text(data.color);
                         $('#updated-' + data.id).text(
                             `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
                         );
-                        $('#statusText-' + data.id).text(data.status == 1 ? "Hoạt động" : "Đã khoá");
                         $('#myUpdateModal').modal('hide');
                         $('#form-edit')[0].reset();
+                        toastr.options.positionClass = 'toast-bottom-left'
+                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
                         rebuild();
                     },
                     error: function(res) {
@@ -369,12 +327,12 @@
         }
     @endphp --}}
     <script>
-        function openPicAdd(obj) {
-            document.getElementById('imageDemoAdd').src = URL.createObjectURL(obj.files[0]);
+        function openHexAdd(obj) {
+            $("#hexDemoAdd").css("background-color", obj.value);
         }
 
-        function openPicUpdate(obj) {
-            document.getElementById('imageDemoUpdate').src = URL.createObjectURL(obj.files[0]);
+        function openHexUpdate(obj) {
+            $("#hexDemoUpdate").css("background-color", obj.value);
         }
     </script>
 @endsection

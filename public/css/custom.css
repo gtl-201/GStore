@@ -92,3 +92,10 @@ table.dataTable > thead .sorting_desc_disabled:after {
 header{
     height: 0;
 }
+.form-control{
+    color: black;
+}
+.form-control:focus{
+    color: #0006d2;
+}
+

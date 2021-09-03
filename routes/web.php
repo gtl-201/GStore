@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminControler;
+use App\Http\Controllers\attributeAjaxController;
 use App\Http\Controllers\warehouseAjaxController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,12 +29,19 @@ Route::prefix('admin')->group(function () {
         Route::get('/chooseWarehouse', [AdminControler::class, 'chooseWarehouse']);
         Route::post('/chooseWarehouse', [AdminControler::class, 'chooseWarehouseHandle']);
 
-    // Route::get('/admin/warehouse/all', [AdminControler::class, 'allWarehouse']);
-    // Route::post('/admin/warehouse/all', [AdminControler::class, 'addWarehouse'])->name('create');
-    // Route::get('/admin/warehouse/all/{id}', [AdminControler::class, 'deleteWarehouse'])->name('delete');
-
         Route::post('/login', [AdminControler::class, 'handleLogin'])->withoutMiddleware('auth.admin');
-        // Route::resource('', 'warehouseAjaxController');
+
+        Route::prefix('/product')->group(function () {
+            Route::prefix('/attribute')->group(function () {
+                Route::prefix('/color')->group(function () {
+                    Route::get('/', [attributeAjaxController::class, 'indexColor']);
+                    Route::post('/', [attributeAjaxController::class, 'storeColor']);
+                    Route::get('/{id}', [attributeAjaxController::class, 'editColor']);
+                    Route::post('/update', [attributeAjaxController::class, 'update']);
+                    Route::delete('/{id}', [attributeAjaxController::class, 'destroy']);
+                });
+            });
+        });
 
         Route::prefix('/warehouse')->group(function () {
             //admin route

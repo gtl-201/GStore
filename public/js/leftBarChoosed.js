@@ -13,6 +13,10 @@ function closeAllMenu(){
     document.getElementById('khohang').classList.remove('active');
     document.getElementById('nav-child-Menu-kho').classList.add('d-none');
     document.getElementById('bold-right-kho').style.transform = 'rotate(0deg)';
+
+    document.getElementById('sanpham').classList.remove('active');
+    document.getElementById('nav-child-Menu-sanpham').classList.add('d-none');
+    document.getElementById('bold-right-sanpham').style.transform = 'rotate(0deg)';
 }
 
 function activeDropDownPhieu(){
@@ -42,5 +46,20 @@ function activeDropDownKho(){
         document.getElementById('bold-right-kho').style.transform = 'rotate(90deg)';
     }else{
         document.getElementById('bold-right-kho').style.transform = 'rotate(0deg)';
+    }
+}
+
+function activeDropDownsanpham(){
+    // closeAllMenu();
+    if($('#sanpham').hasClass('active') == false){
+        closeAllMenu();
+    }
+    document.getElementById('sanpham').classList.toggle('active');
+    document.getElementById('nav-child-Menu-sanpham').classList.toggle('d-none');
+
+    if($('#sanpham').hasClass('active') == true){
+        document.getElementById('bold-right-sanpham').style.transform = 'rotate(90deg)';
+    }else{
+        document.getElementById('bold-right-sanpham').style.transform = 'rotate(0deg)';
     }
 }
