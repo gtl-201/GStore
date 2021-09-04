@@ -17,7 +17,7 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 col-7">
-                        <h6 class="h2 text-white d-inline-block mb-0">Màu sắc</h6>
+                        <h6 class="h2 text-white d-inline-block mb-0">Kích cỡ</h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
@@ -42,7 +42,7 @@
                 <div class="card" id='card_table'>
                     <!-- Card header -->
                     <div class="card-header border-0" id='header_table' onclick="tb_theme()">
-                        <h3 class="mb-0" id='table_header_name'>Danh sách màu</h3>
+                        <h3 class="mb-0" id='table_header_name'>Danh sách kích cỡ</h3>
                     </div>
                     <script>
                         function tb_theme() {
@@ -61,29 +61,17 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    <th scope="col" class="sort col-3" data-sort="name">Mã màu</th>
-                                    <th scope="col" class="sort col-4" data-sort="budget">Tên màu</th>
+                                    <th scope="col" class="sort col-3" data-sort="name">Kích cỡ</th>
                                     <th scope="col" class="col-1">Ngày cập nhật</th>
                                     <th scope="col" class="col-1"></th>
                                 </tr>
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
-                                @forelse ($color as $item)
-                                    <tr id='colorTr-{{ $item->id }}'>
-                                        <th scope="row">
-                                            <div class="media align-items-center">
-                                                <div id='hexIndex-{{ $item->id }}' href="#" class="avatar rounded-circle mr-3" style="background-color: {{ $item->hex }}">
-                                                </div>
-                                                <div class="media-body">
-                                                    <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
-                                                        {{ $item->hex }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </th>
+                                @forelse ($size as $item)
+                                    <tr id='sizeTr-{{ $item->id }}'>
 
-                                        <td class="text-sm" id="color-{{ $item->id }}">
-                                            {{ $item->color }}
+                                        <td class="text-sm" id="size-{{ $item->id }}">
+                                            {{ $item->size }}
                                         </td>
 
                                         <td class="text-sm" id="updated-{{ $item->id }}">
@@ -112,8 +100,8 @@
     </div>
 
     <!-- Modal -->
-    @include('Admin.product.attribute.addColor')
-    @include('Admin.product.attribute.updateColor')
+    @include('Admin.product.attribute.addSize')
+    @include('Admin.product.attribute.updateSize')
 
     {{-- <script type="text/javascript" charset="utf-8">
         $.ajaxSetup({
@@ -141,7 +129,7 @@
                     },
                 },
                 "order": [
-                    [2, "asc"]
+                    [1, "asc"]
                 ]
             });
         });
@@ -164,7 +152,7 @@
                     },
                 },
                 "order": [
-                    [2, "asc"]
+                    [1, "asc"]
                 ]
             });
         }
@@ -191,43 +179,32 @@
                     // $('#table_Theme').empty();
 
                     let item = response.data;
-                    let th = `<tr id='colorTr-${ item.id }'>
-                                <th scope="row">
-                                    <div class="media align-items-center">
-                                        <div id='hexIndex-${ item.id }' href="#" class="avatar rounded-circle mr-3" style="background-color: ${ item.hex }">
-                                        </div>
-                                        <div class="media-body">
-                                            <span class="name mb-0 text-sm" id="name-${ item.id }">
-                                                ${ item.hex }
-                                            </span>
-                                        </div>
-                                    </div>
-                                </th>`;
-                    let td1 = `<td class="text-sm" id="color-${ item.id }">
-                                ${ item.color }
-                            </td>`
-
-                    let td2 = ` <td class="text-sm" id="updated-${ item.id }">
-                                    ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
-                                 </td>`;
-
-                    let td3 = `<td class="text-right">
-                                    <div class="dropdown">
-                                        <button ​type="button" data-toggle="modal"
-                                            onclick="editWh(${ item.id })"
-                                            class="btn btn-warning btn-edit">Edit</button>
-                                        <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
-                                            onclick="deleteWh(${ item.id })">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>`;
-
+                    let th=`<tr id='sizeTr-${ item.id }'>
+                                <td class="text-sm" id="size-${ item.id }">
+                                    ${ item.size }
+                                </td>`;
+                    
+                    let td1=`<td class="text-sm" id="updated-${ item.id }">
+                                ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
+                            </td>`;
+                        
+                    let td2=`<td class="text-right">
+                                <div class="dropdown">
+                                    <button ​type="button" data-toggle="modal"
+                                        onclick="editWh(${ item.id })"
+                                        class="btn btn-warning btn-edit">Edit</button>
+                                    <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
+                                        onclick="deleteWh(${ item.id })">Delete</button>
+                                </div>
+                            </td>
+                        </tr>`;
+                
                     console.log(response.data);
                     toastr.options.positionClass = 'toast-bottom-left'
                     toastr.success(response.message, 'Thành công ✨🎉✨');
                     $('#myAddModal').modal('toggle');
                     $('#form-add')[0].reset();
-                    $('tbody').prepend(th + td1 + td2 + td3);
+                    $('tbody').prepend(th + td1 + td2 );
                     rebuild();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -252,7 +229,7 @@
                         // $('#table_Theme').empty();
                         toastr.options.positionClass = 'toast-bottom-left'
                         toastr.success('Xoá kho thành công', 'Thành công ✨🎉✨')
-                        $('#colorTr-' + res.id).remove();
+                        $('#sizeTr-' + res.id).remove();
                         rebuild();
                     },
                     error: function(res) {
@@ -264,16 +241,10 @@
         }
 
         function editWh(id) {
-            $.get('color/' + id, function(e) {
+            $.get('size/' + id, function(e) {
                 $('#id').val(id);
-                $('#color-edit').val(e.color);
-                $('#hex-edit').val(e.hex);
-                $("#hexDemoUpdate").css("background-color", e.hex);
+                $('#size-edit').val(e.size);
                 $('#myUpdateModal').modal('toggle');
-                setTimeout(() => {
-                    e.status !== 1 ? $('#index2').click() : $('#index1').click();
-                }, 150);
-                console.log(e.avatar);
             });
         }
 
@@ -282,16 +253,14 @@
 
             let formData = new FormData($('#form-edit')[0]);
             console.log(formData);
-            let color = $('#color-edit').val();
-            let hex = $('#hex-edit').val();
-            // let avatar = $('#avatar-edit').val();
+            let size = $('#size-edit').val();
 
-            if (color !== '' && hex !== '') {
+            if (size !== '') {
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "color/update",
+                    url: "size/update",
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -300,11 +269,7 @@
                         $('#table_Theme').DataTable().destroy();
                         // $('#table_Theme').empty();
                         let data = res.data;
-                        
-                        $('#hexIndex-' + data.id).css("background-color", data.hex);
-                        // document.getElementById('hexIndex-2').style.backgroundColor= e.hex;
-                        $('#name-' + data.id).text(data.hex);
-                        $('#color-' + data.id).text(data.color);
+                        $('#size-' + data.id).text(data.size);
                         $('#updated-' + data.id).text(
                             `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
                         );

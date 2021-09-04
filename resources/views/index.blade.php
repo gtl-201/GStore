@@ -69,7 +69,7 @@
                             <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-sanpham'
                                 style="background-color: #c7e3ff; transition: 0.3s">
                                 <li
-                                    class="nav-item nav-child-sanpham mx-2 mt-0 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-sanpham mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/color') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Màu</span>
@@ -77,14 +77,14 @@
                                 </li>
                                 <li
                                     class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/size') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Size</span>
                                     </a>
                                 </li>
                                 <li
                                     class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/brand') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Nhãn hàng</span>
                                     </a>
@@ -112,7 +112,7 @@
                             <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-Phieu'
                                 style="background-color: #c7e3ff; transition: 0.3s">
                                 <li
-                                    class="nav-item nav-child-phieu mx-2 mt-0 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-phieu mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Tất cả</span>
@@ -155,7 +155,7 @@
                             <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-kho'
                                 style="background-color: #c7e3ff; transition: 0.3s">
                                 <li
-                                    class="nav-item nav-child-kho mx-2 mt-0 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    class="nav-item nav-child-kho mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('admin/warehouse') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Dánh sách</span>

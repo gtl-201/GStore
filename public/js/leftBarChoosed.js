@@ -1,8 +1,11 @@
 window.location.pathname == '/admin/dashboard' ? document.getElementsByClassName('nav-link')[0].classList.add('active')
 : window.location.pathname == '/admin/icons' ? document.getElementsByClassName('nav-link')[1].classList.add('active')
-// : window.location.pathname == '/admin/product' ? (document.getElementsByClassName('nav-link')[2].classList.add('active'),document.getElementsByClassName('link-nav-child')[0].classList.add('link-nav-child-active'),document.getElementsByClassName('nav-child')[0].classList.add('nav-child-active'))
-: window.location.pathname == '/admin/product' ? (document.getElementsByClassName('nav-link')[2].classList.add('active'))
+
 : window.location.pathname == '/admin/warehouse'? (document.getElementById('khohang').classList.toggle('active'), document.getElementById('nav-child-Menu-kho').classList.toggle('d-none'), document.getElementById('bold-right-kho').style.transform = 'rotate(90deg)', document.getElementsByClassName('nav-child-kho')[0].classList.add('nav-child-active'))
+: window.location.pathname == '/admin/product/attribute/color'? (document.getElementById('sanpham').classList.toggle('active'), document.getElementById('nav-child-Menu-sanpham').classList.toggle('d-none'), document.getElementById('bold-right-sanpham').style.transform = 'rotate(90deg)', document.getElementsByClassName('nav-child-sanpham')[0].classList.add('nav-child-active'))
+: window.location.pathname == '/admin/product/attribute/size'? (document.getElementById('sanpham').classList.toggle('active'), document.getElementById('nav-child-Menu-sanpham').classList.toggle('d-none'), document.getElementById('bold-right-sanpham').style.transform = 'rotate(90deg)', document.getElementsByClassName('nav-child-sanpham')[1].classList.add('nav-child-active'))
+: window.location.pathname == '/admin/product/attribute/brand'? (document.getElementById('sanpham').classList.toggle('active'), document.getElementById('nav-child-Menu-sanpham').classList.toggle('d-none'), document.getElementById('bold-right-sanpham').style.transform = 'rotate(90deg)', document.getElementsByClassName('nav-child-sanpham')[2].classList.add('nav-child-active'))
+
 : null;
 
 function closeAllMenu(){

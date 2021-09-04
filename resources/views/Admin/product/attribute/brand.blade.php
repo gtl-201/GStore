@@ -17,13 +17,13 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 col-7">
-                        <h6 class="h2 text-white d-inline-block mb-0">Màu sắc</h6>
+                        <h6 class="h2 text-white d-inline-block mb-0">Thương hiệu</h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
                                 <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
                                 {{-- <li class="breadcrumb-item active" aria-current="page">Thuộc tính</li> --}}
-                                <li class="breadcrumb-item active" aria-current="page">Màu sắc</li>
+                                <li class="breadcrumb-item active" aria-current="page">Thương hiệu</li>
                             </ol>
                         </nav>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="card" id='card_table'>
                     <!-- Card header -->
                     <div class="card-header border-0" id='header_table' onclick="tb_theme()">
-                        <h3 class="mb-0" id='table_header_name'>Danh sách màu</h3>
+                        <h3 class="mb-0" id='table_header_name'>Danh sách Thương hiệu</h3>
                     </div>
                     <script>
                         function tb_theme() {
@@ -61,30 +61,27 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    <th scope="col" class="sort col-3" data-sort="name">Mã màu</th>
-                                    <th scope="col" class="sort col-4" data-sort="budget">Tên màu</th>
+                                    <th scope="col" class="sort col-3" data-sort="name">Tên thương hiệu</th>
                                     <th scope="col" class="col-1">Ngày cập nhật</th>
                                     <th scope="col" class="col-1"></th>
                                 </tr>
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
-                                @forelse ($color as $item)
-                                    <tr id='colorTr-{{ $item->id }}'>
+                                @forelse ($brand as $item)
+                                    <tr id='brandTr-{{ $item->id }}'>
                                         <th scope="row">
                                             <div class="media align-items-center">
-                                                <div id='hexIndex-{{ $item->id }}' href="#" class="avatar rounded-circle mr-3" style="background-color: {{ $item->hex }}">
-                                                </div>
+                                                <a href="#" class="avatar rounded-circle mr-3">
+                                                    <img id="avt-{{ $item->id }}" alt=""
+                                                        src="../../../{{ $item->image }}">
+                                                </a>
                                                 <div class="media-body">
-                                                    <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
-                                                        {{ $item->hex }}
+                                                    <span class="name nameBold mb-0 text-sm" id="brand-{{ $item->id }}">
+                                                        {{ $item->brand }}
                                                     </span>
                                                 </div>
                                             </div>
                                         </th>
-
-                                        <td class="text-sm" id="color-{{ $item->id }}">
-                                            {{ $item->color }}
-                                        </td>
 
                                         <td class="text-sm" id="updated-{{ $item->id }}">
                                             {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
@@ -112,8 +109,8 @@
     </div>
 
     <!-- Modal -->
-    @include('Admin.product.attribute.addColor')
-    @include('Admin.product.attribute.updateColor')
+    @include('Admin.product.attribute.addBrand')
+    @include('Admin.product.attribute.updateBrand')
 
     {{-- <script type="text/javascript" charset="utf-8">
         $.ajaxSetup({
@@ -183,6 +180,7 @@
                 },
                 type: 'post',
                 url: url,
+                enctype: 'multipart/form-data',
                 contentType: false,
                 processData: false,
                 data: formSend,
@@ -191,43 +189,40 @@
                     // $('#table_Theme').empty();
 
                     let item = response.data;
-                    let th = `<tr id='colorTr-${ item.id }'>
+                    let th=`<tr id='brandTr-${item.id }'>
                                 <th scope="row">
                                     <div class="media align-items-center">
-                                        <div id='hexIndex-${ item.id }' href="#" class="avatar rounded-circle mr-3" style="background-color: ${ item.hex }">
-                                        </div>
+                                        <a href="#" class="avatar rounded-circle mr-3">
+                                            <img id="avt-${item.id }" alt=""
+                                                src="../../../${item.image }">
+                                        </a>
                                         <div class="media-body">
-                                            <span class="name mb-0 text-sm" id="name-${ item.id }">
-                                                ${ item.hex }
+                                            <span class="name nameBold mb-0 text-sm" id="brand-${item.id }">
+                                                ${item.brand }
                                             </span>
                                         </div>
                                     </div>
                                 </th>`;
-                    let td1 = `<td class="text-sm" id="color-${ item.id }">
-                                ${ item.color }
-                            </td>`
-
-                    let td2 = ` <td class="text-sm" id="updated-${ item.id }">
-                                    ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
-                                 </td>`;
-
-                    let td3 = `<td class="text-right">
-                                    <div class="dropdown">
-                                        <button ​type="button" data-toggle="modal"
-                                            onclick="editWh(${ item.id })"
-                                            class="btn btn-warning btn-edit">Edit</button>
-                                        <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
-                                            onclick="deleteWh(${ item.id })">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>`;
+                    let td1=`<td class="text-sm" id="updated-${item.id }">
+                                ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
+                            </td>`;
+                    let td2=`<td class="text-right">
+                                <div class="dropdown">
+                                    <button ​type="button" data-toggle="modal"
+                                        onclick="editWh(${item.id })"
+                                        class="btn btn-warning btn-edit">Edit</button>
+                                    <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
+                                        onclick="deleteWh(${item.id })">Delete</button>
+                                </div>
+                            </td>
+                        </tr>`;
 
                     console.log(response.data);
                     toastr.options.positionClass = 'toast-bottom-left'
                     toastr.success(response.message, 'Thành công ✨🎉✨');
                     $('#myAddModal').modal('toggle');
                     $('#form-add')[0].reset();
-                    $('tbody').prepend(th + td1 + td2 + td3);
+                    $('tbody').prepend(th + td1 + td2);
                     rebuild();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -243,7 +238,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "size/" + id,
+                    url: "brand/" + id,
                     type: 'DELETE',
                     contentType: false,
                     processData: false,
@@ -252,7 +247,7 @@
                         // $('#table_Theme').empty();
                         toastr.options.positionClass = 'toast-bottom-left'
                         toastr.success('Xoá kho thành công', 'Thành công ✨🎉✨')
-                        $('#colorTr-' + res.id).remove();
+                        $('#brandTr-' + res.id).remove();
                         rebuild();
                     },
                     error: function(res) {
@@ -264,16 +259,11 @@
         }
 
         function editWh(id) {
-            $.get('color/' + id, function(e) {
+            $.get('brand/' + id, function(e) {
                 $('#id').val(id);
-                $('#color-edit').val(e.color);
-                $('#hex-edit').val(e.hex);
-                $("#hexDemoUpdate").css("background-color", e.hex);
+                $('#brand-edit').val(e.brand);
+                $('#imageDemoUpdate').prop('src', "../../../" + e.image);
                 $('#myUpdateModal').modal('toggle');
-                setTimeout(() => {
-                    e.status !== 1 ? $('#index2').click() : $('#index1').click();
-                }, 150);
-                console.log(e.avatar);
             });
         }
 
@@ -282,16 +272,14 @@
 
             let formData = new FormData($('#form-edit')[0]);
             console.log(formData);
-            let color = $('#color-edit').val();
-            let hex = $('#hex-edit').val();
-            // let avatar = $('#avatar-edit').val();
+            let brand = $('#brand-edit').val();
 
-            if (color !== '' && hex !== '') {
+            if (brand !== '') {
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "color/update",
+                    url: "brand/update",
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -300,11 +288,8 @@
                         $('#table_Theme').DataTable().destroy();
                         // $('#table_Theme').empty();
                         let data = res.data;
-                        
-                        $('#hexIndex-' + data.id).css("background-color", data.hex);
-                        // document.getElementById('hexIndex-2').style.backgroundColor= e.hex;
-                        $('#name-' + data.id).text(data.hex);
-                        $('#color-' + data.id).text(data.color);
+                        $('#brand-' + data.id).text(data.brand);
+                        $('#avt-' + data.id).attr("src", "../../../" + data.image);
                         $('#updated-' + data.id).text(
                             `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
                         );
@@ -328,12 +313,12 @@
         }
     @endphp --}}
     <script>
-        function openHexAdd(obj) {
-            $("#hexDemoAdd").css("background-color", obj.value);
+        function openPicAdd(obj) {
+            document.getElementById('imageDemoAdd').src = URL.createObjectURL(obj.files[0]);
         }
 
-        function openHexUpdate(obj) {
-            $("#hexDemoUpdate").css("background-color", obj.value);
+        function openPicUpdate(obj) {
+            document.getElementById('imageDemoUpdate').src = URL.createObjectURL(obj.files[0]);
         }
     </script>
 @endsection

@@ -37,8 +37,22 @@ Route::prefix('admin')->group(function () {
                     Route::get('/', [attributeAjaxController::class, 'indexColor']);
                     Route::post('/', [attributeAjaxController::class, 'storeColor']);
                     Route::get('/{id}', [attributeAjaxController::class, 'editColor']);
-                    Route::post('/update', [attributeAjaxController::class, 'update']);
-                    Route::delete('/{id}', [attributeAjaxController::class, 'destroy']);
+                    Route::post('/update', [attributeAjaxController::class, 'updateColor']);
+                    Route::delete('/{id}', [attributeAjaxController::class, 'destroyColor']);
+                });
+                Route::prefix('/size')->group(function () {
+                    Route::get('/', [attributeAjaxController::class, 'indexSize']);
+                    Route::post('/', [attributeAjaxController::class, 'storeSize']);
+                    Route::get('/{id}', [attributeAjaxController::class, 'editSize']);
+                    Route::post('/update', [attributeAjaxController::class, 'updateSize']);
+                    Route::delete('/{id}', [attributeAjaxController::class, 'destroySize']);
+                });
+                Route::prefix('/brand')->group(function () {
+                    Route::get('/', [attributeAjaxController::class, 'indexBrand']);
+                    Route::post('/', [attributeAjaxController::class, 'storeBrand']);
+                    Route::get('/{id}', [attributeAjaxController::class, 'editBrand']);
+                    Route::post('/update', [attributeAjaxController::class, 'updateBrand']);
+                    Route::delete('/{id}', [attributeAjaxController::class, 'destroyBrand']);
                 });
             });
         });
