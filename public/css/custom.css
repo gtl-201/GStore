@@ -22,7 +22,11 @@ table.dataTable > thead .sorting_desc_disabled:after {
     position: absolute;
     left: 0;
 }
-
+.break-line{
+    word-wrap: break-word;      /* IE 5.5-7 */
+      white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+      white-space: pre-wrap;      /* current browsers */
+}
 /* width */
 ::-webkit-scrollbar {
     width: 13px;

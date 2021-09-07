@@ -15,7 +15,7 @@ class Admin extends Authenticatable
     
     protected $table = 'admin';
 
-    protected $fillable = ['name', 'avartar', 'email', 'user_name', 'phone' ,'address', 'password', 'roles'];
+    protected $fillable = ['id','name', 'avartar', 'email', 'user_name', 'phone' ,'address', 'password', 'roles'];
 
     protected $hidden = ['password'];
     static function getAllWareHouse()
