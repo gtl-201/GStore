@@ -45,6 +45,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ URL::to('/admin/account') }}">
+                                <i class="ni ni-single-02 text-primary"></i>
+                                <span class="nav-link-text">Quản lí tài khoản</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ URL::to('/admin/icons') }}">
                                 <i class="ni ni-planet text-orange"></i>
                                 <span class="nav-link-text">Icons</span>
@@ -91,7 +97,7 @@
                                 </li>
                                 <li
                                     class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Sản phẩm</span>
                                     </a>
@@ -485,7 +491,7 @@
                                 aria-haspopup="true" aria-expanded="false">
                                 <div class="media align-items-center">
                                     <span class="avatar avatar-sm rounded-circle">
-                                        <img alt="Image placeholder" src="/img/theme/team-4.jpg">
+                                        <img alt="Image placeholder" src="{{Auth::guard('admin')->user()->avartar}}">
                                     </span>
                                     <div class="media-body  ml-2  d-none d-lg-block">
                                         <span class="mb-0 text-sm  font-weight-bold"> @php
@@ -532,6 +538,7 @@
             @yield('dashboard')
             @yield('icons')
             @yield('product')
+            @yield('account')
         </div>
         <!-- END MainContent -->
 

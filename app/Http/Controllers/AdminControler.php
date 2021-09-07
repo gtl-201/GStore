@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class AdminControler extends Controller
 {
@@ -19,15 +20,114 @@ class AdminControler extends Controller
     {
         return view('Admin.Dashboard');
     }
+
     function icons()
     {
         return view('Admin.icons');
     }
-    function product()
+    
+    public function indexAccount()
     {
-        return view('Admin.product');
-    }
+        $account = Admin::orderBy('id', 'desc')->get();
 
+        return view('Admin.account.account', [
+            'account' => $account,
+        ]);
+    }
+    public function addAccount(Request $res){
+        
+        $validator = Validator::make($res->all(), [
+            'name' => 'required|max:30',
+            'email' => 'required|max:255',
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif',
+            'pass' => 'required|max:18|min:4',
+            'user_name' => 'required|max:50',
+            'address' => 'required|max:250',
+            'roles' => 'required',
+            'phone' => 'required|max:10|min:10',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
+                'data' => $res->id
+            ],400);
+        } else{
+            $account = new Admin();
+            $account ->name = $res->name; 
+            if ($res->hasFile('avatar')) {
+                $file = time() . "." . $res->file('avatar')->getClientOriginalExtension();
+                $res->file('avatar')->storeAs('public', $file);
+                $patch = 'storage/' . $file;
+                $account -> avartar = $patch;
+            };
+            $account ->email = $res->email;
+            $account ->user_name = $res->user_name;
+            $account ->phone = $res->phone;
+            $account ->address = $res->address;
+            $account ->password = bcrypt($res->pass);
+            $account ->roles = $res->roles;
+    
+            $account ->save();
+            return response()->json([
+                'status' => 200,
+                'data' => $account,
+                'message' => 'Tạo tài khoản thành công'
+            ], 200);
+        }
+        
+        
+    }
+    function editAccount($id)
+    {
+        $data = Admin::find($id);
+        return response()->json($data);
+    }
+    function updateAccount(Request $res){
+        // $validator = Validator::make($res->all(), [
+        //     'name' => 'required|max:30',
+        //     'email' => 'required|max:255',
+        //     'avatar' => 'image|mimes:jpeg,png,jpg,gif',
+        //     'user_name' => 'required|max:50',
+        //     'address' => 'required|max:250',
+        //     'roles' => 'required',
+        //     'phone' => 'required|max:10|min:10',
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json([
+        //         'status' => 400,
+        //         'errors' => $validator->messages(),
+        //         'data' => $res->id
+        //     ],400);
+        // } else{
+            $account = Admin::find($res->id);
+            $account ->name = $res->name; 
+            if ($res->hasFile('avatar')) {
+                $file = time() . "." . $res->file('avatar')->getClientOriginalExtension();
+                $res->file('avatar')->storeAs('public', $file);
+                $patch = 'storage/' . $file;
+                $account -> avartar = $patch;
+            };
+            $account ->email = $res->email;
+            $account ->user_name = $res->user_name;
+            $account ->phone = $res->phone;
+            $account ->address = $res->address;
+            $account ->roles = $res->roles;
+    
+            $account ->save();
+            return response()->json([
+                'status' => 200,
+                'data' => $account,
+                'message' => 'Cập nhật khoản thành công'
+            ], 200);
+        // }
+    }
+    public function destroyAccount($id)
+    {
+        Admin::find($id)->delete();
+        // return response()->json(['data'=>'removed'],200);
+        return response()->json(['status' => 200, 'id' => $id]);
+    }
     function handleLogin(Request $result)
     {   
         

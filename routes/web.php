@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminControler;
 use App\Http\Controllers\attributeAjaxController;
+use App\Http\Controllers\productController;
 use App\Http\Controllers\warehouseAjaxController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +22,21 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth.admin'])->group(function () {
         Route::get('/', [AdminControler::class, 'login'])->withoutMiddleware('auth.admin');
         Route::get('/login', [AdminControler::class, 'login'])->name('admin.login')->withoutMiddleware('auth.admin');
-        Route::get('/dashboard', [AdminControler::class, 'index']);
+        Route::get('/dashboard', [AdminControler::class, 'index'])->name('dashboard');
+        
+        Route::prefix('account')->group(function () {
+            Route::middleware(['auth.superAdmin'])->group(function () {
+                Route::get('/', [AdminControler::class, 'IndexAccount']);
+                Route::post('/', [AdminControler::class, 'addAccount']);
+                Route::delete('/{id}', [AdminControler::class, 'destroyAccount']);
+                Route::get('/{id}', [AdminControler::class, 'editAccount']);
+                Route::post('/update', [AdminControler::class, 'updateAccount']);
+
+            });         
+        });
+        
         Route::get('/icons', [AdminControler::class, 'icons']);
-        Route::get('/product', [AdminControler::class, 'product']);
+        Route::get('/product', [productController::class, 'index']);
         Route::get('/logout', [AdminControler::class, 'handleLogout']);
 
         Route::get('/chooseWarehouse', [AdminControler::class, 'chooseWarehouse']);
