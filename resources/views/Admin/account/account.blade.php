@@ -332,7 +332,9 @@
             // let avatar = $('#avatar-edit').val();
             
 
-            if ($('#pass').val() == $('#repass').val() && name !== '' && email !== '' && user_name !== ''&& phone !== ''&& address !== ''&& roles !== '') {
+            if (
+                // $('#pass').val() == $('#repass').val() && 
+                name !== '' && email !== '' && user_name !== ''&& phone !== ''&& address !== ''&& roles !== '') {
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -347,31 +349,32 @@
                         // $('#table_Theme').empty();
                         let data = res.data;
 
-                        $('#name-' + data.id).css("background-color", data.name);
-                        $('#avatar-' + data.id).attr("src", "../" + data.avartar);
+                        $('#name-' + data.id).text(data.name);
+                        $('#avatar-' + data.id).attr("src", data.avartar);
 
                         $('#email-' + data.id).text(data.email);
                         $('#user_name-' + data.id).text(data.user_name);
                         $('#phone-' + data.id).text(data.phone);
                         $('#address-' + data.id).text(data.address);
-                        $('#roles-' + data.id).text(data.roles);
+                        $('#roles-' + data.id).text(data.roles==1 ? 'SuperAdmin' : 'Admin');
                         $('#updated-' + data.id).text(
                             `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
                         );
                         $('#myUpdateModal').modal('hide');
                         $('#form-edit')[0].reset();
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+                        toastr.success('Cập nhật tài khoản thành công', 'Thành công ✨🎉✨');
                         rebuild();
                     },
                     error: function(res) {
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
+                        toastr.error('Cập nhật tài khoản thất bại', 'Thất bại 👺👹👺')
                     }
                 })
-            }else{
-                checkpass();
             }
+            // else{
+            //     checkpass();
+            // }
         });
     </script>
     {{-- @php

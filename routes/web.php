@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\AdminControler;
 use App\Http\Controllers\attributeAjaxController;
+use App\Http\Controllers\issueController;
 use App\Http\Controllers\productController;
+use App\Http\Controllers\receiptController;
+use App\Http\Controllers\supplierController;
+use App\Http\Controllers\transferController;
 use App\Http\Controllers\warehouseAjaxController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,9 +71,57 @@ Route::prefix('admin')->group(function () {
                     Route::post('/update', [attributeAjaxController::class, 'updateBrand']);
                     Route::delete('/{id}', [attributeAjaxController::class, 'destroyBrand']);
                 });
+                Route::prefix('/image')->group(function () {
+                    Route::get('/', [attributeAjaxController::class, 'indeximage']);
+                    Route::post('/', [attributeAjaxController::class, 'storeImage']);
+                    Route::get('/{id}', [attributeAjaxController::class, 'editImage']);
+                    Route::post('/update', [attributeAjaxController::class, 'updateImage']);
+                    Route::delete('/{id}', [attributeAjaxController::class, 'destroyImage']);
+                });
+                Route::prefix('/type')->group(function () {
+                    Route::get('/', [attributeAjaxController::class, 'indexType']);
+                    Route::post('/', [attributeAjaxController::class, 'storeType']);
+                    Route::get('/{id}', [attributeAjaxController::class, 'editType']);
+                    Route::post('/update', [attributeAjaxController::class, 'updateType']);
+                    Route::delete('/{id}', [attributeAjaxController::class, 'destroyType']);
+                });
+                Route::prefix('/product')->group(function () {
+                    Route::get('/', [attributeAjaxController::class, 'indexProduct']);
+                    Route::post('/', [attributeAjaxController::class, 'storeProduct']);
+                    Route::get('/{id}', [attributeAjaxController::class, 'editproduct']);
+                    Route::post('/update', [attributeAjaxController::class, 'updateproduct']);
+                    Route::delete('/{id}', [attributeAjaxController::class, 'destroyproduct']);
+                });
             });
         });
-
+        Route::prefix('supplier')->group(function () {
+            Route::get('/', [supplierController::class, 'index']);
+            Route::post('/', [supplierController::class, 'store']);
+            Route::get('/{id}', [supplierController::class, 'edit']);
+            Route::post('/update', [supplierController::class, 'update']);
+            Route::delete('/{id}', [supplierController::class, 'destroy']);
+        });
+        Route::prefix('receipt')->group(function () {
+            Route::get('/', [receiptController::class, 'index']);
+            Route::post('/', [receiptController::class, 'store']);
+            Route::get('/{id}', [receiptController::class, 'edit']);
+            Route::post('/update', [receiptController::class, 'update']);
+            Route::delete('/{id}', [receiptController::class, 'destroy']);
+        });
+        Route::prefix('issue')->group(function () {
+            Route::get('/', [issueController::class, 'index']);
+            Route::post('/', [issueController::class, 'store']);
+            Route::get('/{id}', [issueController::class, 'edit']);
+            Route::post('/update', [issueController::class, 'update']);
+            Route::delete('/{id}', [issueController::class, 'destroy']);
+        });
+        Route::prefix('transfer')->group(function () {
+            Route::get('/', [transferController::class, 'index']);
+            Route::post('/', [transferController::class, 'store']);
+            Route::get('/{id}', [transferController::class, 'edit']);
+            Route::post('/update', [transferController::class, 'update']);
+            Route::delete('/{id}', [transferController::class, 'destroy']);
+        });
         Route::prefix('/warehouse')->group(function () {
             //admin route
             Route::get('/', [warehouseAjaxController::class, 'index']);

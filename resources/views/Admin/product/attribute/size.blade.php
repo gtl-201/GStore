@@ -23,7 +23,7 @@
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
                                 <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
                                 {{-- <li class="breadcrumb-item active" aria-current="page">Thuộc tính</li> --}}
-                                <li class="breadcrumb-item active" aria-current="page">Màu sắc</li>
+                                <li class="breadcrumb-item active" aria-current="page">Kích cỡ</li>
                             </ol>
                         </nav>
                     </div>

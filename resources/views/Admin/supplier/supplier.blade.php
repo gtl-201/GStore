@@ -9,21 +9,21 @@
 
         <!-- Page plugins -->
         <!-- Argon CSS -->
-        <link rel="stylesheet" href="../css/argon.css" type="text/css">
-        <link rel="stylesheet" href="../css/custom.css" type="text/css">
-
+        <link rel="stylesheet" href="{{ asset('css/argon.css') }}" type="text/css">
+        <link rel="stylesheet" href="{{ asset('css/custom.css') }}" type="text/css">
     </header>
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 col-7">
-                        <h6 class="h2 text-white d-inline-block mb-0">Kho Hàng</h6>
+                        <h6 class="h2 text-white d-inline-block mb-0">Nhà cung cấp</h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="#">Kho hàng</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
+                                {{-- <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li> --}}
+                                {{-- <li class="breadcrumb-item active" aria-current="page">Thuộc tính</li> --}}
+                                <li class="breadcrumb-item active" aria-current="page">Nhà cung cấp</li>
                             </ol>
                         </nav>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="card" id='card_table'>
                     <!-- Card header -->
                     <div class="card-header border-0" id='header_table' onclick="tb_theme()">
-                        <h3 class="mb-0" id='table_header_name'>Danh sách kho hàng</h3>
+                        <h3 class="mb-0" id='table_header_name'>Danh sách nhà cung cấp</h3>
                     </div>
                     <script>
                         function tb_theme() {
@@ -61,61 +61,31 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    <th scope="col" class="sort col-3" data-sort="name">Tên</th>
-                                    <th scope="col" class="sort col-4" data-sort="budget">Địa chỉ</th>
-                                    <th scope="col" class="sort col-1" data-sort="status">Trạng thái</th>
-                                    {{-- <th scope="col">Users</th> --}}
-                                    {{-- <th scope="col" class="sort" data-sort="completion">Completion</th> --}}
+                                    <th scope="col" class="col-1">Tên nhà cung cấp</th>
+                                    <th scope="col" class="col-3">Địa chỉ</th>
+                                    <th scope="col" class="col-3">Số liên lạc</th>
                                     <th scope="col" class="col-1">Ngày cập nhật</th>
                                     <th scope="col" class="col-1"></th>
                                 </tr>
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
-                                @forelse ($warehouse as $item)
-                                    <tr id='warehouseTr-{{ $item->id }}'>
-                                        <th scope="row">
-                                            <div class="media align-items-center">
-                                                <a href="#" class="avatar rounded-circle mr-3">
-                                                    <img id="avt-{{ $item->id }}" alt=""
-                                                        src="../../{{ $item->avatar }}">
-                                                </a>
-                                                <div class="media-body">
-                                                    <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
-                                                        {{ $item->name }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </th>
-
+                                @forelse ($supplier as $item)
+                                    <tr id='supplierTr-{{ $item->id }}'>
+                                        <td class="text-sm" id="name-{{ $item->id }}">
+                                            {{ $item->name}}
+                                        </td>
                                         <td class="text-sm" id="address-{{ $item->id }}">
                                             {{ $item->address }}
                                         </td>
-
-                                        <td>
-                                            <span class="badge badge-dot mr-4">
-                                                <i id="statusIcon-{{ $item->id }}"
-                                                    class="@php echo $item->status == 1 ? 'bg-success' : 'bg-danger'; @endphp"></i>
-                                                <span class="status" id="statusText-{{ $item->id }}">
-                                                    @php echo $item->status == 1 ? 'Hoạt động' : 'Đã khoá'; @endphp
-                                                </span>
-                                            </span>
+                                        <td class="text-sm" id="phone-{{ $item->id }}">
+                                            {{ $item->phone }}
                                         </td>
-
                                         <td class="text-sm" id="updated-{{ $item->id }}">
                                             {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
                                         </td>
 
                                         <td class="text-right">
                                             <div class="dropdown">
-                                                {{-- <a class="text-light px-3">
-                                                    <i class="fas fa-ellipsis-v"></i>
-                                                </a> --}}
-                                                {{-- <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"> --}}
-                                                {{-- <button class="dropdown-item btn-update" data-target="#edit"
-                                                    data-url={{ route('warehouseAjax.update', $item->id) }}><i
-                                                        class="ni ni-ui-04"></i>Cập nhật</button>
-                                                <button onclick='delllll({{$item -> id}})' type="button" data-toggle="modal" class="btn-delete"><i class="far fa-minus-square"></i>Xoá</button> --}}
-                                                {{-- </div> --}}
                                                 <button ​type="button" data-toggle="modal"
                                                     onclick="editWh({{ $item->id }})"
                                                     class="btn btn-warning btn-edit">Edit</button>
@@ -136,8 +106,8 @@
     </div>
 
     <!-- Modal -->
-    @include('Admin.warehouse.addWarehouse')
-    @include('Admin.warehouse.updateWarehouse')
+    @include('Admin.supplier.addSupplier')
+    @include('Admin.supplier.updateSupplier')
 
     {{-- <script type="text/javascript" charset="utf-8">
         $.ajaxSetup({
@@ -165,7 +135,7 @@
                     },
                 },
                 "order": [
-                    [4, "asc"]
+                    [1, "asc"]
                 ]
             });
         });
@@ -188,7 +158,7 @@
                     },
                 },
                 "order": [
-                    [4, "asc"]
+                    [1, "asc"]
                 ]
             });
         }
@@ -207,56 +177,38 @@
                 },
                 type: 'post',
                 url: url,
-                enctype: 'multipart/form-data',
                 contentType: false,
                 processData: false,
                 data: formSend,
                 success: function(response) {
                     $('#table_Theme').DataTable().destroy();
                     // $('#table_Theme').empty();
+
                     let item = response.data;
-                    let th = `<tr id='warehouseTr-${ item.id }'>
-                            <th scope='row'>
-                                <div class='media align-items-center'>
-                                    <a href='#' class='avatar rounded-circle mr-3'>
-                                        <img id='avt-${item.id}' src='../../${item.avatar}'>
-                                    </a>
-                                    <div class='media-body'>
-                                        <span class='name mb-0 text-sm' id='name-${ item.id }'>
-                                            ${ item.name }
-                                        </span>
-                                    </div>
-                                </div>
-                            </th>`;
-                    let td1 = `<td class='text-sm' id='address-${item.id}'>
-                                ${ item.address }
-                            </td>`
+                    console.log(item);
+                    let th = `<tr id='supplier-${ item.id }'>
+                                <td class="text-sm" id="name-${ item.id }">
+                                    ${ item.name }
+                                </td>`;
+                    let td1 = `<td class="text-sm" id="address-${ item.id }">
+                                    ${ item.address }
+                                </td>`;
 
-                    let td2 = `<td>
-                                <span class='badge badge-dot mr-4'>
-                                    <i id='statusIcon-${ item.id }'
-                                        class='${ item.status == 1 ? 'bg-success' : 'bg-danger' }'></i>
-                                    <span class='status' id='statusText-${ item.id }'>
-                                        ${item.status == 1 ? 'Hoạt động' : 'Đã khoá'}
-                                    </span>
-                                </span>
-                            </td>`;
+                    let td2 = `<td class="text-sm" id="phone-${ item.id }">
+                                    ${ item.phone }
+                                </td>`;
 
-                    let td3 = `<td class='text-sm' id='updated-${ item.id }'>
+                    let td3 = `<td class="text-sm" id="updated-${ item.id }">
                                 ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
                             </td>`;
 
-                    let td4 = `<td class='text-right'>
-                                <div class='dropdown'>
-                                    <a class='btn btn-sm btn-icon-only text-light' href='#' role='button'
-                                        data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                        <i class='fas fa-ellipsis-v'></i>
-                                    </a>
-                                    <button ​type='button' data-toggle='modal'
-                                        onclick='editWh(${ item.id })'
-                                        class='btn btn-warning btn-edit'>Edit</button>
-                                    <button ​type='button' data-toggle='modal' class='btn btn-danger btn-delete'
-                                        onclick='deleteWh(${ item.id })'>Delete</button>
+                    let td4 = `<td class="text-right">
+                                <div class="dropdown">
+                                    <button ​type="button" data-toggle="modal"
+                                        onclick="editWh(${ item.id })"
+                                        class="btn btn-warning btn-edit">Edit</button>
+                                    <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
+                                        onclick="deleteWh(${ item.id })">Delete</button>
                                 </div>
                             </td>
                         </tr>`;
@@ -282,7 +234,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "warehouse/" + id,
+                    url: "supplier/" + id,
                     type: 'DELETE',
                     contentType: false,
                     processData: false,
@@ -290,8 +242,8 @@
                         $('#table_Theme').DataTable().destroy();
                         // $('#table_Theme').empty();
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Xoá kho thành công', 'Thành công ✨🎉✨')
-                        $('#warehouseTr-' + res.id).remove();
+                        toastr.success('Xoá sản phẩm thành công', 'Thành công ✨🎉✨')
+                        $('#supplierTr-' + res.id).remove();
                         rebuild();
                     },
                     error: function(res) {
@@ -303,17 +255,12 @@
         }
 
         function editWh(id) {
-            $.get('warehouse/' + id, function(e) {
+            $.get('supplier/' + id, function(e) {
+                $('#id').val(id);
                 $('#name-edit').val(e.name);
                 $('#address-edit').val(e.address);
-                $('#imageDemoUpdate').prop('src', "../../" + e.avatar);
-                $('#id-edit').val(e.id);
-                // $('#statusCheck-edit').val(e.status);
+                $('#phone-edit').val(e.phone);
                 $('#myUpdateModal').modal('toggle');
-                setTimeout(() => {
-                    e.status !== 1 ? $('#index2').click() : $('#index1').click();
-                }, 150);
-                console.log(e.avatar);
             });
         }
 
@@ -324,14 +271,14 @@
             console.log(formData);
             let name = $('#name-edit').val();
             let address = $('#address-edit').val();
-            // let avatar = $('#avatar-edit').val();
+            let phone = $('#phone-edit').val();
 
-            if (name !== '' && address !== '') {
+            if (name !== '' && address !== '' && phone !== '') {
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "warehouse/update",
+                    url: "supplier/update",
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -340,19 +287,16 @@
                         $('#table_Theme').DataTable().destroy();
                         // $('#table_Theme').empty();
                         let data = res.data;
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
-                        $('#avt-' + data.id).attr("src", "../" + data.avatar);
                         $('#name-' + data.id).text(data.name);
                         $('#address-' + data.id).text(data.address);
-                        $('#statusIcon-' + data.id).attr('class', data.status == 1 ? "bg-success" :
-                            "bg-danger");
+                        $('#phone-' + data.id).text(data.phone);
                         $('#updated-' + data.id).text(
                             `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
                         );
-                        $('#statusText-' + data.id).text(data.status == 1 ? "Hoạt động" : "Đã khoá");
                         $('#myUpdateModal').modal('hide');
                         $('#form-edit')[0].reset();
+                        toastr.options.positionClass = 'toast-bottom-left'
+                        toastr.success('Cập nhật sản phẩm thành công', 'Thành công ✨🎉✨');
                         rebuild();
                     },
                     error: function(res) {
@@ -369,12 +313,12 @@
         }
     @endphp --}}
     <script>
-        function openPicAdd(obj) {
-            document.getElementById('imageDemoAdd').src = URL.createObjectURL(obj.files[0]);
+        function openHexAdd(obj) {
+            $("#hexDemoAdd").css("background-color", obj.value);
         }
 
-        function openPicUpdate(obj) {
-            document.getElementById('imageDemoUpdate').src = URL.createObjectURL(obj.files[0]);
+        function openHexUpdate(obj) {
+            $("#hexDemoUpdate").css("background-color", obj.value);
         }
     </script>
 @endsection

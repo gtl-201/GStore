@@ -97,6 +97,27 @@
                                 </li>
                                 <li
                                     class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/image') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Ảnh sản phẩm</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/type') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Loại sản phẩm</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/product') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Tên sản phẩm</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('admin/product') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Sản phẩm</span>
@@ -117,32 +138,39 @@
                             </div>
                             <ul class="navbar-nav ml-2 mr-2 rounded-bottom mt--1 d-none" id='nav-child-Menu-Phieu'
                                 style="background-color: #c7e3ff; transition: 0.3s">
-                                <li
+                                {{-- <li
                                     class="nav-item nav-child-phieu mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Tất cả</span>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li
                                     class="nav-item nav-child-phieu mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/receipt') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Nhập kho</span>
                                     </a>
                                 </li>
                                 <li
                                     class="nav-item nav-child-phieu mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/issue') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Xuất kho</span>
                                     </a>
                                 </li>
                                 <li
                                     class="nav-item nav-child-phieu mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/transfer') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Chuyển kho</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item nav-child-phieu mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
+                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/supplier') }}">
+                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
+                                        <span class="text-sm">Nhà cung cấp</span>
                                     </a>
                                 </li>
                             </ul>
