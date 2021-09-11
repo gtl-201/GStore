@@ -11,8 +11,8 @@ class product extends Model
     use HasFactory;
     static function getAllProductDetail(){
         return DB::table('product_detail')
-        ->join('product','product_detail.id_product','=','product.id_product')
-        ->join('image','product.id_product','=','image.id_product')
+        ->join('product','product_detail.id_product','=','product.id')
+        ->join('image','product.id','=','image.id_product')
         ->join('size','product_detail.id_size','=','size.id')
         ->join('color','product_detail.id_color','=','color.id')
         ->join('brand','product_detail.id_brand','=','brand.id')

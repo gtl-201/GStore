@@ -84,22 +84,23 @@ class AdminControler extends Controller
         return response()->json($data);
     }
     function updateAccount(Request $res){
-        // $validator = Validator::make($res->all(), [
-        //     'name' => 'required|max:30',
-        //     'email' => 'required|max:255',
-        //     'avatar' => 'image|mimes:jpeg,png,jpg,gif',
-        //     'user_name' => 'required|max:50',
-        //     'address' => 'required|max:250',
-        //     'roles' => 'required',
-        //     'phone' => 'required|max:10|min:10',
-        // ]);
-        // if ($validator->fails()) {
-        //     return response()->json([
-        //         'status' => 400,
-        //         'errors' => $validator->messages(),
-        //         'data' => $res->id
-        //     ],400);
-        // } else{
+        $validator = Validator::make($res->all(), [
+            'name' => 'required|max:30',
+            'email' => 'required|max:255',
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif',
+            // 'pass' => 'required|max:18|min:4',
+            'user_name' => 'required|max:50',
+            'address' => 'required|max:250',
+            'roles' => 'required',
+            'phone' => 'required|max:10|min:10',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'errors' => $validator->messages(),
+                'data' => $res->id
+            ],400);
+        } else{
             $account = Admin::find($res->id);
             $account ->name = $res->name; 
             if ($res->hasFile('avatar')) {
@@ -112,6 +113,7 @@ class AdminControler extends Controller
             $account ->user_name = $res->user_name;
             $account ->phone = $res->phone;
             $account ->address = $res->address;
+            // $account ->password = bcrypt($res->pass);
             $account ->roles = $res->roles;
     
             $account ->save();
@@ -120,7 +122,7 @@ class AdminControler extends Controller
                 'data' => $account,
                 'message' => 'Cập nhật khoản thành công'
             ], 200);
-        // }
+        }
     }
     public function destroyAccount($id)
     {

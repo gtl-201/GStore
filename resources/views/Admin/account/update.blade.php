@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 {{-- <p>Some text in the modal.</p> --}}
-                <form action="" onsubmit="return checkpass()" id="form-edit" method="POST" role="form" enctype="multipart/form-data">
+                <form action="" id="form-edit" method="POST" role="form" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         {{-- <label for="email">Tên Kho:</label> --}}
@@ -39,14 +39,14 @@
                         {{-- <label for="email">Tên Kho:</label> --}}
                         <input  type="text" class="form-control" placeholder="Địa chỉ" name='address' id="address-edit">
                     </div>
-                    <div class="form-group">
-                        {{-- <label for="email">Tên Kho:</label> --}}
+                    {{-- <div class="form-group">
+                        
                         <input  type="password" class="form-control" onchange="checkpass()" placeholder="Mật khẩu" name='pass' id="pass">
-                    </div>
-                    <div class="form-group">
-                        {{-- <label for="email">Tên Kho:</label> --}}
+                    </div> --}}
+                    {{-- <div class="form-group">
+                        
                         <input  type="password" class="form-control" onchange="checkpass()" placeholder="Nhập lại mật khẩu" name='repass' id="repass">
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <select class="form-select" name="roles" id="roles-edit" aria-label="Default select example">
                             <option selected>Chọn quyền</option>
