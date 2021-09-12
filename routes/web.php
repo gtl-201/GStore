@@ -71,13 +71,13 @@ Route::prefix('admin')->group(function () {
                     Route::post('/update', [attributeAjaxController::class, 'updateBrand']);
                     Route::delete('/{id}', [attributeAjaxController::class, 'destroyBrand']);
                 });
-                Route::prefix('/image')->group(function () {
-                    Route::get('/', [attributeAjaxController::class, 'indeximage']);
-                    Route::post('/', [attributeAjaxController::class, 'storeImage']);
-                    Route::get('/{id}', [attributeAjaxController::class, 'editImage']);
-                    Route::post('/update', [attributeAjaxController::class, 'updateImage']);
-                    Route::delete('/{id}', [attributeAjaxController::class, 'destroyImage']);
-                });
+                // Route::prefix('/image')->group(function () {
+                //     Route::get('/', [attributeAjaxController::class, 'indeximage']);
+                //     Route::post('/', [attributeAjaxController::class, 'storeImage']);
+                //     Route::get('/{id}', [attributeAjaxController::class, 'editImage']);
+                //     Route::post('/update', [attributeAjaxController::class, 'updateImage']);
+                //     Route::delete('/{id}', [attributeAjaxController::class, 'destroyImage']);
+                // });
                 Route::prefix('/type')->group(function () {
                     Route::get('/', [attributeAjaxController::class, 'indexType']);
                     Route::post('/', [attributeAjaxController::class, 'storeType']);
@@ -85,13 +85,13 @@ Route::prefix('admin')->group(function () {
                     Route::post('/update', [attributeAjaxController::class, 'updateType']);
                     Route::delete('/{id}', [attributeAjaxController::class, 'destroyType']);
                 });
-                Route::prefix('/product')->group(function () {
-                    Route::get('/', [attributeAjaxController::class, 'indexProduct']);
-                    Route::post('/', [attributeAjaxController::class, 'storeProduct']);
-                    Route::get('/{id}', [attributeAjaxController::class, 'editproduct']);
-                    Route::post('/update', [attributeAjaxController::class, 'updateproduct']);
-                    Route::delete('/{id}', [attributeAjaxController::class, 'destroyproduct']);
-                });
+                // Route::prefix('/product')->group(function () {
+                //     Route::get('/', [attributeAjaxController::class, 'indexProduct']);
+                //     Route::post('/', [attributeAjaxController::class, 'storeProduct']);
+                //     Route::get('/{id}', [attributeAjaxController::class, 'editproduct']);
+                //     Route::post('/update', [attributeAjaxController::class, 'updateproduct']);
+                //     Route::delete('/{id}', [attributeAjaxController::class, 'destroyproduct']);
+                // });
             });
         });
         Route::prefix('supplier')->group(function () {

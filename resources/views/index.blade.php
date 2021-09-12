@@ -97,23 +97,9 @@
                                 </li>
                                 <li
                                     class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/image') }}">
-                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
-                                        <span class="text-sm">Ảnh sản phẩm</span>
-                                    </a>
-                                </li>
-                                <li
-                                    class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/type') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Loại sản phẩm</span>
-                                    </a>
-                                </li>
-                                <li
-                                    class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/product') }}">
-                                        <i class="ni ni-tv-2 mr-2 text-sm"></i>
-                                        <span class="text-sm">Tên sản phẩm</span>
                                     </a>
                                 </li>
                                 <li
