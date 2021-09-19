@@ -115,4 +115,13 @@ header{
 .form-control:focus{
     color: #0006d2;
 }
+table.dataTable {
+    /* margin-bottom: 1.25rem !important; */
+    border-bottom: 1px solid #e9ecef;
+    margin: 0 !important;
+    background-color: white;
+}
+.DTFC_RightBodyWrapper{
+    left: 13px !important;
+}
 

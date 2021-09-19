@@ -9,21 +9,21 @@
 
         <!-- Page plugins -->
         <!-- Argon CSS -->
-        <link rel="stylesheet" href="{{ asset('css/argon.css') }}" type="text/css">
-        <link rel="stylesheet" href="{{ asset('css/custom.css') }}" type="text/css">
+        <link rel="stylesheet" href="../css/argon.css" type="text/css">
+        <link rel="stylesheet" href="../css/custom.css" type="text/css">
+
     </header>
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 col-7">
-                        <h6 class="h2 text-white d-inline-block mb-0">Tên sản phẩm</h6>
+                        <h6 class="h2 text-white d-inline-block mb-0">Kho Hàng</h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
-                                {{-- <li class="breadcrumb-item active" aria-current="page">Thuộc tính</li> --}}
-                                <li class="breadcrumb-item active" aria-current="page">Tên sản phẩm</li>
+                                <li class="breadcrumb-item"><a href="#">Kho hàng</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
                             </ol>
                         </nav>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="card" id='card_table'>
                     <!-- Card header -->
                     <div class="card-header border-0" id='header_table' onclick="tb_theme()">
-                        <h3 class="mb-0" id='table_header_name'>Danh sách tên sản phẩm</h3>
+                        <h3 class="mb-0" id='table_header_name'>Danh sách kho hàng</h3>
                     </div>
                     <script>
                         function tb_theme() {
@@ -61,29 +61,23 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    <th scope="col" class="col-1">Loại sản phẩm</th>
-                                    <th scope="col" class="col-3">Tên sản phẩm</th>
-                                    <th scope="col" class="col-3">Mô tả sản phẩm</th>
-                                    <th scope="col" class="col-1">Ngày cập nhật</th>
                                     <th scope="col" class="col-1"></th>
+                                    <th scope="col" class="sort col-3" data-sort="name">Tên</th>
+                                    <th scope="col" class="sort col-4" data-sort="budget">Mô tả</th>
+                                    <th scope="col" class="sort col-1" data-sort="status">Loại hàng</th>
+                                    <th scope="col" class="col-1">Ảnh sản phẩm</th>
+                                    <th scope="col" class="col-1">Giá</th>
+                                    <th scope="col" class="col-1">Số lượng còn</th>
+                                    <th scope="col" class="col-1">Màu sắc</th>
+                                    <th scope="col" class="col-1">Thương hiệu</th>
+                                    <th scope="col" class="col-1">Size</th>
+                                    <th scope="col" class="col-1">Trong kho</th>
+                                    <th scope="col" class="col-1">Ngày cập nhật</th>
                                 </tr>
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
                                 @forelse ($product as $item)
-                                    <tr id='productTr-{{ $item->id }}'>
-                                        <td class="text-sm" id="type-{{ $item->id }}">
-                                            {{ $item->id_type}}
-                                        </td>
-                                        <td class="text-sm" id="name-{{ $item->id }}">
-                                            {{ $item->name }}
-                                        </td>
-                                        <td class="text-sm" id="descrip-{{ $item->id }}">
-                                            {{ $item->descrip }}
-                                        </td>
-                                        <td class="text-sm" id="updated-{{ $item->id }}">
-                                            {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
-                                        </td>
-
+                                    <tr id='productTr-{{ $item->id }}'>   
                                         <td class="text-right">
                                             <div class="dropdown">
                                                 <button ​type="button" data-toggle="modal"
@@ -92,6 +86,105 @@
                                                 <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
                                                     onclick="deleteWh({{ $item->id }})">Delete</button>
                                             </div>
+                                        </td>
+                                        <th scope="row" class="row-1">
+                                            <div class="media align-items-center">
+                                                <div class="media-body">
+                                                    <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
+                                                        {{ $item->name }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </th>
+
+                                        <td class="text-sm row-1" id="descript-{{ $item->id }}">
+                                            {{ $item->descrip }}
+                                        </td>
+
+                                        <td class="text-sm row-1" id="typename-{{ $item->id }}">
+                                            {{ $item->typename }}
+                                        </td>
+
+                                        <td>
+                                            <div class="avatar-group">
+                                                @forelse ($item->image  as $itemImg)
+                                                        <img class="avatar avatar-sm rounded-circle" alt="Image placeholder" id='img-{{ $itemImg->id }}' src={{ $itemImg->image }}>
+                                                @empty
+                                                @endforelse
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="avatar-group">
+                                                @forelse ($item->product_detail  as $itemProductDetail)
+                                                    <a class="text-sm row-1" id="price-{{ $itemProductDetail->id }}">
+                                                        {{ $itemProductDetail->price }}
+                                                    </a>
+                                                @empty
+                                                @endforelse
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="avatar-group">
+                                                @forelse ($item->product_detail  as $itemProductDetail)
+                                                    <a class="text-sm row-1" id="quantity-{{ $itemProductDetail->id }}">
+                                                        {{ $itemProductDetail->quantity }}
+                                                    </a>
+                                                @empty
+                                                @endforelse
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            @forelse ($item->product_detail  as $itemProductDetail)
+                                                @forelse ($itemProductDetail->color  as $itemProductcolor)
+                                                    <a class="text-sm row-1" id="color-{{ $itemProductcolor->id }}">
+                                                        {{ $itemProductcolor->color }}
+                                                    </a>
+                                                @empty
+                                                @endforelse
+                                            @empty
+                                            @endforelse
+                                        </td>
+
+                                        <td>
+                                            @forelse ($item->product_detail  as $itemProductDetail)
+                                                @forelse ($itemProductDetail->brand  as $itemProductbrand)
+                                                    <a class="text-sm row-1" id="brand-{{ $itemProductbrand->id }}">
+                                                        {{ $itemProductbrand->brand }}
+                                                    </a>
+                                                @empty
+                                                @endforelse
+                                            @empty
+                                            @endforelse
+                                        </td>
+
+                                        <td>
+                                            @forelse ($item->product_detail  as $itemProductDetail)
+                                                @forelse ($itemProductDetail->size  as $itemProductsize)
+                                                    <a class="text-sm row-1" id="size-{{ $itemProductsize->id }}">
+                                                        {{ $itemProductsize->size }}
+                                                    </a>
+                                                @empty
+                                                @endforelse
+                                            @empty
+                                            @endforelse
+                                        </td>
+
+                                        <td>
+                                            @forelse ($item->product_detail  as $itemProductDetail)
+                                                @forelse ($itemProductDetail->warehouse  as $itemProductwarehouse)
+                                                    <a class="text-sm row-1" id="warehouse-{{ $itemProductwarehouse->id }}">
+                                                        {{ $itemProductwarehouse->name }} | 
+                                                    </a>
+                                                @empty
+                                                @endforelse
+                                            @empty
+                                            @endforelse
+                                        </td>
+
+                                        <td class="text-sm" id="updated-{{ $item->id }}">
+                                            {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
                                         </td>
                                     </tr>
                                 @empty
@@ -106,8 +199,8 @@
     </div>
 
     <!-- Modal -->
-    @include('Admin.product.attribute.addProduct')
-    @include('Admin.product.attribute.updateProduct')
+    @include('Admin.warehouse.addWarehouse')
+    @include('Admin.warehouse.updateWarehouse')
 
     {{-- <script type="text/javascript" charset="utf-8">
         $.ajaxSetup({
@@ -134,8 +227,16 @@
                         next: "<i class='ni ni-bold-right'>"
                     },
                 },
+                scrollY: "300px",
+                scrollX: true,
+                scrollCollapse: true,
+                // fixedColumns: true,
+                // fixedColumns: {
+                //     rightColumns: 1,
+                //     leftColumns: 0,
+                // },
                 "order": [
-                    [1, "asc"]
+                    [9, "asc"]
                 ]
             });
         });
@@ -157,8 +258,16 @@
                         next: "<i class='ni ni-bold-right'>"
                     },
                 },
+                scrollY: "300px",
+                scrollX: true,
+                scrollCollapse: true,
+                // fixedColumns: true,
+                fixedColumns: {
+                    rightColumns: 1,
+                    leftColumns: 0,
+                },
                 "order": [
-                    [1, "asc"]
+                    [4, "asc"]
                 ]
             });
         }
@@ -177,38 +286,56 @@
                 },
                 type: 'post',
                 url: url,
+                enctype: 'multipart/form-data',
                 contentType: false,
                 processData: false,
                 data: formSend,
                 success: function(response) {
                     $('#table_Theme').DataTable().destroy();
                     // $('#table_Theme').empty();
-
                     let item = response.data;
-                    console.log(item);
-                    let th = `<tr id='productTr-${ item.id }'>
-                                <td class="text-sm" id="type-${ item.id }">
-                                    ${ item.id_type }
-                                </td>`;
-                    let td1 = `<td class="text-sm" id="name-${ item.id }">
-                                    ${ item.name }
-                                </td>`;
+                    let th = `<tr id='warehouseTr-${ item.id }'>
+                            <th scope='row'>
+                                <div class='media align-items-center'>
+                                    <a href='#' class='avatar rounded-circle mr-3'>
+                                        <img id='avt-${item.id}' src='../../${item.avatar}'>
+                                    </a>
+                                    <div class='media-body'>
+                                        <span class='name mb-0 text-sm' id='name-${ item.id }'>
+                                            ${ item.name }
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>`;
+                    let td1 = `<td class='text-sm' id='address-${item.id}'>
+                                ${ item.address }
+                            </td>`
 
-                    let td2 = `<td class="text-sm" id="descrip-${ item.id }">
-                                    ${ item.descrip }
-                                </td>`;
+                    let td2 = `<td>
+                                <span class='badge badge-dot mr-4'>
+                                    <i id='statusIcon-${ item.id }'
+                                        class='${ item.status == 1 ? 'bg-success' : 'bg-danger' }'></i>
+                                    <span class='status' id='statusText-${ item.id }'>
+                                        ${item.status == 1 ? 'Hoạt động' : 'Đã khoá'}
+                                    </span>
+                                </span>
+                            </td>`;
 
-                    let td3 = `<td class="text-sm" id="updated-${ item.id }">
+                    let td3 = `<td class='text-sm' id='updated-${ item.id }'>
                                 ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
                             </td>`;
 
-                    let td4 = `<td class="text-right">
-                                <div class="dropdown">
-                                    <button ​type="button" data-toggle="modal"
-                                        onclick="editWh(${ item.id })"
-                                        class="btn btn-warning btn-edit">Edit</button>
-                                    <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
-                                        onclick="deleteWh(${ item.id })">Delete</button>
+                    let td4 = `<td class='text-right'>
+                                <div class='dropdown'>
+                                    <a class='btn btn-sm btn-icon-only text-light' href='#' role='button'
+                                        data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                                        <i class='fas fa-ellipsis-v'></i>
+                                    </a>
+                                    <button ​type='button' data-toggle='modal'
+                                        onclick='editWh(${ item.id })'
+                                        class='btn btn-warning btn-edit'>Edit</button>
+                                    <button ​type='button' data-toggle='modal' class='btn btn-danger btn-delete'
+                                        onclick='deleteWh(${ item.id })'>Delete</button>
                                 </div>
                             </td>
                         </tr>`;
@@ -234,7 +361,7 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "product/" + id,
+                    url: "warehouse/" + id,
                     type: 'DELETE',
                     contentType: false,
                     processData: false,
@@ -242,8 +369,8 @@
                         $('#table_Theme').DataTable().destroy();
                         // $('#table_Theme').empty();
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Xoá sản phẩm thành công', 'Thành công ✨🎉✨')
-                        $('#productTr-' + res.id).remove();
+                        toastr.success('Xoá kho thành công', 'Thành công ✨🎉✨')
+                        $('#warehouseTr-' + res.id).remove();
                         rebuild();
                     },
                     error: function(res) {
@@ -255,12 +382,17 @@
         }
 
         function editWh(id) {
-            $.get('product/' + id, function(e) {
-                $('#id').val(id);
-                $('#id_type-edit').val(e.id_type);
+            $.get('warehouse/' + id, function(e) {
                 $('#name-edit').val(e.name);
-                $('#descrip-edit').val(e.descrip);
+                $('#address-edit').val(e.address);
+                $('#imageDemoUpdate').prop('src', "../../" + e.avatar);
+                $('#id-edit').val(e.id);
+                // $('#statusCheck-edit').val(e.status);
                 $('#myUpdateModal').modal('toggle');
+                setTimeout(() => {
+                    e.status !== 1 ? $('#index2').click() : $('#index1').click();
+                }, 150);
+                console.log(e.avatar);
             });
         }
 
@@ -269,16 +401,16 @@
 
             let formData = new FormData($('#form-edit')[0]);
             console.log(formData);
-            let id_type = $('#id_type-edit').val();
             let name = $('#name-edit').val();
-            let descrip = $('#descrip-edit').val();
+            let address = $('#address-edit').val();
+            // let avatar = $('#avatar-edit').val();
 
-            if (id_type !== '' && name !== '' && descrip !== '') {
+            if (name !== '' && address !== '') {
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: "product/update",
+                    url: "warehouse/update",
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -287,16 +419,19 @@
                         $('#table_Theme').DataTable().destroy();
                         // $('#table_Theme').empty();
                         let data = res.data;
-                        $('#type-' + data.id).text(data.id_type);
+                        toastr.options.positionClass = 'toast-bottom-left'
+                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+                        $('#avt-' + data.id).attr("src", "../" + data.avatar);
                         $('#name-' + data.id).text(data.name);
-                        $('#descrip-' + data.id).text(data.descrip);
+                        $('#address-' + data.id).text(data.address);
+                        $('#statusIcon-' + data.id).attr('class', data.status == 1 ? "bg-success" :
+                            "bg-danger");
                         $('#updated-' + data.id).text(
                             `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
                         );
+                        $('#statusText-' + data.id).text(data.status == 1 ? "Hoạt động" : "Đã khoá");
                         $('#myUpdateModal').modal('hide');
                         $('#form-edit')[0].reset();
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Cập nhật sản phẩm thành công', 'Thành công ✨🎉✨');
                         rebuild();
                     },
                     error: function(res) {
@@ -313,12 +448,12 @@
         }
     @endphp --}}
     <script>
-        function openHexAdd(obj) {
-            $("#hexDemoAdd").css("background-color", obj.value);
+        function openPicAdd(obj) {
+            document.getElementById('imageDemoAdd').src = URL.createObjectURL(obj.files[0]);
         }
 
-        function openHexUpdate(obj) {
-            $("#hexDemoUpdate").css("background-color", obj.value);
+        function openPicUpdate(obj) {
+            document.getElementById('imageDemoUpdate').src = URL.createObjectURL(obj.files[0]);
         }
     </script>
 @endsection

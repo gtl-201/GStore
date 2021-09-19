@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class product extends Model
 {
+    protected $table = 'product';
+    protected $fillable = ['id'];
+
     use HasFactory;
     static function getAllProductDetail(){
         return DB::table('product_detail')

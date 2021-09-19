@@ -164,6 +164,14 @@
                         next: "<i class='ni ni-bold-right'>"
                     },
                 },
+                scrollY:        "300px",
+                scrollX:        true,
+                scrollCollapse: true,
+                // fixedColumns: true,
+                fixedColumns:   {
+                    rightColumns: 1,
+                    leftColumns: 0,
+                },
                 "order": [
                     [4, "asc"]
                 ]
@@ -186,6 +194,14 @@
                         previous: "<i class='ni ni-bold-left'>",
                         next: "<i class='ni ni-bold-right'>"
                     },
+                },
+                scrollY:        "300px",
+                scrollX:        true,
+                scrollCollapse: true,
+                // fixedColumns: true,
+                fixedColumns:   {
+                    rightColumns: 1,
+                    leftColumns: 0,
                 },
                 "order": [
                     [4, "asc"]
