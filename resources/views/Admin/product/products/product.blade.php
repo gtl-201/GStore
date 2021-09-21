@@ -84,9 +84,9 @@
                                                     <button ​type="button" data-toggle="modal"
                                                         onclick="editWh({{ $item->id }})"
                                                         class="btn btn-warning btn-edit">Edit</button>
-                                                    <button ​type="button" data-toggle="modal"
+                                                    {{-- <button ​type="button" data-toggle="modal"
                                                         class="btn btn-danger btn-delete"
-                                                        onclick="deleteWh({{ $item->id }})">Delete</button>
+                                                        onclick="deleteWh({{ $item->id }})">Delete</button> --}}
                                                 </div>
                                             </td>
                                             <th scope="row" class="row-1">
@@ -238,7 +238,7 @@
                 },
                 scrollY: "300px",
                 scrollX: true,
-                scrollCollapse: true,
+                // scrollCollapse: true,
                 // fixedColumns: true,
                 // fixedColumns: {
                 //     rightColumns: 1,

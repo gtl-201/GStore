@@ -94,7 +94,7 @@
                     <div class="btn btn-success btn-sm" style='margin-top:-10px; margin-bottom: 20px' onclick="addMoreImage()">Add more</div>
                     
                     <input type="hidden" id='CountImg' name='countImg' value="1">
-
+                    <input type="hidden" value="1" id='Count' name='count'>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
@@ -102,7 +102,6 @@
                     </div>
                 </form>
             </div>
-            <input type="hidden" value="1" id='Count' name='count'>
         </div>
 
     </div>
