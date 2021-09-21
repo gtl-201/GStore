@@ -34,9 +34,9 @@
                 {{-- <a href="#" class=""> --}}
                 <input type="submit"
                     class="font-weight-bold rounded col-sm-3 m-4 p-4 text-xl-center border-0 choosedWareHouse"
-                    name="name"
+                    name="id"
                     value="@php
-                        echo $item->name;
+                        echo $item->id;
                     @endphp" />
                 {{-- </a> --}}
             @empty

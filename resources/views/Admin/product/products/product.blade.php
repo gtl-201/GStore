@@ -76,119 +76,128 @@
                                 </tr>
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
-                                @forelse ($product as $item)
-                                    <tr id='productTr-{{ $item->id }}'>   
-                                        <td class="text-right">
-                                            <div class="dropdown">
-                                                <button ​type="button" data-toggle="modal"
-                                                    onclick="editWh({{ $item->id }})"
-                                                    class="btn btn-warning btn-edit">Edit</button>
-                                                <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
-                                                    onclick="deleteWh({{ $item->id }})">Delete</button>
-                                            </div>
-                                        </td>
-                                        <th scope="row" class="row-1">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
-                                                        {{ $item->name }}
-                                                    </span>
+                                @if (count($product[0]->product_detail) > 0)
+                                    @forelse ($product as $item)
+                                        <tr id='productTr-{{ $item->id }}'>
+                                            <td class="text-right">
+                                                <div class="dropdown">
+                                                    <button ​type="button" data-toggle="modal"
+                                                        onclick="editWh({{ $item->id }})"
+                                                        class="btn btn-warning btn-edit">Edit</button>
+                                                    <button ​type="button" data-toggle="modal"
+                                                        class="btn btn-danger btn-delete"
+                                                        onclick="deleteWh({{ $item->id }})">Delete</button>
                                                 </div>
-                                            </div>
-                                        </th>
+                                            </td>
+                                            <th scope="row" class="row-1">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
+                                                            {{ $item->name }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </th>
 
-                                        <td class="text-sm row-1" id="descript-{{ $item->id }}">
-                                            {{ $item->descrip }}
-                                        </td>
+                                            <td class="text-sm row-1" id="descript-{{ $item->id }}">
+                                                {{ $item->descrip }}
+                                            </td>
 
-                                        <td class="text-sm row-1" id="typename-{{ $item->id }}">
-                                            {{ $item->typename }}
-                                        </td>
+                                            <td class="text-sm row-1" id="typename-{{ $item->id }}">
+                                                {{ $item->typename }}
+                                            </td>
 
-                                        <td>
-                                            <div class="avatar-group">
-                                                @forelse ($item->image  as $itemImg)
-                                                        <img class="avatar avatar-sm rounded-circle" alt="Image placeholder" id='img-{{ $itemImg->id }}' src={{ $itemImg->image }}>
-                                                @empty
-                                                @endforelse
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="avatar-group">
+                                            <td>
+                                                <div class="avatar-group">
+                                                    @forelse ($item->image  as $itemImg)
+                                                        <img class="avatar avatar-sm rounded-circle" alt="Image placeholder"
+                                                            id='img-{{ $itemImg->id }}' src={{ $itemImg->image }}>
+                                                    @empty
+                                                    @endforelse
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="avatar-group">
+                                                    @forelse ($item->product_detail  as $itemProductDetail)
+                                                        <a class="text-sm row-1"
+                                                            id="price-{{ $itemProductDetail->id }}">
+                                                            {{ $itemProductDetail->price }}
+                                                        </a>
+                                                    @empty
+                                                    @endforelse
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="avatar-group">
+                                                    @forelse ($item->product_detail  as $itemProductDetail)
+                                                        <a class="text-sm row-1"
+                                                            id="quantity-{{ $itemProductDetail->id }}">
+                                                            {{ $itemProductDetail->quantity }}
+                                                        </a>
+                                                    @empty
+                                                    @endforelse
+                                                </div>
+                                            </td>
+
+                                            <td>
                                                 @forelse ($item->product_detail  as $itemProductDetail)
-                                                    <a class="text-sm row-1" id="price-{{ $itemProductDetail->id }}">
-                                                        {{ $itemProductDetail->price }}
-                                                    </a>
+                                                    @forelse ($itemProductDetail->color  as $itemProductcolor)
+                                                        <a class="text-sm row-1" id="color-{{ $itemProductcolor->id }}">
+                                                            {{ $itemProductcolor->color }}
+                                                        </a>
+                                                    @empty
+                                                    @endforelse
                                                 @empty
                                                 @endforelse
-                                            </div>
-                                        </td>
+                                            </td>
 
-                                        <td>
-                                            <div class="avatar-group">
+                                            <td>
                                                 @forelse ($item->product_detail  as $itemProductDetail)
-                                                    <a class="text-sm row-1" id="quantity-{{ $itemProductDetail->id }}">
-                                                        {{ $itemProductDetail->quantity }}
-                                                    </a>
+                                                    @forelse ($itemProductDetail->brand  as $itemProductbrand)
+                                                        <a class="text-sm row-1" id="brand-{{ $itemProductbrand->id }}">
+                                                            {{ $itemProductbrand->brand }}
+                                                        </a>
+                                                    @empty
+                                                    @endforelse
                                                 @empty
                                                 @endforelse
-                                            </div>
-                                        </td>
+                                            </td>
 
-                                        <td>
-                                            @forelse ($item->product_detail  as $itemProductDetail)
-                                                @forelse ($itemProductDetail->color  as $itemProductcolor)
-                                                    <a class="text-sm row-1" id="color-{{ $itemProductcolor->id }}">
-                                                        {{ $itemProductcolor->color }}
-                                                    </a>
+                                            <td>
+                                                @forelse ($item->product_detail  as $itemProductDetail)
+                                                    @forelse ($itemProductDetail->size  as $itemProductsize)
+                                                        <a class="text-sm row-1" id="size-{{ $itemProductsize->id }}">
+                                                            {{ $itemProductsize->size }}
+                                                        </a>
+                                                    @empty
+                                                    @endforelse
                                                 @empty
                                                 @endforelse
-                                            @empty
-                                            @endforelse
-                                        </td>
+                                            </td>
 
-                                        <td>
-                                            @forelse ($item->product_detail  as $itemProductDetail)
-                                                @forelse ($itemProductDetail->brand  as $itemProductbrand)
-                                                    <a class="text-sm row-1" id="brand-{{ $itemProductbrand->id }}">
-                                                        {{ $itemProductbrand->brand }}
-                                                    </a>
+                                            <td>
+                                                @forelse ($item->product_detail  as $itemProductDetail)
+                                                    @forelse ($itemProductDetail->warehouse  as $itemProductwarehouse)
+                                                        <a class="text-sm row-1"
+                                                            id="warehouse-{{ $itemProductwarehouse->id }}">
+                                                            {{ $itemProductwarehouse->name }} |
+                                                        </a>
+                                                    @empty
+                                                    @endforelse
                                                 @empty
                                                 @endforelse
-                                            @empty
-                                            @endforelse
-                                        </td>
+                                            </td>
 
-                                        <td>
-                                            @forelse ($item->product_detail  as $itemProductDetail)
-                                                @forelse ($itemProductDetail->size  as $itemProductsize)
-                                                    <a class="text-sm row-1" id="size-{{ $itemProductsize->id }}">
-                                                        {{ $itemProductsize->size }}
-                                                    </a>
-                                                @empty
-                                                @endforelse
-                                            @empty
-                                            @endforelse
-                                        </td>
-
-                                        <td>
-                                            @forelse ($item->product_detail  as $itemProductDetail)
-                                                @forelse ($itemProductDetail->warehouse  as $itemProductwarehouse)
-                                                    <a class="text-sm row-1" id="warehouse-{{ $itemProductwarehouse->id }}">
-                                                        {{ $itemProductwarehouse->name }} | 
-                                                    </a>
-                                                @empty
-                                                @endforelse
-                                            @empty
-                                            @endforelse
-                                        </td>
-
-                                        <td class="text-sm" id="updated-{{ $item->id }}">
-                                            {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
-                                        </td>
-                                    </tr>
-                                @empty
-                                @endforelse
+                                            <td class="text-sm" id="updated-{{ $item->id }}">
+                                                {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
+                                            </td>
+                                        </tr>
+                                    @empty
+                                    @endforelse
+                                @else
+                                    
+                                @endif
                             </tbody>
 
                         </table>
@@ -199,7 +208,7 @@
     </div>
 
     <!-- Modal -->
-    @include('Admin.warehouse.addWarehouse')
+    @include('Admin.product.products.addProduct')
     @include('Admin.warehouse.updateWarehouse')
 
     {{-- <script type="text/javascript" charset="utf-8">
@@ -294,58 +303,13 @@
                     $('#table_Theme').DataTable().destroy();
                     // $('#table_Theme').empty();
                     let item = response.data;
-                    let th = `<tr id='warehouseTr-${ item.id }'>
-                            <th scope='row'>
-                                <div class='media align-items-center'>
-                                    <a href='#' class='avatar rounded-circle mr-3'>
-                                        <img id='avt-${item.id}' src='../../${item.avatar}'>
-                                    </a>
-                                    <div class='media-body'>
-                                        <span class='name mb-0 text-sm' id='name-${ item.id }'>
-                                            ${ item.name }
-                                        </span>
-                                    </div>
-                                </div>
-                            </th>`;
-                    let td1 = `<td class='text-sm' id='address-${item.id}'>
-                                ${ item.address }
-                            </td>`
-
-                    let td2 = `<td>
-                                <span class='badge badge-dot mr-4'>
-                                    <i id='statusIcon-${ item.id }'
-                                        class='${ item.status == 1 ? 'bg-success' : 'bg-danger' }'></i>
-                                    <span class='status' id='statusText-${ item.id }'>
-                                        ${item.status == 1 ? 'Hoạt động' : 'Đã khoá'}
-                                    </span>
-                                </span>
-                            </td>`;
-
-                    let td3 = `<td class='text-sm' id='updated-${ item.id }'>
-                                ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
-                            </td>`;
-
-                    let td4 = `<td class='text-right'>
-                                <div class='dropdown'>
-                                    <a class='btn btn-sm btn-icon-only text-light' href='#' role='button'
-                                        data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                        <i class='fas fa-ellipsis-v'></i>
-                                    </a>
-                                    <button ​type='button' data-toggle='modal'
-                                        onclick='editWh(${ item.id })'
-                                        class='btn btn-warning btn-edit'>Edit</button>
-                                    <button ​type='button' data-toggle='modal' class='btn btn-danger btn-delete'
-                                        onclick='deleteWh(${ item.id })'>Delete</button>
-                                </div>
-                            </td>
-                        </tr>`;
 
                     console.log(response.data);
                     toastr.options.positionClass = 'toast-bottom-left'
                     toastr.success(response.message, 'Thành công ✨🎉✨');
                     $('#myAddModal').modal('toggle');
                     $('#form-add')[0].reset();
-                    $('tbody').prepend(th + td1 + td2 + td3 + td4);
+                    // $('tbody').prepend(th + td1 + td2 + td3 + td4);
                     rebuild();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {

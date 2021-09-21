@@ -163,6 +163,7 @@ class AdminControler extends Controller
     function chooseWarehouseHandle(Request $rq)
     {
         Session::put('warehouseChoosed', $rq->name);
+        Session::put('warehouseChoosedId', $rq->id);
         return redirect('admin/dashboard');
     }
 

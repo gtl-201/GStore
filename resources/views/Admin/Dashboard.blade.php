@@ -8,6 +8,8 @@
                         <h6 class="h2 text-white d-inline-block mb-0">
                             @php
                                 echo(Session::get('warehouseChoosed') !== null ? Session::get('warehouseChoosed') : null);
+                                echo(Session::get('warehouseChoosedId') !== null ? Session::get('warehouseChoosedId') : null);
+
                             @endphp
                         </h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">

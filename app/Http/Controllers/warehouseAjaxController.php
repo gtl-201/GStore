@@ -35,11 +35,11 @@ class warehouseAjaxController extends Controller
         $warehosue -> address =  $request -> address;
         $warehosue -> status = $request -> status;
 
-        if ($request->hasFile('avatar')) {
-            $file = time() . "." . $request->file('avatar')->getClientOriginalExtension();
-            $request->file('avatar')->storeAs('public', $file);
+        if ($request->hasFile('image')) {
+            $file = time() . "." . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->storeAs('public', $file);
             $patch = 'storage/' . $file;
-            $warehosue -> avatar = $patch;
+            $warehosue -> image = $patch;
         };
         // // echo $request -> avatar;
         // // exit;

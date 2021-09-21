@@ -78,6 +78,10 @@ table.dataTable > thead .sorting_desc_disabled:after {
 .nav-child-active {
     background-color: #fefefe;
 }
+.table-dark {
+    color: #f8f9fe;
+    background-color: #172b4d !important;
+}
 .link-nav-child {
     font-size: sm;
     color: black;

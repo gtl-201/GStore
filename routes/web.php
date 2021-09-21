@@ -40,7 +40,6 @@ Route::prefix('admin')->group(function () {
         });
         
         Route::get('/icons', [AdminControler::class, 'icons']);
-        Route::get('/product', [productController::class, 'index']);
         Route::get('/logout', [AdminControler::class, 'handleLogout']);
 
         Route::get('/chooseWarehouse', [AdminControler::class, 'chooseWarehouse']);
@@ -90,10 +89,10 @@ Route::prefix('admin')->group(function () {
             
             Route::prefix('/')->group(function () {
                 Route::get('/', [productController::class, 'indexProduct']);
-                // Route::post('/', [attributeAjaxController::class, 'storeProduct']);
-                // Route::get('/{id}', [attributeAjaxController::class, 'editproduct']);
-                // Route::post('/update', [attributeAjaxController::class, 'updateproduct']);
-                // Route::delete('/{id}', [attributeAjaxController::class, 'destroyproduct']);
+                Route::post('/', [productController::class, 'storeProduct']);
+                Route::get('/{id}', [productController::class, 'editProduct']);
+                Route::post('/update', [productController::class, 'updateProduct']);
+                Route::delete('/{id}', [productController::class, 'destroyProduct']);
             });
         });
         Route::prefix('supplier')->group(function () {
