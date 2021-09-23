@@ -212,6 +212,19 @@ class productController extends Controller
             $receipt -> save();
         }
 
+        $image = new imageProduct();
+        for ($i=1; $i <= $request->countImg; $i++) {
+            if ($request->hasFile('img'.$i)) {
+                $file = time() . "." . $request->file('img'.$i)->getClientOriginalExtension();
+                $request->file('img'.$i)->storeAs('public', $file);
+                $patch = 'storage/' . $file;
+                $image -> image = $patch;
+                $image -> id_product = $product->id;
+                $image -> save();
+            };
+            // dd($request->file('image1'));
+        }
+
         $product2 = DB::table('product')
             ->join('type_product', 'product.id_type', '=', 'type_product.id')
             ->select([

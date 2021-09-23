@@ -18,47 +18,47 @@ table.dataTable > thead .sorting_desc_disabled:after {
     padding-bottom: 6.2px;
     opacity: 0 !important;
 }
-.toast{
+.toast {
     position: absolute;
     left: 0;
 }
-.break-line{
-    word-wrap: break-word;      /* IE 5.5-7 */
-      white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
-      white-space: pre-wrap;      /* current browsers */
+.break-line {
+    word-wrap: break-word; /* IE 5.5-7 */
+    white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+    white-space: pre-wrap; /* current browsers */
 }
 /* width */
 ::-webkit-scrollbar {
     width: 13px;
     height: 10px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
+}
+
+/* Track */
+::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px grey;
     border-radius: 10px;
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
     background: #5e72e4;
     /* border-radius: 10px; */
     transition: 0.3s;
     border-radius: 10px;
-  }
-  /* Handle */
-  ::-webkit-scrollbar-thumb:hover {
+}
+/* Handle */
+::-webkit-scrollbar-thumb:hover {
     background: #7b8ef8;
     /* border-radius: 10px; */
-  }
-  .avatar{
-      overflow: hidden;
-  }
-  .avatar img{
+}
+.avatar {
+    overflow: hidden;
+}
+.avatar img {
     min-width: 100%;
     min-height: 100%;
 }
-.nameBold{
+.nameBold {
     font-size: 18px !important;
     font-weight: 600;
     text-transform: uppercase;
@@ -111,13 +111,13 @@ table.dataTable > thead .sorting_desc_disabled:after {
     font-size: 14px;
     font-weight: 900;
 }
-header{
+header {
     height: 0;
 }
-.form-control{
+.form-control {
     color: black;
 }
-.form-control:focus{
+.form-control:focus {
     color: #0006d2;
 }
 table.dataTable {
@@ -126,7 +126,25 @@ table.dataTable {
     margin: 0 !important;
     background-color: white;
 }
-.DTFC_RightBodyWrapper{
+.DTFC_RightBodyWrapper {
     left: 13px !important;
 }
-
+.col {
+    padding: 3px !important;
+}
+tr th {
+    padding-top: 15px !important;
+    padding-left: 15px !important;
+    padding-bottom: 5px !important;
+    padding-right: 5px !important;
+}
+tr td {
+    padding-top: 15px !important;
+    padding-left: 15px !important;
+    padding-bottom: 5px !important;
+    padding-right: 5px !important;
+}
+.header_table {
+    padding-bottom: 5px !important;
+    padding-top: 5px !important;
+}

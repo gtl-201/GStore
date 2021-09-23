@@ -61,7 +61,7 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    <th scope="col" class="col-1"></th>
+                                    {{-- <th scope="col" class="col-1"></th> --}}
                                     <th scope="col" class="sort col-3" data-sort="name">Tên</th>
                                     <th scope="col" class="sort col-4" data-sort="budget">Mô tả</th>
                                     <th scope="col" class="sort col-1" data-sort="status">Loại hàng</th>
@@ -76,20 +76,16 @@
                                 </tr>
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
-                                @if (count($product[0]->product_detail) > 0)
+                                @if (count($product) > 0)
                                     @forelse ($product as $item)
                                         <tr id='productTr-{{ $item->id }}'>
-                                            <td class="text-right">
+                                            {{-- <td class="text-right">
                                                 <div class="dropdown">
                                                     <button ​type="button" data-toggle="modal"
                                                         onclick="editWh({{ $item->id }})"
-                                                        class="btn btn-warning btn-edit">Edit</button>
-                                                    {{-- <button ​type="button" data-toggle="modal"
-                                                        class="btn btn-danger btn-delete"
-                                                        onclick="deleteWh({{ $item->id }})">Delete</button> --}}
-                                                </div>
-                                            </td>
-                                            <th scope="row" class="row-1">
+                                                        class="btn btn-warning btn-edit">Edit</button> --}}
+
+                                            <th scope="row" class="col-1">
                                                 <div class="media align-items-center">
                                                     <div class="media-body">
                                                         <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
@@ -99,11 +95,11 @@
                                                 </div>
                                             </th>
 
-                                            <td class="text-sm row-1" id="descript-{{ $item->id }}">
+                                            <td class="text-sm col-1" id="descript-{{ $item->id }}">
                                                 {{ $item->descrip }}
                                             </td>
 
-                                            <td class="text-sm row-1" id="typename-{{ $item->id }}">
+                                            <td class="text-sm col-1" id="typename-{{ $item->id }}">
                                                 {{ $item->typename }}
                                             </td>
 
@@ -111,7 +107,7 @@
                                                 <div class="avatar-group">
                                                     @forelse ($item->image  as $itemImg)
                                                         <img class="avatar avatar-sm rounded-circle" alt="Image placeholder"
-                                                            id='img-{{ $itemImg->id }}' src={{ $itemImg->image }}>
+                                                            id='img-{{ $itemImg->id }}' src='../{{ $itemImg->image }}'>
                                                     @empty
                                                     @endforelse
                                                 </div>
@@ -119,7 +115,7 @@
                                             <td>
                                                 <div class="avatar-group">
                                                     @forelse ($item->product_detail  as $itemProductDetail)
-                                                        <a class="text-sm row-1"
+                                                        <a class="text-sm"
                                                             id="price-{{ $itemProductDetail->id }}">
                                                             {{ $itemProductDetail->price }}
                                                         </a>
@@ -131,7 +127,7 @@
                                             <td>
                                                 <div class="avatar-group">
                                                     @forelse ($item->product_detail  as $itemProductDetail)
-                                                        <a class="text-sm row-1"
+                                                        <a class="text-sm"
                                                             id="quantity-{{ $itemProductDetail->id }}">
                                                             {{ $itemProductDetail->quantity }}
                                                         </a>
@@ -143,7 +139,7 @@
                                             <td>
                                                 @forelse ($item->product_detail  as $itemProductDetail)
                                                     @forelse ($itemProductDetail->color  as $itemProductcolor)
-                                                        <a class="text-sm row-1" id="color-{{ $itemProductcolor->id }}">
+                                                        <a class="text-sm" id="color-{{ $itemProductcolor->id }}">
                                                             {{ $itemProductcolor->color }}
                                                         </a>
                                                     @empty
@@ -155,7 +151,7 @@
                                             <td>
                                                 @forelse ($item->product_detail  as $itemProductDetail)
                                                     @forelse ($itemProductDetail->brand  as $itemProductbrand)
-                                                        <a class="text-sm row-1" id="brand-{{ $itemProductbrand->id }}">
+                                                        <a class="text-sm" id="brand-{{ $itemProductbrand->id }}">
                                                             {{ $itemProductbrand->brand }}
                                                         </a>
                                                     @empty
@@ -167,7 +163,7 @@
                                             <td>
                                                 @forelse ($item->product_detail  as $itemProductDetail)
                                                     @forelse ($itemProductDetail->size  as $itemProductsize)
-                                                        <a class="text-sm row-1" id="size-{{ $itemProductsize->id }}">
+                                                        <a class="text-sm" id="size-{{ $itemProductsize->id }}">
                                                             {{ $itemProductsize->size }}
                                                         </a>
                                                     @empty
@@ -179,7 +175,7 @@
                                             <td>
                                                 @forelse ($item->product_detail  as $itemProductDetail)
                                                     @forelse ($itemProductDetail->warehouse  as $itemProductwarehouse)
-                                                        <a class="text-sm row-1"
+                                                        <a class="text-sm col-1"
                                                             id="warehouse-{{ $itemProductwarehouse->id }}">
                                                             {{ $itemProductwarehouse->name }} |
                                                         </a>
@@ -196,7 +192,7 @@
                                     @empty
                                     @endforelse
                                 @else
-                                    
+
                                 @endif
                             </tbody>
 
@@ -211,14 +207,8 @@
     @include('Admin.product.products.addProduct')
     @include('Admin.warehouse.updateWarehouse')
 
-    {{-- <script type="text/javascript" charset="utf-8">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-    </script> --}}
     <script>
+        let tableheight = $('#card_table').width() - 5;
         $(document).ready(function() {
             $('#table_Theme').DataTable({
                 language: {
@@ -236,16 +226,10 @@
                         next: "<i class='ni ni-bold-right'>"
                     },
                 },
-                scrollY: "300px",
-                scrollX: true,
-                // scrollCollapse: true,
-                // fixedColumns: true,
-                // fixedColumns: {
-                //     rightColumns: 1,
-                //     leftColumns: 0,
-                // },
+                scrollY: "100%",
+                scrollX: tableheight,
                 "order": [
-                    [9, "asc"]
+                    [10, "desc"]
                 ]
             });
         });
@@ -267,16 +251,11 @@
                         next: "<i class='ni ni-bold-right'>"
                     },
                 },
-                scrollY: "300px",
-                scrollX: true,
-                scrollCollapse: true,
-                // fixedColumns: true,
-                fixedColumns: {
-                    rightColumns: 1,
-                    leftColumns: 0,
-                },
+                scrollY: "100%",
+                scrollX: tableheight,
+
                 "order": [
-                    [4, "asc"]
+                    [10, "desc"]
                 ]
             });
         }
@@ -302,14 +281,105 @@
                 success: function(response) {
                     $('#table_Theme').DataTable().destroy();
                     // $('#table_Theme').empty();
-                    let item = response.data;
+                    let item = response.data[0];
+                    let th = `<tr id='productTr-${item.id }'>`;
+                    let td1 = `<th scope="row" class="col-1">
+                                <div class="media align-items-center">
+                                    <div class="media-body">
+                                        <span class="name mb-0 text-sm" id="name-${item.id }">
+                                            ${item.name }
+                                        </span>
+                                    </div>
+                                </div>
+                            </th>`;
+                    let td2 = `<td class="text-sm col-1" id="descript-${item.id }">
+                                ${item.descrip }
+                            </td>
+
+                            <td class="text-sm col-1" id="typename-${item.id }">
+                                ${item.typename }
+                            </td>`;
+                    let td3 = `<td>
+                                <div class="avatar-group">`;
+
+                    item.image.map(element => {
+                        td3 += `<img class="avatar avatar-sm rounded-circle" alt="Image placeholder"
+                                            id='img-${element.id }' src='../${element.image }'>`;
+                    });
+                    td3 += `</div>
+                            </td>`;
+
+                    let td4 = `<td>;
+                                <div class="avatar-group">`;
+                    item.product_detail.map(element => {
+                        td4 += `<a class="text-sm"
+                                            id="price-${element.id}">
+                                            ${element.price}
+                                        </a>`
+                    });
+                    td4 += `</div>
+                            </td>`;
+
+                    let td5 = `<td>
+                            <div class="avatar-group">`;
+                    item.product_detail.map(element => {
+                        td5 += `<a class="text-sm"
+                                            id="quantity-${element.id }">
+                                            ${element.quantity }
+                                        </a>`
+                    });
+                    td5 += `</div>
+                        </td>`;
+
+                    let td6 = `<td>`;
+                    item.product_detail.map(element1 => {
+                        element1.color.map(element2 => {
+                            td6 += `<a class="text-sm" id="color-${element2.id }">
+                                            ${element2.color }
+                                        </a>`
+                        });
+                    });
+                    td6 += `</td>`;
+
+                    let td7 = `<td>`;
+                    item.product_detail.map(element1 => {
+                        element1.brand.map(element2 => {
+                            td7 += `<a class="text-sm" id="brand-${element2.id }">
+                                            ${element2.brand }
+                                        </a>`
+                        });
+                    });
+                    td7 += `</td>`;
+                    let td8 = `<td>`;
+                    item.product_detail.map(element1 => {
+                        element1.size.map(element2 => {
+                            td8 += `<a class="text-sm" id="size-${element2.id }">
+                                            ${element2.size }
+                                        </a>`;
+                        });
+                    });
+                    td8 += `</td>`;
+                    let td9 = `<td>`;
+                    item.product_detail.map(element1 => {
+                        element1.warehouse.map(element2 => {
+                            td9 += `<a class="text-sm col-1"
+                                            id="warehouse-${element2.id }">
+                                            ${element2.name } | 
+                                        </a>`
+                        });
+                    });
+                    td9 += `</td>`;
+                    let td10 = `<td class="text-sm" id="updated-${item.id }">
+                                    ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
+                                </td>
+                            </tr>`;
 
                     console.log(response.data);
-                    toastr.options.positionClass = 'toast-bottom-left'
+                    toastr.options.positionClass = 'toast-bottom-left';
                     toastr.success(response.message, 'Thành công ✨🎉✨');
                     $('#myAddModal').modal('toggle');
                     $('#form-add')[0].reset();
-                    // $('tbody').prepend(th + td1 + td2 + td3 + td4);
+                    $('tbody').prepend(th + td1 + td2 + td3 + td4 + td5 + td6 + td7 + td8 + td9 + td10);
                     rebuild();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -319,92 +389,92 @@
             })
         })
 
-        function deleteWh(id) {
-            if (confirm('Bạn có chắc muốn xóa ?')) {
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "warehouse/" + id,
-                    type: 'DELETE',
-                    contentType: false,
-                    processData: false,
-                    success: function(res) {
-                        $('#table_Theme').DataTable().destroy();
-                        // $('#table_Theme').empty();
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Xoá kho thành công', 'Thành công ✨🎉✨')
-                        $('#warehouseTr-' + res.id).remove();
-                        rebuild();
-                    },
-                    error: function(res) {
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.error('Xoá kho thất bại', 'Thất bại 👺👹👺')
-                    }
-                });
-            }
-        }
+        // function deleteWh(id) {
+        //     if (confirm('Bạn có chắc muốn xóa ?')) {
+        //         $.ajax({
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             },
+        //             url: "warehouse/" + id,
+        //             type: 'DELETE',
+        //             contentType: false,
+        //             processData: false,
+        //             success: function(res) {
+        //                 $('#table_Theme').DataTable().destroy();
+        //                 // $('#table_Theme').empty();
+        //                 toastr.options.positionClass = 'toast-bottom-left'
+        //                 toastr.success('Xoá kho thành công', 'Thành công ✨🎉✨')
+        //                 $('#warehouseTr-' + res.id).remove();
+        //                 rebuild();
+        //             },
+        //             error: function(res) {
+        //                 toastr.options.positionClass = 'toast-bottom-left'
+        //                 toastr.error('Xoá kho thất bại', 'Thất bại 👺👹👺')
+        //             }
+        //         });
+        //     }
+        // }
 
-        function editWh(id) {
-            $.get('warehouse/' + id, function(e) {
-                $('#name-edit').val(e.name);
-                $('#address-edit').val(e.address);
-                $('#imageDemoUpdate').prop('src', "../../" + e.avatar);
-                $('#id-edit').val(e.id);
-                // $('#statusCheck-edit').val(e.status);
-                $('#myUpdateModal').modal('toggle');
-                setTimeout(() => {
-                    e.status !== 1 ? $('#index2').click() : $('#index1').click();
-                }, 150);
-                console.log(e.avatar);
-            });
-        }
+        // function editWh(id) {
+        //     $.get('warehouse/' + id, function(e) {
+        //         $('#name-edit').val(e.name);
+        //         $('#address-edit').val(e.address);
+        //         $('#imageDemoUpdate').prop('src', "../../" + e.avatar);
+        //         $('#id-edit').val(e.id);
+        //         // $('#statusCheck-edit').val(e.status);
+        //         $('#myUpdateModal').modal('toggle');
+        //         setTimeout(() => {
+        //             e.status !== 1 ? $('#index2').click() : $('#index1').click();
+        //         }, 150);
+        //         console.log(e.avatar);
+        //     });
+        // }
 
-        $("#form-edit").submit(function(e) {
-            e.preventDefault();
+        // $("#form-edit").submit(function(e) {
+        //     e.preventDefault();
 
-            let formData = new FormData($('#form-edit')[0]);
-            console.log(formData);
-            let name = $('#name-edit').val();
-            let address = $('#address-edit').val();
-            // let avatar = $('#avatar-edit').val();
+        //     let formData = new FormData($('#form-edit')[0]);
+        //     console.log(formData);
+        //     let name = $('#name-edit').val();
+        //     let address = $('#address-edit').val();
+        //     // let avatar = $('#avatar-edit').val();
 
-            if (name !== '' && address !== '') {
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "warehouse/update",
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(res) {
-                        $('#table_Theme').DataTable().destroy();
-                        // $('#table_Theme').empty();
-                        let data = res.data;
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
-                        $('#avt-' + data.id).attr("src", "../" + data.avatar);
-                        $('#name-' + data.id).text(data.name);
-                        $('#address-' + data.id).text(data.address);
-                        $('#statusIcon-' + data.id).attr('class', data.status == 1 ? "bg-success" :
-                            "bg-danger");
-                        $('#updated-' + data.id).text(
-                            `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
-                        );
-                        $('#statusText-' + data.id).text(data.status == 1 ? "Hoạt động" : "Đã khoá");
-                        $('#myUpdateModal').modal('hide');
-                        $('#form-edit')[0].reset();
-                        rebuild();
-                    },
-                    error: function(res) {
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
-                    }
-                })
-            }
-        });
+        //     if (name !== '' && address !== '') {
+        //         $.ajax({
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             },
+        //             url: "warehouse/update",
+        //             type: 'POST',
+        //             data: formData,
+        //             contentType: false,
+        //             processData: false,
+        //             success: function(res) {
+        //                 $('#table_Theme').DataTable().destroy();
+        //                 // $('#table_Theme').empty();
+        //                 let data = res.data;
+        //                 toastr.options.positionClass = 'toast-bottom-left'
+        //                 toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+        //                 $('#avt-' + data.id).attr("src", "../" + data.avatar);
+        //                 $('#name-' + data.id).text(data.name);
+        //                 $('#address-' + data.id).text(data.address);
+        //                 $('#statusIcon-' + data.id).attr('class', data.status == 1 ? "bg-success" :
+        //                     "bg-danger");
+        //                 $('#updated-' + data.id).text(
+        //                     `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
+        //                 );
+        //                 $('#statusText-' + data.id).text(data.status == 1 ? "Hoạt động" : "Đã khoá");
+        //                 $('#myUpdateModal').modal('hide');
+        //                 $('#form-edit')[0].reset();
+        //                 rebuild();
+        //             },
+        //             error: function(res) {
+        //                 toastr.options.positionClass = 'toast-bottom-left'
+        //                 toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
+        //             }
+        //         })
+        //     }
+        // });
     </script>
     {{-- @php
         if(isset($err)){    

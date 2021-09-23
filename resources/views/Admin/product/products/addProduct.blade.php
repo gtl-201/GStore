@@ -111,36 +111,37 @@
     function addMoreAttribute() {
         const index = parseInt($('#Count').val()) + 1;
         const newAttribute =
-                    `<div class="w-100 text-center mb-2">--------------------- Thuộc tính ${index} ---------------------</div>
-                    <div class="form-group row px-3">
-                        <select class="form-select col" aria-label="" id='color${index}' name='color${index}'>
-                            <option selected>Màu sắc</option>
-                            @forelse ($allColor as $itemColor)
-                                <option value='{{ $itemColor->color }}'>{{ $itemColor->color }}</option>
-                            @empty
-                            @endforelse
-                        </select>
-                        <div class='px-3'></div>
-                        <select class="form-select col" aria-label="" id='size${index}' name='size${index}'>
-                            <option selected>Kích cỡ</option>
-                            @forelse ($allSize as $itemSize)
-                                <option value='{{ $itemSize->size }}'>{{ $itemSize->size }}</option>
-                            @empty
-                            @endforelse
-                        </select>
-                    </div>
-                    <div class="form-group row mt--2">
-                        <div class="form-group col">
-                            <input required type="number" class="form-control" placeholder="Đơn giá (VNĐ)"
-                                name="price${index}" id="price${index}">
+                    `<div class="w-100 text-center mb-2">--------------------- Thuộc tính ${index} ---------------------
                         </div>
-                        <div class="form-group col">
-                            <input required type="number" class="form-control" placeholder="Số lượng"
-                                name="quantity${index}" id="quantity${index}">
+                        <div class="form-group row px-3">
+                            <select class="form-select col" aria-label="" id='color' name='color${index}'>
+                                <option selected>Màu sắc</option>
+                                @forelse ($allColor as $itemColor)
+                                    <option value='{{ $itemColor->id }}'>{{ $itemColor->color }}</option>
+                                @empty
+                                @endforelse
+                            </select>
+                            <div class='px-3'></div>
+                            <select class="form-select col" aria-label="" id='size' name='size${index}'>
+                                <option selected>Kích cỡ</option>
+                                @forelse ($allSize as $itemSize)
+                                    <option value='{{ $itemSize->id }}'>{{ $itemSize->size }}</option>
+                                @empty
+                                @endforelse
+                            </select>
                         </div>
-                    </div>
-                    <div class="flex justify-content-center align-items-center w-100">
-                    </div>`;
+                        <div class="form-group row mt--2">
+                            <div class="form-group col">
+                                <input required type="number" class="form-control" placeholder="Đơn giá (VNĐ)"
+                                    name="price${index}" id="price">
+                            </div>
+                            <div class="form-group col">
+                                <input required type="number" class="form-control" placeholder="Số lượng"
+                                    name="quantity${index}" id="quantity">
+                            </div>
+                        </div>
+                        <div class="flex justify-content-center align-items-center w-100">
+                        </div>`;
         $( "#multiAttribute" ).append( newAttribute );
         $('#Count').val(index) ;
     }
