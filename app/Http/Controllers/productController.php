@@ -6,6 +6,7 @@ use App\Models\imageProduct;
 use App\Models\nameProduct;
 use App\Models\productDetail;
 use App\Models\receipt;
+use App\Models\receiptDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -210,10 +211,17 @@ class productController extends Controller
             $receipt->id_warehouse = Session::get('warehouseChoosedId');
             $receipt->id_supplier = $request->supplier;
             $receipt -> save();
+            
+            $receiptDetail = new receiptDetail();
+            $receiptDetail->id_receipt = $receipt->id;
+            $receiptDetail->quantity = $request->{'quantity'.$i};
+            $receiptDetail->id_supplier = $request->supplier;
+            $receiptDetail->id_admin = Auth::guard('admin')->user()->id;
+            $receiptDetail->save();
         }
 
-        $image = new imageProduct();
         for ($i=1; $i <= $request->countImg; $i++) {
+            $image = new imageProduct();
             if ($request->hasFile('img'.$i)) {
                 $file = time() . "." . $request->file('img'.$i)->getClientOriginalExtension();
                 $request->file('img'.$i)->storeAs('public', $file);
@@ -222,7 +230,6 @@ class productController extends Controller
                 $image -> id_product = $product->id;
                 $image -> save();
             };
-            // dd($request->file('image1'));
         }
 
         $product2 = DB::table('product')

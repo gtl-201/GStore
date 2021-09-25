@@ -107,7 +107,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/', [receiptController::class, 'store']);
             Route::get('/{id}', [receiptController::class, 'edit']);
             Route::post('/update', [receiptController::class, 'update']);
-            Route::delete('/{id}', [receiptController::class, 'destroy']);
+            // Route::delete('/{id}', [receiptController::class, 'destroy']);
         });
         Route::prefix('issue')->group(function () {
             Route::get('/', [issueController::class, 'index']);

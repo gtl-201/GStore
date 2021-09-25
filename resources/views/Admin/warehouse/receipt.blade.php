@@ -27,10 +27,7 @@
                             </ol>
                         </nav>
                     </div>
-                    <div class="col-lg-6 col-5 text-right">
-                        <a href="#" class="btn btn-sm btn-neutral text-sm" onclick="ClickNew()">Thêm mới</a>
-                        {{-- <a href="#" class="btn btn-sm btn-neutral">Filters</a> --}}
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -65,44 +62,47 @@
                                     <th scope="col" class="col-1">Mã admin</th>
                                     <th scope="col" class="col-1">Mã kho</th>
                                     <th scope="col" class="col-1">Mã nhà cung cấp</th>
-                                    <th scope="col" class="col-1">Ngày nhập kho</th>
-                                    <th scope="col" class="col-1">Số lượng</th>
-                                    <th scope="col" class="col-1">Ngày cập nhật</th>
+                                    <th scope="col" class="col-1">Ngày nhập & số lượng</th>
+                                    {{-- <th scope="col" class="col-1">Số lượng</th> --}}
+                                    {{-- <th scope="col" class="col-1">Ngày cập nhật</th> --}}
                                     <th scope="col" class="col-1"></th>
                                 </tr>
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
+                                {{-- {{dd($receipt)}} --}}
                                 @forelse ($receipt as $item)
                                     <tr id='receiptTr-{{ $item->id }}'>
                                         <td class="text-sm" id="product-{{ $item->id }}">
                                             {{ $item->id_product_detail }}
                                         </td>
                                         <td class="text-sm" id="admin-{{ $item->id }}">
-                                            {{ $item->id_admin }}
+                                            {{ $item->adminName }}
                                         </td>
                                         <td class="text-sm" id="warehouse-{{ $item->id }}">
-                                            {{ $item->id_warehouse }}
+                                            {{ $item->warehouseName }}
                                         </td>
                                         <td class="text-sm" id="supplier-{{ $item->id }}">
-                                            {{ $item->id_supplier }}
+                                            @forelse ($item->receiptDetail as $itemReceiptDetail)
+                                                {{ $item->supplierName }} \
+                                            @empty
+                                            @endforelse
                                         </td>
-                                        <td class="text-sm" id="date_receipt-{{ $item->id }}">
-                                            {{ $item->date_receipt }}
+                                        <td class="text-sm flex flex-row" id="date_receipt-{{ $item->id }}">
+                                            <strong>Số lượng:</strong>
+                                            {{ last($item->receiptDetail)[0]->quantity }}<br />
+                                            <strong>Ngày nhập:</strong>
+                                            {{ last($item->receiptDetail)[0]->created_at }}<br />
                                         </td>
-                                        <td class="text-sm" id="quantity-{{ $item->id }}">
-                                            {{ $item->quantity }}
-                                        </td>
-                                        <td class="text-sm" id="updated-{{ $item->id }}">
+
+                                        {{-- <td class="text-sm" id="updated-{{ $item->id }}">
                                             {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
-                                        </td>
+                                        </td> --}}
 
                                         <td class="text-right">
                                             <div class="dropdown">
-                                                <button ​type="button" data-toggle="modal"
-                                                    onclick="editWh({{ $item->id }})"
-                                                    class="btn btn-warning btn-edit">Edit</button>
-                                                <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
-                                                    onclick="deleteWh({{ $item->id }})">Delete</button>
+                                                <a href='receipt.blade.php?hello=true' ​type="button" data-toggle="modal"
+                                                    data-target='#myUpdateModal' class="btn btn-warning btn-edit">Chi
+                                                    tiết</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -117,8 +117,16 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    @include('Admin.warehouse.addReceipt')
+    <?php
+    function runMyFunction()
+    {
+        dd('hehe');
+    }
+    if (isset($_GET['hello'])) {
+        runMyFunction();
+    }
+    ?>
+
     @include('Admin.warehouse.updateReceipt')
 
     {{-- <script type="text/javascript" charset="utf-8">
@@ -249,40 +257,11 @@
             })
         })
 
-        function deleteWh(id) {
-            if (confirm('Bạn có chắc muốn xóa ?')) {
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "receipt/" + id,
-                    type: 'DELETE',
-                    contentType: false,
-                    processData: false,
-                    success: function(res) {
-                        $('#table_Theme').DataTable().destroy();
-                        // $('#table_Theme').empty();
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Xoá sản phẩm thành công', 'Thành công ✨🎉✨')
-                        $('#receiptTr-' + res.id).remove();
-                        rebuild();
-                    },
-                    error: function(res) {
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.error('Xoá kho thất bại', 'Thất bại 👺👹👺')
-                    }
-                });
-            }
-        }
+
 
         function editWh(id) {
             $.get('receipt/' + id, function(e) {
                 $('#id').val(id);
-                $('#id_product_detail-edit').val(e.id_product_detail);
-                $('#id_warehouse-edit').val(e.id_warehouse);
-                $('#id_supplier-edit').val(e.id_supplier);
-                $('#date_receipt-edit').val(e.date_receipt);
-                $('#quantity-edit').val(e.quantity);
                 $('#myUpdateModal').modal('toggle');
             });
         }

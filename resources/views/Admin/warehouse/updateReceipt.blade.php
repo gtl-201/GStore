@@ -3,42 +3,49 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Sửa nhập kho</h2>
+                <h2 class="modal-title">Chi tiết nhập kho cuả sản phẩm</h2>
             </div>
-            <div class="modal-body">
-                {{-- <p>Some text in the modal.</p> --}}
-                <form action="" id="form-edit" method="POST" role="form">
-                    @csrf
-                    <div class="form-group">
-                        {{-- <label for="email">Tên Kho:</label> --}}
-                        <input required type="hidden" class="form-control" placeholder="" name='id' id="id">
-                        <input required type="text" class="form-control" placeholder="Mã sản phẩm" name='id_product_detail' id="id_product_detail-edit">
-                    </div>
-                    <div class="form-group">
-                        {{-- <label for="email">Tên Kho:</label> --}}
-                        <input required type="text" class="form-control" readonly placeholder="Mã admin" value="{{Auth::guard('admin')->user()->id}}" name='id_admin' id="id_admin-edit">
-                    </div>
-                    <div class="form-group">
-                        <input required type="tel" class="form-control" placeholder="Mã kho" name='id_warehouse' id="id_warehouse-edit">
-                    </div>
-                    <div class="form-group">
-                        {{-- <label for="email">Tên Kho:</label> --}}
-                        <input required type="text" class="form-control" placeholder="Mã nhà cung cấp" name='id_supplier' id="id_supplier-edit">
-                    </div>
-                    <div class="form-group">
-                        {{-- <label for="email">Tên Kho:</label> --}}
-                        <input required type="date" class="form-control" placeholder="Ngày nhập" name='date_receipt' id="date_receipt-edit">
-                    </div>
-                    <div class="form-group">
-                        <input required type="tel" class="form-control" placeholder="Số lượng" name='quantity' id="quantity-edit">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
-                </form>
+            <div class="w-100 text-center px-2">
+                <hr class="p-0 m-0" />
             </div>
-
+            <div class="modal-body py-2">
+                @forelse ($receipt as $item)
+                    <div class="row w-100 pb-1">
+                        {{-- <input type="text" id='id'> --}}
+                        {{-- <div class="col-5 font-weight-600" id='id'>Mã sản phẩm:</div> --}}
+                        <div class="col-5 font-weight-600">Mã sản phẩm:</div>
+                        <div class="col-7">{{ $item->id_product_detail }}</div>
+                    </div>
+                    <div class="row w-100 pb-1">
+                        <div class="col-5 font-weight-600">Tên Kho:</div>
+                        <div class="col-7">{{ $item->warehouseName }}</div>
+                    </div>
+                    
+                    @foreach ($item->receiptDetail as $key => $itemDetail)
+                        <div class="w-100 text-center px-5 py-2">
+                            <hr class="p-0 m-0" />
+                        </div>
+                        {{-- {{dd($item->admin[$key])}} --}}
+                        <div class="row w-100 pb-1">
+                            <div class="col-5 font-weight-600">Tên admin:</div>
+                            <div class="col-7">{{ $item->admin[$key]->name }}</div>
+                        </div>
+                        <div class="row w-100 pb-1">
+                            <div class="col-5 font-weight-600">Nhà cung cấp:</div>
+                            <div class="col-7">{{ $itemDetail->name }}</div>
+                        </div>
+                         <div class="row w-100 pb-1">
+                            <div class="col-5 font-weight-600">Số lượng:</div>
+                            <div class="col-7">{{ $itemDetail->quantity }}</div>
+                        </div>
+                        <div class="row w-100 pb-1">
+                            <div class="col-5 font-weight-600">Ngày nhập:</div>
+                            <div class="col-7">{{ $itemDetail->created_at }}</div>
+                        </div>
+                    @endforeach
+                @empty
+                @endforelse
+            </div>
         </div>
 
     </div>
