@@ -27,10 +27,10 @@
                             </ol>
                         </nav>
                     </div>
-                    <div class="col-lg-6 col-5 text-right">
-                        <a href="#" class="btn btn-sm btn-neutral text-sm" onclick="ClickNew()">Thêm mới</a>
-                        {{-- <a href="#" class="btn btn-sm btn-neutral">Filters</a> --}}
-                    </div>
+                    {{-- <div class="col-lg-6 col-5 text-right">
+                        <a href="#" class="btn btn-sm btn-neutral text-sm" onclick="ClickNew()">Xuất kho</a>
+                        <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -61,38 +61,38 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    <th scope="col" class="col-1">Mã sản phẩm</th>
-                                    <th scope="col" class="col-1">Mã admin</th>
-                                    <th scope="col" class="col-1">Mã kho</th>
-                                    <th scope="col" class="col-1">Ngày xuất kho</th>
+                                    <th scope="col" class="col-1">Sản phẩm</th>
+                                    <th scope="col" class="col-1">Admin</th>
+                                    <th scope="col" class="col-1">Kho</th>
                                     <th scope="col" class="col-1">Số lượng</th>
+                                    <th scope="col" class="col-1">Ngày xuất kho</th>
                                     <th scope="col" class="col-1">Ngày cập nhật</th>
-                                    <th scope="col" class="col-1"></th>
                                 </tr>
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
                                 @forelse ($issue as $item)
                                     <tr id='issueTr-{{ $item->id }}'>
                                         <td class="text-sm" id="product-{{ $item->id }}">
-                                            {{ $item->id_product_detail }}
+                                            {{ $item->nameProduct }}
                                         </td>
                                         <td class="text-sm" id="admin-{{ $item->id }}">
-                                            {{ $item->id_admin }}
+                                            {{ $item->nameAdmin }}
                                         </td>
                                         <td class="text-sm" id="warehouse-{{ $item->id }}">
-                                            {{ $item->id_warehouse }}
+                                            {{ $item->nameWarehouse }}
+                                        </td>
+                                        
+                                        <td class="text-sm" id="quantity-{{ $item->id }}">
+                                            {{ $item->quantity }}
                                         </td>
                                         <td class="text-sm" id="date_issue-{{ $item->id }}">
                                             {{ $item->date_issue }}
-                                        </td>
-                                        <td class="text-sm" id="quantity-{{ $item->id }}">
-                                            {{ $item->quantity }}
                                         </td>
                                         <td class="text-sm" id="updated-{{ $item->id }}">
                                             {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
                                         </td>
 
-                                        <td class="text-right">
+                                        {{-- <td class="text-right">
                                             <div class="dropdown">
                                                 <button ​type="button" data-toggle="modal"
                                                     onclick="editWh({{ $item->id }})"
@@ -100,7 +100,7 @@
                                                 <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
                                                     onclick="deleteWh({{ $item->id }})">Delete</button>
                                             </div>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @empty
                                 @endforelse
@@ -143,7 +143,7 @@
                     },
                 },
                 "order": [
-                    [1, "asc"]
+                    [5, "desc"]
                 ]
             });
         });
@@ -166,14 +166,14 @@
                     },
                 },
                 "order": [
-                    [1, "asc"]
+                    [5, "desc"]
                 ]
             });
         }
     </script>
     <script type="text/javascript">
         function ClickNew() {
-            $('#myAddModal').modal('toggle');
+            $('#myAddModalIssue').modal('toggle');
         }
         $('#form-add').submit(function(e) {
             e.preventDefault();
@@ -192,126 +192,127 @@
                     $('#table_Theme').DataTable().destroy();
                     // $('#table_Theme').empty();
 
-                    let item = response.data;
+                    let item = response.data[0];
                     console.log(item);
                     let th = `<tr id='issueTr-${ item.id }'>
                                 <td class="text-sm" id="product-${ item.id }">
-                                    ${ item.id_product_detail }
+                                    ${ item.nameProduct }
                                 </td>
                                 <td class="text-sm" id="admin-${ item.id }">
-                                    ${ item.id_admin }
+                                    ${ item.nameAdmin }
                                 </td>`;
                     let td1 = `<td class="text-sm" id="warehouse-${ item.id }">
-                                    ${ item.id_warehouse }
+                                    ${ item.nameWarehouse }
                                 </td>`;
 
-                    let td2 = `<td class="text-sm" id="date_issue-${ item.id }">
-                                    ${ item.date_issue }
-                                </td>
+                    let td2 = `
                                 <td class="text-sm" id="quantity-${ item.id }">
                                     ${ item.quantity }
+                                </td>
+                                <td class="text-sm" id="date_issue-${ item.id }">
+                                    ${ item.date_issue }
                                 </td>`;
 
                     let td3 = `<td class="text-sm" id="updated-${ item.id }">
                                 ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
-                            </td>`;
+                                </td>
+                            </tr>`;
+                    // let td4 = `<td class="text-right">
+                //             <div class="dropdown">
+                //                 <button ​type="button" data-toggle="modal"
+                //                     onclick="editWh(${ item.id })"
+                //                     class="btn btn-warning btn-edit">Edit</button>
+                //                 <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
+                //                     onclick="deleteWh(${ item.id })">Delete</button>
+                //             </div>
+                //         </td>
 
-                    let td4 = `<td class="text-right">
-                                <div class="dropdown">
-                                    <button ​type="button" data-toggle="modal"
-                                        onclick="editWh(${ item.id })"
-                                        class="btn btn-warning btn-edit">Edit</button>
-                                    <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
-                                        onclick="deleteWh(${ item.id })">Delete</button>
-                                </div>
-                            </td>
-                        </tr>`;
 
-                    console.log(response.data);
+                console.log(response.data);
+                toastr.options.positionClass = 'toast-bottom-left'
+                toastr.success(response.message, 'Thành công ✨🎉✨');
+                $('#myAddModal').modal('toggle');
+                $('#form-add')[0].reset();
+                $('tbody').prepend(th + td1 + td2 + td3);
+                rebuild();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                toastr.options.positionClass = 'toast-bottom-left'
+                toastr.error('Thêm kho thất bại', 'Thất bại 👺👹👺')
+            }
+        })
+    })
+
+    function deleteWh(id) {
+        if (confirm('Bạn có chắc muốn xóa ?')) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "issue/" + id,
+                type: 'DELETE',
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    $('#table_Theme').DataTable().destroy();
+                    // $('#table_Theme').empty();
                     toastr.options.positionClass = 'toast-bottom-left'
-                    toastr.success(response.message, 'Thành công ✨🎉✨');
-                    $('#myAddModal').modal('toggle');
-                    $('#form-add')[0].reset();
-                    $('tbody').prepend(th + td1 + td2 + td3 + td4);
+                    toastr.success('Xoá sản phẩm thành công', 'Thành công ✨🎉✨')
+                    $('#issueTr-' + res.id).remove();
                     rebuild();
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
+                error: function(res) {
                     toastr.options.positionClass = 'toast-bottom-left'
-                    toastr.error('Thêm kho thất bại', 'Thất bại 👺👹👺')
+                    toastr.error('Xoá kho thất bại', 'Thất bại 👺👹👺')
                 }
-            })
-        })
-
-        function deleteWh(id) {
-            if (confirm('Bạn có chắc muốn xóa ?')) {
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "issue/" + id,
-                    type: 'DELETE',
-                    contentType: false,
-                    processData: false,
-                    success: function(res) {
-                        $('#table_Theme').DataTable().destroy();
-                        // $('#table_Theme').empty();
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Xoá sản phẩm thành công', 'Thành công ✨🎉✨')
-                        $('#issueTr-' + res.id).remove();
-                        rebuild();
-                    },
-                    error: function(res) {
-                        toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.error('Xoá kho thất bại', 'Thất bại 👺👹👺')
-                    }
-                });
-            }
-        }
-
-        function editWh(id) {
-            $.get('issue/' + id, function(e) {
-                $('#id').val(id);
-                $('#id_product_detail-edit').val(e.id_product_detail);
-                $('#id_warehouse-edit').val(e.id_warehouse);
-                $('#date_issue-edit').val(e.date_issue);
-                $('#quantity-edit').val(e.quantity);
-                $('#myUpdateModal').modal('toggle');
             });
         }
+    }
 
-        $("#form-edit").submit(function(e) {
-            e.preventDefault();
+    function editWh(id) {
+        $.get('issue/' + id, function(e) {
+            $('#id').val(id);
+            $('#id_product_detail-edit').val(e.id_product_detail);
+            $('#id_warehouse-edit').val(e.id_warehouse);
+            $('#date_issue-edit').val(e.date_issue);
+            $('#quantity-edit').val(e.quantity);
+            $('#myUpdateModal').modal('toggle');
+        });
+    }
 
-            let formData = new FormData($('#form-edit')[0]);
-            console.log(formData);
-            let id_product_detail = $('#id_product_detail-edit').val();
-            let id_admin = $('#id_admin-edit').val();
-            let id_warehouse = $('#id_warehouse-edit').val();
-            let date_issue = $('#date_issue-edit').val();
-            let quantity = $('#quantity-edit').val();
+    $("#form-edit").submit(function(e) {
+        e.preventDefault();
 
-            if (id_product_detail !== '' && id_admin !== '' && id_warehouse !== '' &&
-                date_issue !== '' && quantity !== '') {
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "issue/update",
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(res) {
-                        $('#table_Theme').DataTable().destroy();
-                        // $('#table_Theme').empty();
-                        let data = res.data;
-                        $('#product-' + data.id).text(data.id_product_detail);
-                        $('#amin-' + data.id).text(data.id_amin);
-                        $('#warehouse-' + data.id).text(data.id_warehouse);
-                        $('#date_issue-' + data.id).text(data.date_issue);
-                        $('#quantity-' + data.id).text(data.quantity);
-                        $('#updated-' + data.id).text(
-                            `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
+        let formData = new FormData($('#form-edit')[0]);
+        console.log(formData);
+        let id_product_detail = $('#id_product_detail-edit').val();
+        let id_admin = $('#id_admin-edit').val();
+        let id_warehouse = $('#id_warehouse-edit').val();
+        let date_issue = $('#date_issue-edit').val();
+        let quantity = $('#quantity-edit').val();
+
+        if (id_product_detail !== '' && id_admin !== '' && id_warehouse !== '' &&
+            date_issue !== '' && quantity !== '') {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "issue/update",
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    $('#table_Theme').DataTable().destroy();
+                    // $('#table_Theme').empty();
+                    let data = res.data;
+                    $('#product-' + data.id).text(data.id_product_detail);
+                    $('#amin-' + data.id).text(data.id_amin);
+                    $('#warehouse-' + data.id).text(data.id_warehouse);
+                    $('#date_issue-' + data.id).text(data.date_issue);
+                    $('#quantity-' + data.id).text(data.quantity);
+                    $('#updated-' + data.id).text(
+                        `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
                         );
                         $('#myUpdateModal').modal('hide');
                         $('#form-edit')[0].reset();
@@ -327,18 +328,63 @@
             }
         });
     </script>
-    {{-- @php
-        if(isset($err)){    
-            echo("<div class='alert alert-primary' role='alert'>".$err."</div>");
-        }
-    @endphp --}}
-    {{-- <script>
-        function openHexAdd(obj) {
-            $("#hexDemoAdd").css("background-color", obj.value);
-        }
+        @php
+            echo  '<script> var chooseWarehouseID = '.Session::get('warehouseChoosedId').'</script>';
+        @endphp 
 
-        function openHexUpdate(obj) {
-            $("#hexDemoUpdate").css("background-color", obj.value);
-        }
-    </script> --}}
+        <script>
+            function checkQuantity() {
+            
+                $.get('product/product_detail/' + $('#id_product_detail').val(), function(res) {
+                    // $('#id_warehouse_old').val(e.id_warehouse);
+                    
+                    let e = res[0];
+                    // var flag = 0;
+                    var checkId = 0;
+                    var checkQuantity = 0;
+                    // let idWarehouse = $('#id_warehouse').val();
+                    // res[1].map(warehouseId => flag += (warehouseId.id == idWarehouse) ? 1 : 0 );
+                    // console.log(e.quantity,parseInt($('#quantity').val()));
+                    // console.log($('#id_warehouse').val(), res[1]);
+                    // if(flag > 0){
+                    //     document.getElementById('id_warehouse').style.borderColor = '#43fa38';
+                    //     document.getElementById('error2').innerText = '';
+
+                        if(e.id_warehouse != chooseWarehouseID){
+                            document.getElementById('id_product_detail').style.borderColor = '#fc403e';
+                            document.getElementById('error2').innerText = 'Sản phẩm đang ở [kho] ' + e.id_warehouse + ' không ở kho hiện tại [kho] ' + chooseWarehouseID;
+                            checkId = 0;
+                        }
+                        else{
+                            document.getElementById('id_product_detail').style.borderColor = '#43fa38';
+                            document.getElementById('error2').innerText = '';
+                            checkId = 1;
+                        }
+                        
+                        
+                    // }else{
+                    //     document.getElementById('id_warehouse').style.borderColor = '#fc403e';
+                    //     document.getElementById('error2').innerText = 'Kho không tồn tại!';
+                    //     checkId = 0;
+                    // }
+                    
+                    if(parseInt($('#quantity').val()) >  e.quantity){
+                            document.getElementById('quantity').style.borderColor = '#fc403e';
+                            document.getElementById('error').innerText = 'Vượt quá số lượng  ' + e.quantity + ' ở trong kho!';
+                            checkQuantity = 0;
+                        }else{
+                            document.getElementById('quantity').style.borderColor = '#43fa38';
+                            document.getElementById('error').innerText = '';
+                            checkQuantity = 1;
+                        }
+
+                        if(checkQuantity + checkId == 0){
+                            return false;
+                        }else{
+                            return true;
+                        }
+                });  
+            }
+
+        </script>
 @endsection

@@ -90,9 +90,12 @@ Route::prefix('admin')->group(function () {
             Route::prefix('/')->group(function () {
                 Route::get('/', [productController::class, 'indexProduct']);
                 Route::post('/', [productController::class, 'storeProduct']);
+                Route::post('/transfer', [transferController::class, 'store']);
+                Route::post('/issue', [issueController::class, 'store']);
                 Route::get('/{id}', [productController::class, 'editProduct']);
                 Route::post('/update', [productController::class, 'updateProduct']);
                 Route::delete('/{id}', [productController::class, 'destroyProduct']);
+                Route::get('product_detail/{id}', [productController::class, 'getProductDetail']);
             });
         });
         Route::prefix('supplier')->group(function () {

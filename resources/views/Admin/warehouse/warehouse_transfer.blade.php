@@ -27,10 +27,10 @@
                             </ol>
                         </nav>
                     </div>
-                    <div class="col-lg-6 col-5 text-right">
-                        <a href="#" class="btn btn-sm btn-neutral text-sm" onclick="ClickNew()">Thêm mới</a>
-                        {{-- <a href="#" class="btn btn-sm btn-neutral">Filters</a> --}}
-                    </div>
+                    {{-- <div class="col-lg-6 col-5 text-right">
+                        <a href="#" class="btn btn-sm btn-neutral text-sm" onclick="ClickNew()">Chuyển kho</a>
+                        <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -61,50 +61,43 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    <th scope="col" class="col-1">Mã sản phẩm</th>
-                                    <th scope="col" class="col-1">Mã admin</th>
-                                    <th scope="col" class="col-1">Mã kho mới</th>
-                                    <th scope="col" class="col-1">Mã kho cũ</th>
-                                    <th scope="col" class="col-1">Ngày nhập kho</th>
+                                    <th scope="col" class="col-1">Sản phẩm</th>
+                                    <th scope="col" class="col-1">Admin</th>
+                                    <th scope="col" class="col-1">Kho mới</th>
+                                    <th scope="col" class="col-1">Kho cũ</th>
                                     <th scope="col" class="col-1">Số lượng</th>
+                                    <th scope="col" class="col-1">Ngày chuyển kho</th>
                                     <th scope="col" class="col-1">Ngày cập nhật</th>
-                                    <th scope="col" class="col-1"></th>
+                                    
                                 </tr>
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
                                 @forelse ($transfer as $item)
                                     <tr id='transferTr-{{ $item->id }}'>
                                         <td class="text-sm" id="product-{{ $item->id }}">
-                                            {{ $item->id_product_detail }}
+                                            {{ $item->nameProduct }}
                                         </td>
                                         <td class="text-sm" id="admin-{{ $item->id }}">
-                                            {{ $item->id_admin }}
+                                            {{ $item->nameAdmin }}
                                         </td>
                                         <td class="text-sm" id="warehouse-{{ $item->id }}">
-                                            {{ $item->id_warehouse }}
+                                            {{ $item->nameWarehouse }}
                                         </td>
                                         <td class="text-sm" id="warehouse_old-{{ $item->id }}">
-                                            {{ $item->id_warehouse_old }}
+                                            
+                                            {{ $item->warehouse_old[0]->name }}
+                                        </td>
+                                        
+                                        <td class="text-sm" id="quantity-{{ $item->id }}">
+                                            {{ $item->quantity }}
                                         </td>
                                         <td class="text-sm" id="date_transfer-{{ $item->id }}">
                                             {{ $item->date_transfer }}
-                                        </td>
-                                        <td class="text-sm" id="quantity-{{ $item->id }}">
-                                            {{ $item->quantity }}
                                         </td>
                                         <td class="text-sm" id="updated-{{ $item->id }}">
                                             {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
                                         </td>
 
-                                        <td class="text-right">
-                                            <div class="dropdown">
-                                                <button ​type="button" data-toggle="modal"
-                                                    onclick="editWh({{ $item->id }})"
-                                                    class="btn btn-warning btn-edit">Edit</button>
-                                                <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
-                                                    onclick="deleteWh({{ $item->id }})">Delete</button>
-                                            </div>
-                                        </td>
                                     </tr>
                                 @empty
                                 @endforelse
@@ -147,7 +140,7 @@
                     },
                 },
                 "order": [
-                    [1, "asc"]
+                    [6, "desc"]
                 ]
             });
         });
@@ -170,14 +163,14 @@
                     },
                 },
                 "order": [
-                    [1, "asc"]
+                    [6, "desc"]
                 ]
             });
         }
     </script>
     <script type="text/javascript">
         function ClickNew() {
-            $('#myAddModal').modal('toggle');
+            $('#myAddModalTransfer').modal('toggle');
         }
         $('#form-add').submit(function(e) {
             e.preventDefault();
@@ -196,50 +189,52 @@
                     $('#table_Theme').DataTable().destroy();
                     // $('#table_Theme').empty();
 
-                    let item = response.data;
+                    let item = response.data[0];
                     console.log(item);
                     let th = `<tr id='transferTr-${ item.id }'>
                                 <td class="text-sm" id="product-${ item.id }">
-                                    ${ item.id_product_detail }
+                                    ${ item.nameProduct }
                                 </td>
                                 <td class="text-sm" id="admin-${ item.id }">
-                                    ${ item.id_admin }
+                                    ${ item.nameAdmin }
                                 </td>`;
                     let td1 = `<td class="text-sm" id="warehouse-${ item.id }">
-                                    ${ item.id_warehouse }
+                                    ${ item.nameWarehouse }
                                 </td>
                                 <td class="text-sm" id="warehouse_old-${ item.id }">
-                                    ${ item.id_warehouse_old }
+                                    ${ item.warehouse_old[0].name }
                                 </td>`;
 
-                    let td2 = `<td class="text-sm" id="date_transfer-${ item.id }">
-                                    ${ item.date_transfer }
-                                </td>
+                    let td2 = `
                                 <td class="text-sm" id="quantity-${ item.id }">
                                     ${ item.quantity }
+                                </td>
+                                <td class="text-sm" id="date_transfer-${ item.id }">
+                                    ${ item.date_transfer }
                                 </td>`;
 
                     let td3 = `<td class="text-sm" id="updated-${ item.id }">
                                 ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
-                            </td>`;
-
-                    let td4 = `<td class="text-right">
-                                <div class="dropdown">
-                                    <button ​type="button" data-toggle="modal"
-                                        onclick="editWh(${ item.id })"
-                                        class="btn btn-warning btn-edit">Edit</button>
-                                    <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
-                                        onclick="deleteWh(${ item.id })">Delete</button>
-                                </div>
                             </td>
                         </tr>`;
+
+                    // let td4 = `<td class="text-right">
+                    //             <div class="dropdown">
+                    //                 <button ​type="button" data-toggle="modal"
+                    //                     onclick="editWh(${ item.id })"
+                    //                     class="btn btn-warning btn-edit">Edit</button>
+                    //                 <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
+                    //                     onclick="deleteWh(${ item.id })">Delete</button>
+                    //             </div>
+                    //         </td>
+                    //     </tr>`;
 
                     console.log(response.data);
                     toastr.options.positionClass = 'toast-bottom-left'
                     toastr.success(response.message, 'Thành công ✨🎉✨');
                     $('#myAddModal').modal('toggle');
                     $('#form-add')[0].reset();
-                    $('tbody').prepend(th + td1 + td2 + td3 + td4);
+                    $('tbody').prepend(th + td1 + td2 + td3);
                     rebuild();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -342,13 +337,66 @@
             echo("<div class='alert alert-primary' role='alert'>".$err."</div>");
         }
     @endphp --}}
-    {{-- <script>
-        function openHexAdd(obj) {
-            $("#hexDemoAdd").css("background-color", obj.value);
+    @php
+        echo  '<script> var chooseWarehouseID = '.Session::get('warehouseChoosedId').'</script>';
+    @endphp 
+    <script>
+        function checkTransfer() {
+           
+            $.get('product/product_detail/' + $('#id_product_detail').val(), function(res) {
+                // $('#id_warehouse_old').val(e.id_warehouse);
+                
+                let e = res[0];
+                var flag = 0;
+                var checkId = 0;
+                var checkQuantity = 0;
+                let idWarehouse = $('#id_warehouse_transfer').val();
+                res[1].map(warehouseId => flag += (warehouseId.id == idWarehouse) ? 1 : 0 );
+                // console.log(e.quantity,parseInt($('#quantity').val()));
+                console.log($('#id_warehouseid_warehouse_transfer').val(), chooseWarehouseID,res[0]);
+                if(flag > 0){
+                    document.getElementById('id_warehouse_transfer').style.borderColor = '#43fa38';
+                    document.getElementById('error2').innerText = '';
+
+                    if($('#id_warehouse_transfer').val() == chooseWarehouseID){
+                        document.getElementById('id_warehouse_transfer').style.borderColor = '#fc403e';
+                        document.getElementById('error2').innerText = 'Bạn đang không ở kho ' + e.id_warehouse;
+                        checkId = 0;
+                    }else if($('#id_warehouse_transfer').val() == e.id_warehouse ){
+                        document.getElementById('id_warehouse_transfer').style.borderColor = '#fc403e';
+                        document.getElementById('error2').innerText = 'Bị trùng kho hiện tại!';
+                        checkId = 0;
+                    }
+                    else{
+                        document.getElementById('id_warehouse_transfer').style.borderColor = '#43fa38';
+                        document.getElementById('error2').innerText = '';
+                        checkId = 1;
+                    }
+                    
+                    
+                }else{
+                    document.getElementById('id_warehouse_transfer').style.borderColor = '#fc403e';
+                    document.getElementById('error2').innerText = 'Kho không tồn tại!';
+                    checkId = 0;
+                }
+                
+                if(parseInt($('#quantity').val()) >  e.quantity){
+                        document.getElementById('quantity').style.borderColor = '#fc403e';
+                        document.getElementById('error').innerText = 'Vượt quá số lượng  ' + e.quantity + ' ở trong kho!';
+                        checkQuantity = 0;
+                    }else{
+                        document.getElementById('quantity').style.borderColor = '#43fa38';
+                        document.getElementById('error').innerText = '';
+                        checkQuantity = 1;
+                    }
+
+                    if(checkQuantity + checkId == 0){
+                        return false;
+                    }else{
+                        return true;
+                    }
+            });  
         }
 
-        function openHexUpdate(obj) {
-            $("#hexDemoUpdate").css("background-color", obj.value);
-        }
-    </script> --}}
+    </script>
 @endsection

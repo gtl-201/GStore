@@ -3,13 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\issue;
+use App\Models\productDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class issueController extends Controller
 {
     public function index()
     {
-        $issue = issue::orderBy('id', 'desc')->get();
+        $issue = DB::table('issue')
+        ->join('product_detail','issue.id_product_detail','=','product_detail.id')
+        ->join('product','product_detail.id_product','=','product.id')
+        ->join('admin','issue.id_admin','=','admin.id')
+        ->join('warehouse','issue.id_warehouse','=','warehouse.id')
+        ->select([
+        'issue.id',
+        'issue.date_issue',
+        'issue.quantity',
+        'issue.updated_at',
+        'product.name as nameProduct',
+        'admin.name as nameAdmin',
+        'warehouse.name as nameWarehouse',
+        ])
+        ->get();
 
         return view('Admin.warehouse.issue', [
             'issue' => $issue,
@@ -17,14 +34,36 @@ class issueController extends Controller
     }
     public function store(Request $request)
     {
+
+        $product_detail = productDetail::find($request -> id_product_detail);
+        $quantity = $product_detail -> quantity - $request -> quantity_issue;
+        $product_detail->quantity = $quantity;
+        $product_detail -> save();
+
         $issue = new issue();
         $issue -> id_product_detail = $request -> id_product_detail;
-        $issue -> id_admin = $request -> id_admin;
-        $issue -> id_warehouse = $request -> id_warehouse;
+        $issue -> id_admin = Auth::guard('admin')->user()->id;
+        $issue -> id_warehouse = $product_detail -> id_warehouse;
         $issue -> date_issue = $request -> date_issue;
-        $issue -> quantity = $request -> quantity;
-       
+        $issue -> quantity = $request -> quantity_issue;
         $issue -> save();
+
+        // $issueAjx = DB::table('issue')
+        // ->join('product_detail','issue.id_product_detail','=','product_detail.id')
+        // ->join('product','product_detail.id_product','=','product.id')
+        // ->join('admin','issue.id_admin','=','admin.id')
+        // ->join('warehouse','issue.id_warehouse','=','warehouse.id')
+        // ->select([
+        // 'issue.id',
+        // 'issue.date_issue',
+        // 'issue.quantity',
+        // 'issue.updated_at',
+        // 'product.name as nameProduct',
+        // 'admin.name as nameAdmin',
+        // 'warehouse.name as nameWarehouse',
+        // ])
+        // ->where('issue.id',$issue->id)
+        // ->get();
         return response()->json([
             'status' => 200,
             'data' => $issue,

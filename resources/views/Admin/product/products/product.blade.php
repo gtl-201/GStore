@@ -61,7 +61,7 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    {{-- <th scope="col" class="col-1"></th> --}}
+                                    <th scope="col" class="col-1">#</th>
                                     <th scope="col" class="sort col-3" data-sort="name">Tên</th>
                                     <th scope="col" class="sort col-4" data-sort="budget">Mô tả</th>
                                     <th scope="col" class="sort col-1" data-sort="status">Loại hàng</th>
@@ -80,17 +80,26 @@
                                     @if (count($product[0]->product_detail) > 0)
                                         @forelse ($product as $item)
                                             <tr id='productTr-{{ $item->id }}'>
-                                                {{-- <td class="text-right">
+                                                <td class="text-right">
                                                 <div class="dropdown">
-                                                    <button ​type="button" data-toggle="modal"
-                                                        onclick="editWh({{ $item->id }})"
-                                                        class="btn btn-warning btn-edit">Edit</button> --}}
-
+                                                    @forelse ($item->product_detail  as $itemProductDetail)
+                                                        <button ​type="button" data-toggle="modal"
+                                                            onclick="transfer({{ $itemProductDetail->id }})"
+                                                            class="btn btn-warning btn-edit">chuyển kho
+                                                        </button>
+                                                        <button ​type="button" data-toggle="modal"
+                                                            onclick="issue({{ $itemProductDetail->id }})"
+                                                            class="btn btn-warning btn-edit">xuất kho
+                                                        </button>
+                                                    @empty
+                                                    @endforelse   
+                                                </div>
+                                                </td>
                                                 <th scope="row" class="col-1">
                                                     <div class="media align-items-center">
                                                         <div class="media-body">
                                                             <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
-                                                                {{ $item->name }}
+                                                                {{ $item->id }}
                                                             </span>
                                                         </div>
                                                     </div>
@@ -212,6 +221,8 @@
     <!-- Modal -->
     @include('Admin.product.products.addProduct')
     @include('Admin.warehouse.updateWarehouse')
+    @include('Admin.warehouse.addWarehouse_transfer')
+    @include('Admin.warehouse.addIssue')
 
     <script>
         let tableheight = $('#card_table').width() - 5;
@@ -420,7 +431,99 @@
         //         });
         //     }
         // }
+        function transfer(id) {
+            $.get('product/product_detail/' + id, function(e) {
+                $('#id_product_detail').val(e[0].id);
+                $('#myAddModalTransfer').modal('toggle');
+                
+            });
+        }
+        function issue(id) {
+            $.get('product/product_detail/' + id, function(e) {
+                $('#id_product_detail_issue').val(e[0].id);
+                $('#myAddModalIssue').modal('toggle');
+                
+            });
+        }
+        $("#form-add-transfer").submit(function(e) {
+            e.preventDefault();
 
+            let formData = new FormData($('#form-add-transfer')[0]);
+            console.log(formData);
+            let id = $('#id_product_detail').val();
+            let id_warehouse = $('#id_warehouse').val();
+            let quantity_transfer = $('#quantity_transfer').val();
+            let date_transfer = $('#date_transfer').val();
+
+            if (id !== '' && id_warehouse !== '' && quantity_transfer !== '' && date_transfer !== '') {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "product/transfer",
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(res) {
+                        $('#table_Theme').DataTable().destroy();
+                        // $('#table_Theme').empty();
+                        let data = res.data;
+                        $.get('product/product_detail/' + id, function(result) {
+                        $('#quantity-' + data.id_product_detail).text(result[0].quantity);});
+                        toastr.options.positionClass = 'toast-bottom-left'
+                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+                        $('#myAddModalTransfer').modal('hide');
+                        $('#form-add-transfer')[0].reset();
+                        
+                        rebuild();
+                    },
+                    error: function(res) {
+                        toastr.options.positionClass = 'toast-bottom-left'
+                        toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
+                    }
+                })
+            }
+        });
+        $("#form-add-issue").submit(function(e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-add-issue')[0]);
+            console.log(formData);
+            let id = $('#id_product_detail_issue').val();
+            let quantity_transfer = $('#quantity_issue').val();
+            let date_issue = $('#date_issue').val();
+
+            if (id !== '' && quantity_issue !== '' && date_issue !== '') {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "product/issue",
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(res) {
+                        $('#table_Theme').DataTable().destroy();
+                        // $('#table_Theme').empty();
+                        let data = res.data;
+                        $.get('product/product_detail/' + id, function(result) {
+                        $('#quantity-' + data.id_product_detail).text(result[0].quantity);});
+                        toastr.options.positionClass = 'toast-bottom-left'
+                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+                        $('#myAddModalIssue').modal('hide');
+                        $('#form-add-issue')[0].reset();
+                        
+                        rebuild();
+                    },
+                    error: function(res) {
+                        toastr.options.positionClass = 'toast-bottom-left'
+                        toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
+                    }
+                })
+            }
+        });
         // function editWh(id) {
         //     $.get('warehouse/' + id, function(e) {
         //         $('#name-edit').val(e.name);
@@ -487,13 +590,109 @@
             echo("<div class='alert alert-primary' role='alert'>".$err."</div>");
         }
     @endphp --}}
-    <script>
+    {{-- <script>
         function openPicAdd(obj) {
             document.getElementById('imageDemoAdd').src = URL.createObjectURL(obj.files[0]);
         }
 
         function openPicUpdate(obj) {
             document.getElementById('imageDemoUpdate').src = URL.createObjectURL(obj.files[0]);
+        }
+    </script> --}}
+    @php
+        echo  '<script> var chooseWarehouseID = '.Session::get('warehouseChoosedId').'</script>';
+    @endphp 
+    <script>
+        function checkTransfer() {
+           
+            $.get('product/product_detail/' + $('#id_product_detail').val(), function(res) {
+                // $('#id_warehouse_old').val(e.id_warehouse);
+                
+                let e = res[0];
+                var flag = 0;
+                var checkId = 0;
+                var checkQuantity = 0;
+                let idWarehouse = $('#id_warehouse').val();
+                res[1].map(warehouseId => flag += (warehouseId.id == idWarehouse) ? 1 : 0 );
+                console.log(parseInt($('#quantity_transfer').val()));
+                // console.log($('#id_warehouse').val(), res[1]);
+                if(flag > 0){
+                    document.getElementById('id_warehouse').style.borderColor = '#43fa38';
+                    document.getElementById('error2').innerText = '';
+
+                    if($('#id_warehouse').val() == chooseWarehouseID){
+                        document.getElementById('id_warehouse').style.borderColor = '#fc403e';
+                        document.getElementById('error2').innerText = 'Bạn đang không ở kho ' + e.id_warehouse;
+                        checkId = 0;
+                    }else if($('#id_warehouse').val() == e.id_warehouse ){
+                        document.getElementById('id_warehouse').style.borderColor = '#fc403e';
+                        document.getElementById('error2').innerText = 'Bị trùng kho hiện tại!';
+                        checkId = 0;
+                    }
+                    else{
+                        document.getElementById('id_warehouse').style.borderColor = '#43fa38';
+                        document.getElementById('error2').innerText = '';
+                        checkId = 1;
+                    }
+                    
+                    
+                }else{
+                    document.getElementById('id_warehouse').style.borderColor = '#fc403e';
+                    document.getElementById('error2').innerText = 'Kho không tồn tại!';
+                    checkId = 0;
+                }
+                
+                if(parseInt($('#quantity_transfer').val()) >  e.quantity){
+                        document.getElementById('quantity_transfer').style.borderColor = '#fc403e';
+                        document.getElementById('error').innerText = 'Vượt quá số lượng  ' + e.quantity + ' ở trong kho!';
+                        checkQuantity = 0;
+                    }else{
+                        document.getElementById('quantity_transfer').style.borderColor = '#43fa38';
+                        document.getElementById('error').innerText = '';
+                        checkQuantity = 1;
+                    }
+
+                    if(checkQuantity + checkId == 0){
+                        return false;
+                    }else{
+                        return true;
+                    }
+            });  
+        }
+        function checkIssue() {
+            
+            $.get('product/product_detail/' + $('#id_product_detail_issue').val(), function(res) {
+                let e = res[0];
+                var checkId = 0;
+                var checkQuantity = 0;
+
+                    if(e.id_warehouse != chooseWarehouseID){
+                        document.getElementById('id_product_detail_issue').style.borderColor = '#fc403e';
+                        document.getElementById('error_issue').innerText = 'Sản phẩm đang ở [kho] ' + e.id_warehouse + ' không ở kho hiện tại [kho] ' + chooseWarehouseID;
+                        checkId = 0;
+                    }
+                    else{
+                        document.getElementById('id_product_detail_issue').style.borderColor = '#43fa38';
+                        document.getElementById('error_issue').innerText = '';
+                        checkId = 1;
+                    }
+    
+                if(parseInt($('#quantity_issue').val()) >  e.quantity){
+                        document.getElementById('quantity_issue').style.borderColor = '#fc403e';
+                        document.getElementById('error2_issue').innerText = 'Vượt quá số lượng  ' + e.quantity + ' ở trong kho!';
+                        checkQuantity = 0;
+                    }else{
+                        document.getElementById('quantity_issue').style.borderColor = '#43fa38';
+                        document.getElementById('error2_issue').innerText = '';
+                        checkQuantity = 1;
+                    }
+
+                    if(checkQuantity + checkId == 0){
+                        return false;
+                    }else{
+                        return true;
+                    }
+            });  
         }
     </script>
 @endsection
