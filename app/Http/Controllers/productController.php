@@ -7,6 +7,7 @@ use App\Models\nameProduct;
 use App\Models\productDetail;
 use App\Models\receipt;
 use App\Models\receiptDetail;
+use App\Models\wareHouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -323,6 +324,12 @@ class productController extends Controller
     {
         $data = nameProduct::find($id);
         return response()->json($data);
+    }
+    function getProductDetail($id)
+    {
+        $data = productDetail::find($id);
+        $data2 = DB::select('select id from warehouse');
+        return response()->json([$data,$data2]);
     }
     public function updateproduct(Request $request)
     {
