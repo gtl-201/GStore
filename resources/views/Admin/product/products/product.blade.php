@@ -83,14 +83,22 @@
                                                 <td class="text-right">
                                                 <div class="dropdown">
                                                     @forelse ($item->product_detail  as $itemProductDetail)
-                                                        <button ​type="button" data-toggle="modal"
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            Hành động
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <button  class="dropdown-item" ​type="button" data-toggle="modal"
                                                             onclick="transfer({{ $itemProductDetail->id }})"
                                                             class="btn btn-warning btn-edit">chuyển kho
-                                                        </button>
-                                                        <button ​type="button" data-toggle="modal"
-                                                            onclick="issue({{ $itemProductDetail->id }})"
-                                                            class="btn btn-warning btn-edit">xuất kho
-                                                        </button>
+                                                            </button>
+                                                            
+                                                            <button  class="dropdown-item" ​type="button" data-toggle="modal"
+                                                                onclick="issue({{ $itemProductDetail->id }})"
+                                                                class="btn btn-warning btn-edit">xuất kho
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                     @empty
                                                     @endforelse   
                                                 </div>
@@ -406,31 +414,7 @@
             })
         })
 
-        // function deleteWh(id) {
-        //     if (confirm('Bạn có chắc muốn xóa ?')) {
-        //         $.ajax({
-        //             headers: {
-        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //             },
-        //             url: "warehouse/" + id,
-        //             type: 'DELETE',
-        //             contentType: false,
-        //             processData: false,
-        //             success: function(res) {
-        //                 $('#table_Theme').DataTable().destroy();
-        //                 // $('#table_Theme').empty();
-        //                 toastr.options.positionClass = 'toast-bottom-left'
-        //                 toastr.success('Xoá kho thành công', 'Thành công ✨🎉✨')
-        //                 $('#warehouseTr-' + res.id).remove();
-        //                 rebuild();
-        //             },
-        //             error: function(res) {
-        //                 toastr.options.positionClass = 'toast-bottom-left'
-        //                 toastr.error('Xoá kho thất bại', 'Thất bại 👺👹👺')
-        //             }
-        //         });
-        //     }
-        // }
+        
         function transfer(id) {
             $.get('product/product_detail/' + id, function(e) {
                 $('#id_product_detail').val(e[0].id);
@@ -467,7 +451,6 @@
                     processData: false,
                     success: function(res) {
                         $('#table_Theme').DataTable().destroy();
-                        // $('#table_Theme').empty();
                         let data = res.data;
                         $.get('product/product_detail/' + id, function(result) {
                         $('#quantity-' + data.id_product_detail).text(result[0].quantity);});
@@ -524,81 +507,9 @@
                 })
             }
         });
-        // function editWh(id) {
-        //     $.get('warehouse/' + id, function(e) {
-        //         $('#name-edit').val(e.name);
-        //         $('#address-edit').val(e.address);
-        //         $('#imageDemoUpdate').prop('src', "../../" + e.avatar);
-        //         $('#id-edit').val(e.id);
-        //         // $('#statusCheck-edit').val(e.status);
-        //         $('#myUpdateModal').modal('toggle');
-        //         setTimeout(() => {
-        //             e.status !== 1 ? $('#index2').click() : $('#index1').click();
-        //         }, 150);
-        //         console.log(e.avatar);
-        //     });
-        // }
-
-        // $("#form-edit").submit(function(e) {
-        //     e.preventDefault();
-
-        //     let formData = new FormData($('#form-edit')[0]);
-        //     console.log(formData);
-        //     let name = $('#name-edit').val();
-        //     let address = $('#address-edit').val();
-        //     // let avatar = $('#avatar-edit').val();
-
-        //     if (name !== '' && address !== '') {
-        //         $.ajax({
-        //             headers: {
-        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //             },
-        //             url: "warehouse/update",
-        //             type: 'POST',
-        //             data: formData,
-        //             contentType: false,
-        //             processData: false,
-        //             success: function(res) {
-        //                 $('#table_Theme').DataTable().destroy();
-        //                 // $('#table_Theme').empty();
-        //                 let data = res.data;
-        //                 toastr.options.positionClass = 'toast-bottom-left'
-        //                 toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
-        //                 $('#avt-' + data.id).attr("src", "../" + data.avatar);
-        //                 $('#name-' + data.id).text(data.name);
-        //                 $('#address-' + data.id).text(data.address);
-        //                 $('#statusIcon-' + data.id).attr('class', data.status == 1 ? "bg-success" :
-        //                     "bg-danger");
-        //                 $('#updated-' + data.id).text(
-        //                     `${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}`
-        //                 );
-        //                 $('#statusText-' + data.id).text(data.status == 1 ? "Hoạt động" : "Đã khoá");
-        //                 $('#myUpdateModal').modal('hide');
-        //                 $('#form-edit')[0].reset();
-        //                 rebuild();
-        //             },
-        //             error: function(res) {
-        //                 toastr.options.positionClass = 'toast-bottom-left'
-        //                 toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
-        //             }
-        //         })
-        //     }
-        // });
+        
     </script>
-    {{-- @php
-        if(isset($err)){    
-            echo("<div class='alert alert-primary' role='alert'>".$err."</div>");
-        }
-    @endphp --}}
-    {{-- <script>
-        function openPicAdd(obj) {
-            document.getElementById('imageDemoAdd').src = URL.createObjectURL(obj.files[0]);
-        }
-
-        function openPicUpdate(obj) {
-            document.getElementById('imageDemoUpdate').src = URL.createObjectURL(obj.files[0]);
-        }
-    </script> --}}
+    
     @php
         echo  '<script> var chooseWarehouseID = '.Session::get('warehouseChoosedId').'</script>';
     @endphp 
