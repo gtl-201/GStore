@@ -18,7 +18,7 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 col-7">
-                        <h6 class="h2 text-white d-inline-block mb-0">Kho Hàng</h6>
+                        <h6 class="h2 text-white d-inline-block mb-0">Kho Hàng {{Session::get('warehouseChoosedId')}}</h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
@@ -42,7 +42,7 @@
                 <div class="card" id='card_table'>
                     <!-- Card header -->
                     <div class="card-header border-0" id='header_table' onclick="tb_theme()">
-                        <h3 class="mb-0" id='table_header_name'>Danh sách kho hàng</h3>
+                        <h3 class="mb-0" id='table_header_name'>Danh sách sản phẩm trong kho {{Session::get('warehouseChoosedId')}} </h3>
                     </div>
                     <script>
                         function tb_theme() {
@@ -71,7 +71,7 @@
                                     <th scope="col" class="col-1">Màu sắc</th>
                                     <th scope="col" class="col-1">Thương hiệu</th>
                                     <th scope="col" class="col-1">Size</th>
-                                    <th scope="col" class="col-1">Trong kho</th>
+                                    {{-- <th scope="col" class="col-1">Trong kho</th> --}}
                                     <th scope="col" class="col-1">Ngày cập nhật</th>
                                 </tr>
                             </thead>
@@ -82,32 +82,29 @@
                                             <tr id='productTr-{{ $item->id }}'>
                                                 <td class="text-right">
                                                 <div class="dropdown">
-                                                    @forelse ($item->product_detail  as $itemProductDetail)
                                                     <div class="dropdown">
                                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             Hành động
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                             <button  class="dropdown-item" ​type="button" data-toggle="modal"
-                                                            onclick="transfer({{ $itemProductDetail->id }})"
+                                                            onclick="transfer({{ $item->product_detail[0]->id }})"
                                                             class="btn btn-warning btn-edit">chuyển kho
                                                             </button>
                                                             
                                                             <button  class="dropdown-item" ​type="button" data-toggle="modal"
-                                                                onclick="issue({{ $itemProductDetail->id }})"
+                                                                onclick="issue({{ $item->product_detail[0]->id }})"
                                                                 class="btn btn-warning btn-edit">xuất kho
                                                             </button>
                                                         </div>
-                                                    </div>
-                                                    @empty
-                                                    @endforelse   
+                                                    </div> 
                                                 </div>
                                                 </td>
                                                 <th scope="row" class="col-1">
                                                     <div class="media align-items-center">
                                                         <div class="media-body">
                                                             <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
-                                                                {{ $item->id }}
+                                                                {{ $item->name }}
                                                             </span>
                                                         </div>
                                                     </div>
@@ -136,7 +133,7 @@
                                                         @forelse ($item->product_detail  as $itemProductDetail)
                                                             <a class="text-sm"
                                                                 id="price-{{ $itemProductDetail->id }}">
-                                                                {{ $itemProductDetail->price }}
+                                                                {{ $itemProductDetail->price }} | 
                                                             </a>
                                                         @empty
                                                         @endforelse
@@ -148,7 +145,7 @@
                                                         @forelse ($item->product_detail  as $itemProductDetail)
                                                             <a class="text-sm"
                                                                 id="quantity-{{ $itemProductDetail->id }}">
-                                                                {{ $itemProductDetail->quantity }}
+                                                                {{ $itemProductDetail->quantity }} | 
                                                             </a>
                                                         @empty
                                                         @endforelse
@@ -160,7 +157,7 @@
                                                         @forelse ($itemProductDetail->color  as $itemProductcolor)
                                                             <a class="text-sm"
                                                                 id="color-{{ $itemProductcolor->id }}">
-                                                                {{ $itemProductcolor->color }}
+                                                                {{ $itemProductcolor->color }} | 
                                                             </a>
                                                         @empty
                                                         @endforelse
@@ -173,7 +170,7 @@
                                                         @forelse ($itemProductDetail->brand  as $itemProductbrand)
                                                             <a class="text-sm"
                                                                 id="brand-{{ $itemProductbrand->id }}">
-                                                                {{ $itemProductbrand->brand }}
+                                                                {{ $itemProductbrand->brand }} | 
                                                             </a>
                                                         @empty
                                                         @endforelse
@@ -186,20 +183,7 @@
                                                         @forelse ($itemProductDetail->size  as $itemProductsize)
                                                             <a class="text-sm"
                                                                 id="size-{{ $itemProductsize->id }}">
-                                                                {{ $itemProductsize->size }}
-                                                            </a>
-                                                        @empty
-                                                        @endforelse
-                                                    @empty
-                                                    @endforelse
-                                                </td>
-
-                                                <td>
-                                                    @forelse ($item->product_detail  as $itemProductDetail)
-                                                        @forelse ($itemProductDetail->warehouse  as $itemProductwarehouse)
-                                                            <a class="text-sm col-1"
-                                                                id="warehouse-{{ $itemProductwarehouse->id }}">
-                                                                {{ $itemProductwarehouse->name }} |
+                                                                {{ $itemProductsize->size }} | 
                                                             </a>
                                                         @empty
                                                         @endforelse
@@ -308,6 +292,28 @@
                     // $('#table_Theme').empty();
                     let item = response.data[0];
                     let th = `<tr id='productTr-${item.id }'>`;
+                    th += `<td class="text-right">
+                            <div class="dropdown">`;
+
+                        th+=`<div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Hành động
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <button  class="dropdown-item" ​type="button" data-toggle="modal"
+                                        onclick="transfer(${item.product_detail[0].id })"
+                                        class="btn btn-warning btn-edit">chuyển kho
+                                        </button>
+                                        
+                                        <button  class="dropdown-item" ​type="button" data-toggle="modal"
+                                            onclick="issue(${item.product_detail[0].id })"
+                                            class="btn btn-warning btn-edit">xuất kho
+                                        </button>
+                                    </div>
+                                </div>`;
+
+                    th+=`</div>
+                        </td>`;
                     let td1 = `<th scope="row" class="col-1">
                                 <div class="media align-items-center">
                                     <div class="media-body">
@@ -339,7 +345,7 @@
                     item.product_detail.map(element => {
                         td4 += `<a class="text-sm"
                                             id="price-${element.id}">
-                                            ${element.price}
+                                            ${element.price} | 
                                         </a>`
                     });
                     td4 += `</div>
@@ -350,7 +356,7 @@
                     item.product_detail.map(element => {
                         td5 += `<a class="text-sm"
                                             id="quantity-${element.id }">
-                                            ${element.quantity }
+                                            ${element.quantity } | 
                                         </a>`
                     });
                     td5 += `</div>
@@ -360,7 +366,7 @@
                     item.product_detail.map(element1 => {
                         element1.color.map(element2 => {
                             td6 += `<a class="text-sm" id="color-${element2.id }">
-                                            ${element2.color }
+                                            ${element2.color } | 
                                         </a>`
                         });
                     });
@@ -370,7 +376,7 @@
                     item.product_detail.map(element1 => {
                         element1.brand.map(element2 => {
                             td7 += `<a class="text-sm" id="brand-${element2.id }">
-                                            ${element2.brand }
+                                            ${element2.brand } | 
                                         </a>`
                         });
                     });
@@ -379,21 +385,21 @@
                     item.product_detail.map(element1 => {
                         element1.size.map(element2 => {
                             td8 += `<a class="text-sm" id="size-${element2.id }">
-                                            ${element2.size }
+                                            ${element2.size } | 
                                         </a>`;
                         });
                     });
                     td8 += `</td>`;
-                    let td9 = `<td>`;
-                    item.product_detail.map(element1 => {
-                        element1.warehouse.map(element2 => {
-                            td9 += `<a class="text-sm col-1"
-                                            id="warehouse-${element2.id }">
-                                            ${element2.name } | 
-                                        </a>`
-                        });
-                    });
-                    td9 += `</td>`;
+                    // let td9 = `<td>`;
+                    // item.product_detail.map(element1 => {
+                    //     element1.warehouse.map(element2 => {
+                    //         td9 += `<a class="text-sm col-1"
+                    //                         id="warehouse-${element1.warehouse[0].id }">
+                    //                         ${element2.name } | 
+                    //                     </a>`
+                    //     });
+                    // });
+                    // td9 += `</td>`;
                     let td10 = `<td class="text-sm" id="updated-${item.id }">
                                     ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
                                 </td>
@@ -404,7 +410,7 @@
                     toastr.success(response.message, 'Thành công ✨🎉✨');
                     $('#myAddModal').modal('toggle');
                     $('#form-add')[0].reset();
-                    $('tbody').prepend(th + td1 + td2 + td3 + td4 + td5 + td6 + td7 + td8 + td9 + td10);
+                    $('tbody').prepend(th + td1 + td2 + td3 + td4 + td5 + td6 + td7 + td8 + td10);
                     rebuild();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
