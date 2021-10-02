@@ -26,7 +26,11 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth.admin'])->group(function () {
         Route::get('/', [AdminControler::class, 'login'])->withoutMiddleware('auth.admin');
         Route::get('/login', [AdminControler::class, 'login'])->name('admin.login')->withoutMiddleware('auth.admin');
-        Route::get('/dashboard', [AdminControler::class, 'index'])->name('dashboard');
+        
+        Route::prefix('/dashboard')->group(function () {
+            Route::get('/', [AdminControler::class, 'index'])->name('dashboard');
+            Route::post('/', [AdminControler::class, 'getByMonth']);
+        });
         
         Route::prefix('account')->group(function () {
             Route::middleware(['auth.superAdmin'])->group(function () {

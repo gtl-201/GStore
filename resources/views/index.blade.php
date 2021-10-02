@@ -20,7 +20,9 @@
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}" type="text/css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
     <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
-
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" > --}}
 </head>
 
 <body>
@@ -76,28 +78,32 @@
                                 style="background-color: #c7e3ff; transition: 0.3s">
                                 <li
                                     class="nav-item nav-child-sanpham mx-2 mt-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/color') }}">
+                                    <a class='link-nav-child w-100'
+                                        href="{{ URL::to('admin/product/attribute/color') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Màu</span>
                                     </a>
                                 </li>
                                 <li
                                     class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/size') }}">
+                                    <a class='link-nav-child w-100'
+                                        href="{{ URL::to('admin/product/attribute/size') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Size</span>
                                     </a>
                                 </li>
                                 <li
                                     class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/brand') }}">
+                                    <a class='link-nav-child w-100'
+                                        href="{{ URL::to('admin/product/attribute/brand') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Nhãn hàng</span>
                                     </a>
                                 </li>
                                 <li
                                     class="nav-item nav-child-sanpham mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
-                                    <a class='link-nav-child w-100' href="{{ URL::to('admin/product/attribute/type') }}">
+                                    <a class='link-nav-child w-100'
+                                        href="{{ URL::to('admin/product/attribute/type') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Loại sản phẩm</span>
                                     </a>
@@ -505,7 +511,8 @@
                                 aria-haspopup="true" aria-expanded="false">
                                 <div class="media align-items-center">
                                     <span class="avatar avatar-sm rounded-circle">
-                                        <img alt="Image placeholder" src="{{Auth::guard('admin')->user()->avartar}}">
+                                        <img alt="Image placeholder"
+                                            src="{{ Auth::guard('admin')->user()->avartar }}">
                                     </span>
                                     <div class="media-body  ml-2  d-none d-lg-block">
                                         <span class="mb-0 text-sm  font-weight-bold"> @php
@@ -592,10 +599,16 @@
     <script src="{{ asset('vendor/jquery.scrollbar/jquery.scrollbar.min.js') }}"></script>
     <script src="{{ asset('vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js') }}"></script>
     <!-- Optional JS -->
-    <script src="{{ asset('vendor/chart.js/dist/Chart.min.js') }}"></script>
-    <script src="{{ asset('vendor/chart.js/dist/Chart.extension.js') }}"></script>
+    {{-- <script src="{{ asset('vendor/chart.js/dist/Chart.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('vendor/chart.js/dist/Chart.extension.js') }}"></script> --}}
+
+    {{-- <script src="{{ asset('js/components/charts/chart-line') }}"></script> --}}
+    {{-- <script src="{{ asset('js/components/charts/chart-bars.js') }}"></script>
+    <script src="{{ asset('js/components/charts/chart-line.js') }}"></script> --}}
     <!-- Argon JS -->
     <script src="{{ asset('js/argon.js?v=1.2.0') }}"></script>
+    {{-- <script src="{{ asset('vendor/chart.js/dist/Chart.min.js') }})"></script> --}}
+    {{-- <script src="{{ asset('vendor/chart.js/dist/Chart.extension.js') }}"></script> --}}
     {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
@@ -604,7 +617,12 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" type="text/javascript"
         charset="utf-8" async defer></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.1/js/dataTables.fixedColumns.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.1/js/dataTables.fixedColumns.min.js">
+    </script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
 </body>
 
 </html>

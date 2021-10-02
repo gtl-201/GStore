@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\receipt;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+
+use function PHPUnit\Framework\isEmpty;
 
 class AdminControler extends Controller
 {
@@ -18,7 +21,157 @@ class AdminControler extends Controller
     }
     function index()
     {
-        return view('Admin.Dashboard');
+        $receiptInYear = DB::table('receipt')
+        ->join('receipt_detail','receipt_detail.id_receipt', '=', 'receipt.id')
+        ->join('product_detail','product_detail.id', '=', 'receipt.id_product_detail')
+        ->where('receipt_detail.updated_at','like','%'.date('Y').'%')
+        ->select(DB::raw('SUM(receipt_detail.quantity) as quantity'),DB::raw('SUM(product_detail.price * receipt_detail.quantity) as prices'),DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%m') AS month"))
+        ->groupBy(DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%m')"))
+        ->get();
+        $totalReceiptInYear = DB::table('receipt')
+        ->join('receipt_detail','receipt_detail.id_receipt', '=', 'receipt.id')
+        ->join('product_detail','product_detail.id', '=', 'receipt.id_product_detail')
+        ->where('receipt_detail.updated_at','like','%'.date('Y').'%')
+        ->select(DB::raw('SUM(receipt_detail.quantity) as quantity'),DB::raw('SUM(product_detail.price * receipt_detail.quantity) as prices'),DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%y') AS year"))
+        ->groupBy(DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%y')"))
+        ->get();
+        
+        $issueInYear = DB::table('issue')
+        ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
+        ->where('issue.updated_at','like','%'.date('Y').'%')
+        ->select(DB::raw('SUM(issue.quantity) as quantity'),DB::raw('SUM(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%m') AS month"))
+        ->groupBy(DB::raw("DATE_FORMAT(issue.updated_at, '%m')"))
+        ->get();
+        $totalIssueInYear = DB::table('issue')
+        ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
+        ->where('issue.updated_at','like','%'.date('Y').'%')
+        ->select(DB::raw('SUM(issue.quantity) as quantity'),DB::raw('SUM(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%y') AS year"))
+        ->groupBy(DB::raw("DATE_FORMAT(issue.updated_at, '%y')"))
+        ->get();
+
+        $warehouse_transferInYear = DB::table('warehouse_transfer')
+        ->join('product_detail','product_detail.id', '=', 'warehouse_transfer.id_product_detail')
+        ->where('warehouse_transfer.updated_at','like','%'.date('Y').'%')
+        ->select(DB::raw('SUM(warehouse_transfer.quantity) as quantity'),DB::raw('SUM(product_detail.price * warehouse_transfer.quantity) as prices'),DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%m') AS month"))
+        ->groupBy(DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%m')"))
+        ->get();
+        $totalWarehouse_transferInYear = DB::table('warehouse_transfer')
+        ->join('product_detail','product_detail.id', '=', 'warehouse_transfer.id_product_detail')
+        ->where('warehouse_transfer.updated_at','like','%'.date('Y').'%')
+        ->select(DB::raw('SUM(warehouse_transfer.quantity) as quantity'),DB::raw('SUM(product_detail.price * warehouse_transfer.quantity) as prices'),DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%y') AS year"))
+        ->groupBy(DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%y')"))
+        ->get();
+
+
+
+        $receiptInYear_old = DB::table('receipt')
+        ->join('receipt_detail','receipt_detail.id_receipt', '=', 'receipt.id')
+        ->join('product_detail','product_detail.id', '=', 'receipt.id_product_detail')
+        ->where('receipt_detail.updated_at','like','%'.(date('Y') - 1).'%')
+        ->select(DB::raw('SUM(receipt_detail.quantity) as quantity'),DB::raw('SUM(product_detail.price * receipt_detail.quantity) as prices'),DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%m') AS month"))
+        ->groupBy(DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%m')"))
+        ->get();
+        $totalReceiptInYear_old = DB::table('receipt')
+        ->join('receipt_detail','receipt_detail.id_receipt', '=', 'receipt.id')
+        ->join('product_detail','product_detail.id', '=', 'receipt.id_product_detail')
+        ->where('receipt_detail.updated_at','like','%'.(date('Y') - 1).'%')
+        ->select(DB::raw('SUM(receipt_detail.quantity) as quantity'),DB::raw('SUM(product_detail.price * receipt_detail.quantity) as prices'),DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%y') AS year"))
+        ->groupBy(DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%y')"))
+        ->get();
+        
+        $issueInYear_old = DB::table('issue')
+        ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
+        ->where('issue.updated_at','like','%'.(date('Y') - 1).'%')
+        ->select(DB::raw('SUM(issue.quantity) as quantity'),DB::raw('SUM(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%m') AS month"))
+        ->groupBy(DB::raw("DATE_FORMAT(issue.updated_at, '%m')"))
+        ->get();
+        $totalIssueInYear_old = DB::table('issue')
+        ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
+        ->where('issue.updated_at','like','%'.(date('Y') - 1).'%')
+        ->select(DB::raw('SUM(issue.quantity) as quantity'),DB::raw('SUM(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%y') AS year"))
+        ->groupBy(DB::raw("DATE_FORMAT(issue.updated_at, '%y')"))
+        ->get();
+
+        $warehouse_transferInYear_old = DB::table('warehouse_transfer')
+        ->join('product_detail','product_detail.id', '=', 'warehouse_transfer.id_product_detail')
+        ->where('warehouse_transfer.updated_at','like','%'.(date('Y') - 1).'%')
+        ->select(DB::raw('SUM(warehouse_transfer.quantity) as quantity'),DB::raw('SUM(product_detail.price * warehouse_transfer.quantity) as prices'),DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%m') AS month"))
+        ->groupBy(DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%m')"))
+        ->get();
+        $totalWarehouse_transferInYear_old = DB::table('warehouse_transfer')
+        ->join('product_detail','product_detail.id', '=', 'warehouse_transfer.id_product_detail')
+        ->where('warehouse_transfer.updated_at','like','%'.(date('Y') - 1).'%')
+        ->select(DB::raw('SUM(warehouse_transfer.quantity) as quantity'),DB::raw('SUM(product_detail.price * warehouse_transfer.quantity) as prices'),DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%y') AS year"))
+        ->groupBy(DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%y')"))
+        ->get();
+        
+        return view('Admin.Dashboard', [
+            'receiptInYear'=>$receiptInYear,
+            'totalReceiptInYear'=>$totalReceiptInYear,
+            'issueInYear'=>$issueInYear,
+            'totalIssueInYear'=>$totalIssueInYear,
+            'warehouse_transferInYear'=>$warehouse_transferInYear,
+            'totalwarehouse_transferInYear'=>$totalWarehouse_transferInYear,
+
+            'receiptInYear_old'=> isEmpty($receiptInYear_old) ? 0 : $receiptInYear_old,
+            'totalReceiptInYear_old'=> isEmpty($totalReceiptInYear_old) ? 0 : $totalReceiptInYear_old,
+            'issueInYear_old'=> isEmpty($issueInYear_old) ? 0 : $issueInYear_old,
+            'totalIssueInYear_old'=> isEmpty($totalIssueInYear_old) ? 0 : $totalIssueInYear_old,
+            'warehouse_transferInYear_old'=> isEmpty($warehouse_transferInYear_old) ? 0 : $warehouse_transferInYear_old,
+            'totalWarehouse_transferInYear_old'=> isEmpty($totalWarehouse_transferInYear_old) ? 0 : $totalWarehouse_transferInYear_old,
+        ]);
+    }
+    function getByMonth(Request $request)
+    {
+        $receiptInYear2 = DB::table('receipt')
+        ->join('receipt_detail','receipt_detail.id_receipt', '=', 'receipt.id')
+        ->join('product_detail','product_detail.id', '=', 'receipt.id_product_detail')
+        ->where(DB::raw("MONTH(receipt_detail.updated_at)"),'=',DB::raw("MONTH('$request->date')"))
+        ->where(DB::raw("YEAR(receipt_detail.updated_at)"),'=',DB::raw("YEAR('$request->date')"))
+        ->select(DB::raw('SUM(receipt_detail.quantity) as quantity'),DB::raw('SUM(product_detail.price * receipt_detail.quantity) as prices'))
+        ->groupBy(DB::raw("DAY(receipt_detail.updated_at)"))
+        ->get();
+        $totalReceiptInYear2 = DB::table('receipt')
+        ->join('receipt_detail','receipt_detail.id_receipt', '=', 'receipt.id')
+        ->join('product_detail','product_detail.id', '=', 'receipt.id_product_detail')
+        ->where(DB::raw("MONTH(receipt_detail.updated_at)"),'=',DB::raw("MONTH('$request->date')"))
+        ->where(DB::raw("YEAR(receipt_detail.updated_at)"),'=',DB::raw("YEAR('$request->date')"))
+        ->select(DB::raw('SUM(receipt_detail.quantity) as quantity'),DB::raw('SUM(product_detail.price * receipt_detail.quantity) as prices'))
+        ->groupBy(DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%m')"))
+        ->get();
+        
+        // $issueInYear = DB::table('issue')
+        // ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
+        // ->where('issue.updated_at','like','%'.$request->date.'%')
+        // ->select(DB::raw('SUM(issue.quantity) as quantity'),DB::raw('SUM(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%m') AS month"))
+        // ->groupBy(DB::raw("DATE_FORMAT(issue.updated_at, '%m')"))
+        // ->get();
+        // $totalIssueInYear = DB::table('issue')
+        // ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
+        // ->where('issue.updated_at','like','%'.$request->date.'%')
+        // ->select(DB::raw('SUM(issue.quantity) as quantity'),DB::raw('SUM(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%y') AS year"))
+        // ->groupBy(DB::raw("DATE_FORMAT(issue.updated_at, '%y')"))
+        // ->get();
+
+        // $warehouse_transferInYear = DB::table('warehouse_transfer')
+        // ->join('product_detail','product_detail.id', '=', 'warehouse_transfer.id_product_detail')
+        // ->where('warehouse_transfer.updated_at','like','%'.$request->date.'%')
+        // ->select(DB::raw('SUM(warehouse_transfer.quantity) as quantity'),DB::raw('SUM(product_detail.price * warehouse_transfer.quantity) as prices'),DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%m') AS month"))
+        // ->groupBy(DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%m')"))
+        // ->get();
+        // $totalWarehouse_transferInYear = DB::table('warehouse_transfer')
+        // ->join('product_detail','product_detail.id', '=', 'warehouse_transfer.id_product_detail')
+        // ->where('warehouse_transfer.updated_at','like','%'.$request->date.'%')
+        // ->select(DB::raw('SUM(warehouse_transfer.quantity) as quantity'),DB::raw('SUM(product_detail.price * warehouse_transfer.quantity) as prices'),DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%y') AS year"))
+        // ->groupBy(DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%y')"))
+        // ->get();
+
+        // echo($request->date);
+        return response()->json([
+            'status' => 200,
+            'data' => $receiptInYear2,
+            'message' => 'thành công'
+        ], 200);
     }
 
     function icons()

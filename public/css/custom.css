@@ -37,6 +37,8 @@ table.dataTable > thead .sorting_desc_disabled:after {
 ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px grey;
     border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
 /* Handle */
@@ -45,6 +47,8 @@ table.dataTable > thead .sorting_desc_disabled:after {
     /* border-radius: 10px; */
     transition: 0.3s;
     border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb:hover {
@@ -147,4 +151,10 @@ tr td {
 .header_table {
     padding-bottom: 5px !important;
     padding-top: 5px !important;
+}
+.chart {
+    height: fit-content !important;
+}
+#lineChart{
+    height: 450px !important;
 }
