@@ -96,6 +96,10 @@
                                                                 onclick="issue({{ $item->product_detail[0]->id }})"
                                                                 class="btn btn-warning btn-edit">xuất kho
                                                             </button>
+                                                            <button  class="dropdown-item" ​type="button" data-toggle="modal"
+                                                                onclick="receipt({{ $item->product_detail[0]->id }})"
+                                                                class="btn btn-warning btn-edit">Nhập kho
+                                                            </button>
                                                         </div>
                                                     </div> 
                                                 </div>
@@ -123,7 +127,7 @@
                                                         @forelse ($item->image  as $itemImg)
                                                             <img class="avatar avatar-sm rounded-circle"
                                                                 alt="Image placeholder" id='img-{{ $itemImg->id }}'
-                                                                src='../{{ $itemImg->image }}'>
+                                                                src='{{ $itemImg->image }}'>
                                                         @empty
                                                         @endforelse
                                                     </div>
@@ -145,7 +149,7 @@
                                                         @forelse ($item->product_detail  as $itemProductDetail)
                                                             <a class="text-sm"
                                                                 id="quantity-{{ $itemProductDetail->id }}">
-                                                                {{ $itemProductDetail->quantity }} | 
+                                                                {{ $itemProductDetail->quantity }} 
                                                             </a>
                                                         @empty
                                                         @endforelse
@@ -215,6 +219,7 @@
     @include('Admin.warehouse.updateWarehouse')
     @include('Admin.warehouse.addWarehouse_transfer')
     @include('Admin.warehouse.addIssue')
+    @include('Admin.warehouse.addReceipt')
 
     <script>
         let tableheight = $('#card_table').width() - 5;
@@ -435,6 +440,13 @@
                 
             });
         }
+        function receipt(id) {
+            $.get('product/product_detail/' + id, function(e) {
+                $('#id_product_detail_receipt').val(e[0].id);
+                $('#myAddModalReceipt').modal('toggle');
+                
+            });
+        }
         $("#form-add-transfer").submit(function(e) {
             e.preventDefault();
 
@@ -459,7 +471,7 @@
                         $('#table_Theme').DataTable().destroy();
                         let data = res.data;
                         $.get('product/product_detail/' + id, function(result) {
-                        $('#quantity-' + data.id_product_detail).text(result[0].quantity);});
+                        $('#quantity-' + data.id_product_detail).text(result[0].quantity)});
                         toastr.options.positionClass = 'toast-bottom-left'
                         toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
                         $('#myAddModalTransfer').modal('hide');
@@ -480,7 +492,7 @@
             let formData = new FormData($('#form-add-issue')[0]);
             console.log(formData);
             let id = $('#id_product_detail_issue').val();
-            let quantity_transfer = $('#quantity_issue').val();
+            let quantity_issue = $('#quantity_issue').val();
             let date_issue = $('#date_issue').val();
 
             if (id !== '' && quantity_issue !== '' && date_issue !== '') {
@@ -498,7 +510,7 @@
                         // $('#table_Theme').empty();
                         let data = res.data;
                         $.get('product/product_detail/' + id, function(result) {
-                        $('#quantity-' + data.id_product_detail).text(result[0].quantity);});
+                        $('#quantity-' + data.id_product_detail).text(result[0].quantity)});
                         toastr.options.positionClass = 'toast-bottom-left'
                         toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
                         $('#myAddModalIssue').modal('hide');
@@ -513,7 +525,46 @@
                 })
             }
         });
-        
+        $("#form-add-receipt").submit(function(e) {
+            e.preventDefault();
+
+            let formData = new FormData($('#form-add-receipt')[0]);
+            console.log(formData);
+            let id = $('#id_product_detail_receipt').val();
+            let quantity_receipt = $('#quantity_receipt').val();
+            let id_supplier = $('#id_supplier').val();
+
+            if (id !== '' && quantity_receipt !== '' && id_supplier !== '' ) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "product/receipt",
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(res) {
+                        $('#table_Theme').DataTable().destroy();
+                        // $('#table_Theme').empty();
+                        let data = res.data;
+                        $.get('product/product_detail/' + id, function(result) {
+                        $('#quantity-' + data.id).text(result[0].quantity)});
+                        console.log(data);
+                        toastr.options.positionClass = 'toast-bottom-left'
+                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+                        $('#myAddModalReceipt').modal('hide');
+                        $('#form-add-receipt')[0].reset();
+                        
+                        rebuild();
+                    },
+                    error: function(res) {
+                        toastr.options.positionClass = 'toast-bottom-left'
+                        toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
+                    }
+                })
+            }
+        });
     </script>
     
     @php

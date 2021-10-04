@@ -29,21 +29,24 @@
                         {{-- <label for="email">Tên Kho:</label> --}}
                         <input  type="text" class="form-control" placeholder="Tên tài khoản" name='user_name' id="user_name">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="height: 50px">
                         {{-- <label for="email">Tên Kho:</label> --}}
-                        <input  type="tel" class="form-control" placeholder="Số điện thoại" name='phone' id="phone">
+                        <input  type="tel" class="form-control" onchange="checkpass()" placeholder="Số điện thoại" name='phone' id="phone">
+                        <small id="error" style="height: 5px" class="text-danger"></small>
                     </div>
                     <div class="form-group">
                         {{-- <label for="email">Tên Kho:</label> --}}
                         <input  type="text" class="form-control" placeholder="Địa chỉ" name='address' id="address">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="height: 50px">
                         {{-- <label for="email">Tên Kho:</label> --}}
                         <input  type="password" class="form-control" onchange="checkpass()" placeholder="Mật khẩu" name='pass' id="pass">
+                        <small id="error2" style="height: 5px" class="text-danger"></small>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="height: 50px">
                         {{-- <label for="email">Tên Kho:</label> --}}
                         <input  type="password" class="form-control" onchange="checkpass()" placeholder="Nhập lại mật khẩu" name='repass' id="repass">
+                        <small id="error3" style="height: 5px" class="text-danger"></small>
                     </div>
                     <div class="form-group">
                         <select class="form-select" name="roles" id="roles" aria-label="Default select example">

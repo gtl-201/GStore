@@ -96,6 +96,7 @@ Route::prefix('admin')->group(function () {
                 Route::post('/', [productController::class, 'storeProduct']);
                 Route::post('/transfer', [transferController::class, 'store']);
                 Route::post('/issue', [issueController::class, 'store']);
+                Route::post('/receipt', [receiptController::class, 'insertReceiptDetail']);
                 Route::get('/{id}', [productController::class, 'editProduct']);
                 Route::post('/update', [productController::class, 'updateProduct']);
                 Route::delete('/{id}', [productController::class, 'destroyProduct']);

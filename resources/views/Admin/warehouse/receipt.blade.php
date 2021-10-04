@@ -82,10 +82,7 @@
                                             {{ $item->warehouseName }}
                                         </td>
                                         <td class="text-sm" id="supplier-{{ $item->id }}">
-                                            @forelse ($item->receiptDetail as $itemReceiptDetail)
-                                                {{ $item->supplierName }} \
-                                            @empty
-                                            @endforelse
+                                                {{ $item->supplierName }} \  
                                         </td>
                                         <td class="text-sm flex flex-row" id="date_receipt-{{ $item->id }}">
                                             <strong>Số lượng:</strong>
@@ -99,11 +96,9 @@
                                         </td> --}}
 
                                         <td class="text-right">
-                                            <div class="dropdown">
-                                                <a href='receipt.blade.php?hello=true' ​type="button" data-toggle="modal"
-                                                    data-target='#myUpdateModal' class="btn btn-warning btn-edit">Chi
-                                                    tiết</a>
-                                            </div>
+                                            <button ​type="button" data-toggle="modal"
+                                            onclick="editWh({{ $item->id }})"
+                                            class="btn btn-warning btn-edit">Chi tiết</button>
                                         </td>
                                     </tr>
                                 @empty
@@ -261,7 +256,33 @@
 
         function editWh(id) {
             $.get('receipt/' + id, function(e) {
-                $('#id').val(id);
+                console.log(e[0]);
+                $('#id_product_detail').text(e[0].id_product_detail);
+                $('#warehouseName').text(e[0].warehouseName);
+                $('#receiptDetail').text('');
+                e[0].receiptDetail.forEach(a => {
+                    $('#receiptDetail').append(`<div class="w-100 text-center px-5 py-2">
+                            <hr class="p-0 m-0" />
+                        </div>
+                        <div class="row w-100 pb-1">
+                            <div class="col-5 font-weight-600">Tên admin:</div>
+                            <div class="col-7">${a.nameAdmin}</div>
+
+                        </div>
+                        <div class="row w-100 pb-1">
+                            <div class="col-5 font-weight-600">Nhà cung cấp:</div>
+                            <div class="col-7">${ a.nameSupplier }</div>
+                        </div>
+                         <div class="row w-100 pb-1">
+                            <div class="col-5 font-weight-600">Số lượng:</div>
+                            <div class="col-7">${ a.quantity }</div>
+                        </div>
+                        <div class="row w-100 pb-1">
+                            <div class="col-5 font-weight-600">Ngày nhập:</div>
+                            <div class="col-7">${ a.created_at }</div>
+                        </div>`);
+                });
+                
                 $('#myUpdateModal').modal('toggle');
             });
         }
