@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\productDetail;
 use App\Models\receipt;
+use App\Models\receiptDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class receiptController extends Controller
@@ -21,17 +24,19 @@ class receiptController extends Controller
         foreach ($receipt as $key => $value) {
             $receipt_detail = DB::table('receipt_detail')
                 ->join('supplier','supplier.id','=','receipt_detail.id_supplier')
+                ->join('admin','receipt_detail.id_admin','=','admin.id')
+                ->select(['receipt_detail.id','receipt_detail.id_receipt','receipt_detail.created_at','receipt_detail.quantity','admin.name as nameAdmin','supplier.name as nameSupplier'])
                 ->where('id_receipt', $value->id)
                 ->get();
             $receipt[$key]->receiptDetail = $receipt_detail;
         }
-        $admin = [];
-        foreach ($receipt as $key => $value) {
-            $admin = DB::table('admin')
-                ->where('id', $value->id_admin)
-                ->get();
-            $receipt[$key]->admin = $admin;
-        }
+        // $admin = [];
+        // foreach ($receipt_detail as $key => $value) {
+        //     $admin = DB::table('admin')
+        //         ->where('id', $value->id_admin)
+        //         ->get();
+        //     $receipt[$key]->admin = $admin;
+        // }
 
         return view('Admin.warehouse.receipt', [
             'receipt' => $receipt,
@@ -59,8 +64,34 @@ class receiptController extends Controller
 
     function edit($id)
     {
-        // $data = receipt::find($id);
-        return response()->json($id);
+        $receipt = DB::table('receipt')
+        ->join('admin','receipt.id_admin','=','admin.id')
+        ->join('warehouse','receipt.id_warehouse','=','warehouse.id')
+        ->join('supplier','receipt.id_supplier','=','supplier.id')
+        ->select('receipt.id','receipt.id_admin','receipt.id_product_detail','admin.name as adminName','warehouse.name as warehouseName','supplier.name as supplierName')
+        ->where('receipt.id',$id)
+        ->get();
+
+        $receipt_detail = [];
+        foreach ($receipt as $key => $value) {
+            $receipt_detail = DB::table('receipt_detail')
+                ->join('supplier','supplier.id','=','receipt_detail.id_supplier')
+                ->join('admin','receipt_detail.id_admin','=','admin.id')
+                ->select(['receipt_detail.id','receipt_detail.id_receipt','receipt_detail.created_at','receipt_detail.quantity','admin.name as nameAdmin','supplier.name as nameSupplier'])
+                ->where('id_receipt', $value->id)
+                ->orderBy('receipt_detail.created_at','desc')
+                ->get();
+            $receipt[$key]->receiptDetail = $receipt_detail;
+        }
+        // $admin = [];
+        // foreach ($receipt_detail as $key => $value) {
+        //     $admin = DB::table('admin')
+        //         ->where('id', $value->id_admin)
+        //         ->get();
+        //     $receipt[$key]->admin = $admin;
+        // }
+
+        return response()->json($receipt);
     }
 
     public function update(Request $request)
@@ -80,7 +111,29 @@ class receiptController extends Controller
             'message' => 'cap nhat kho thành công'
         ], 200); 
     }
+    public function insertReceiptDetail(Request $request){
+        $receipt = DB::table('receipt')
+        ->where('id_product_detail','=',$request -> id_product_detail_receipt)
+        ->first();
 
+        $product_detail = productDetail::find($request -> id_product_detail_receipt);
+        $quantity = $product_detail -> quantity + $request -> quantity_receipt;
+        $product_detail->quantity = $quantity;
+        $product_detail -> save();
+
+        $receiptDetail = new receiptDetail();
+        $receiptDetail->id_receipt = $receipt->id;
+        $receiptDetail->quantity = $request->quantity_receipt;
+        $receiptDetail->id_supplier = $request->id_supplier;
+        $receiptDetail->id_admin = Auth::guard('admin')->user()->id;
+        $receiptDetail->save();
+
+        return response()->json([
+            'status' => 200,
+            'data' => $product_detail,
+            'message' => 'cap nhat kho thành công'
+        ], 200); 
+    }
     public function destroy($id)
     {
         receipt::find($id)->delete();

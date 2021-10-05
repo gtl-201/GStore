@@ -52,12 +52,12 @@
                                 <span class="nav-link-text">Quản lí tài khoản</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ URL::to('/admin/icons') }}">
                                 <i class="ni ni-planet text-orange"></i>
                                 <span class="nav-link-text">Icons</span>
                             </a>
-                        </li>
+                        </li> --}}
                         {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ URL::to('/admin/product') }}">
                                 <i class="ni ni-bullet-list-67 text-green fa-w-10"></i>
@@ -187,14 +187,14 @@
                                         <span class="text-sm">Dánh sách</span>
                                     </a>
                                 </li>
-                                <li
+                                {{-- <li
                                     class="nav-item nav-child-kho mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Nhập kho</span>
                                     </a>
-                                </li>
-                                <li
+                                </li> --}}
+                                {{-- <li
                                     class="nav-item nav-child-kho mx-2 mb-1 px-3 py-2 d-flex flex-row justify-content-start align-items-center rounded-sm">
                                     <a class='link-nav-child w-100' href="{{ URL::to('#') }}">
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
@@ -207,7 +207,7 @@
                                         <i class="ni ni-tv-2 mr-2 text-sm"></i>
                                         <span class="text-sm">Chuyển kho</span>
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </li>
 

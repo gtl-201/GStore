@@ -231,47 +231,51 @@
                     success: function(response) {
                         $('#table_Theme').DataTable().destroy();
                         // $('#table_Theme').empty();
-                        console.log(response.data);
-                        let {data} = response;
+                        
+                        let data = response.data;
+                        console.log(data);
                         let tr = `<tr id="accountTr-${data.id}">
                                         
                                         <th scope="row">
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
-                                                    <img alt="Image placeholder" src="../../${data.avartar }">
+                                                    <img alt="Image placeholder" id="avatar-${data.id}" src="../../${data.avartar }">
                                                 </a>
                                                 <div class="media-body">
-                                                    <span class="name mb-0 text-sm">${data.name }</span>
+                                                    <span class="name mb-0 id="name-${ data.id }" text-sm">${data.name }</span>
                                                 </div>
                                             </div>
-                                        </th>
-                                        <td class="text-sm" id="color-${data.id }">
-                                            ${data.email }
-                                        </td>
+                                        </th>`;
+                        let td1 =`<td class="text-sm" id="email-${data.id }">
+                                    ${data.email }
+                                    </td>`;
 
-                                        <td class="text-sm">
-                                            ${data.user_name }
-                                        </td>
-                                        <td class="text-sm">
-                                            ${data.phone }
-                                        </td>
-                                        <td class="text-sm">
-                                            ${data.address }
-                                        </td>
-                                        <td class="text-sm">
-                                            ${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}
-                                            
-                                        </td>
-                                        <td class="text-right">
-                                            <div class="dropdown">
-                                                <button ​type="button" data-toggle="modal"
-                                                    onclick="editWh(${data.id })"
-                                                    class="btn btn-warning btn-edit">Edit</button>
-                                                <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
-                                                    onclick="deleteWh(${data.id })">Delete</button>
-                                            </div>
-                                        </td>
-                                    </tr>`;
+                        let td2 =`  <td class="text-sm" id="user_name-${ data.id }">
+                                    ${data.user_name }
+                                    </td>`;
+                        let td3 =`<td class="text-sm" id="phone-${ data.id }">
+                                    ${data.phone }
+                                    </td>`;
+                        let td4 =` <td class="text-sm" id="address-${ data.id }">
+                                    ${data.address }
+                                    </td>`;
+                        let td5 =`<td class="text-sm" id="roles-${ data.id }">
+                                    ${data.roles == 1 ? 'SuperAdmin' : 'Admin'}
+                                    </td>`;
+                        let td6 =`<td class="text-sm" id="updated-${data.id }">
+                                    ${ new Date(data.updated_at).getDate() < 10 ? '0' + new Date(data.updated_at).getDate() : new Date(data.updated_at).getDate() }-${new Date(data.updated_at).getMonth() < 10 ? '0' + new Date(data.updated_at).getMonth() : new Date(data.updated_at).getMonth()}-${new Date(data.updated_at).getFullYear()} ${new Date(data.updated_at).getHours()}:${new Date(data.updated_at).getMinutes()}:${new Date(data.updated_at).getSeconds()}
+                                    
+                                    </td>`;
+                        let td7 =`<td class="text-right">
+                                    <div class="dropdown">
+                                        <button ​type="button" data-toggle="modal"
+                                            onclick="editWh(${data.id })"
+                                            class="btn btn-warning btn-edit">Edit</button>
+                                        <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
+                                            onclick="deleteWh(${data.id })">Delete</button>
+                                    </div>
+                                    </td>
+                                </tr>`;
 
 
                         console.log(response.data);
@@ -279,7 +283,7 @@
                         toastr.success(response.message, 'Thành công ✨🎉✨');
                         $('#myAddModal').modal('toggle');
                         $('#form-add')[0].reset();
-                        $('tbody').prepend(tr);
+                        $('tbody').prepend(tr+ td1 + td2 + td3 +td4 + td5 +td6 +td7 );
                         rebuild();
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -422,18 +426,49 @@
         // } 
 
         function checkpass() {
+           var regExPhone = /(0[3|5|7|8|9])+([0-9]{8})\b/g;
+           var checkPass = 0;
+           var checkPhone = 0;
 
-            if ($('#pass').val() == $('#repass').val()) {
+           if(regExPhone.test($('#phone').val()) == false){
+                document.getElementById('phone').style.borderColor = '#fc403e';
+                document.getElementById('error').innerText = 'Cần nhập đúng số điện thoại!';
+                checkPhone = 0;
+           }else{
+            document.getElementById('phone').style.borderColor = '#43fa38';
+            document.getElementById('error').innerText = '';
+            checkPhone = 1;
+           }
+
+           if($('#pass').val() >= 4 && $('#repass').val() >= 4){
+            document.getElementById('pass').style.borderColor = '#43fa38';
+            document.getElementById('error2').innerText = '';
+               
+               if ($('#pass').val() == $('#repass').val() ) {
                 document.getElementById('repass').style.borderColor = '#43fa38';
                 document.getElementById('pass').style.borderColor = '#43fa38';
-
-                return true;
+                document.getElementById('error3').innerText = '';
+                checkPass = 1;
             } else {
                 document.getElementById('repass').style.borderColor = '#fc403e';
                 document.getElementById('pass').style.borderColor = '#fc403e';
-                return false;
+                document.getElementById('error3').innerText = 'Mật khẩu Không khớp nhau!';
+                checkPass = 0;
             }
 
+           }
+           else {
+                document.getElementById('repass').style.borderColor = '#fc403e';
+                document.getElementById('pass').style.borderColor = '#fc403e';
+                document.getElementById('error2').innerText = 'Mật khẩu cần 4 kí tự trở lên!';
+                checkPass = 0;
+            }
+            
+            if(checkpass == 1 && checkPhone ==1){
+                return true;
+            }else{
+                return false;
+            }
         }
     </script>
 @endsection
