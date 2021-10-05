@@ -147,8 +147,9 @@
         });
     </script> --}}
     <script>
+        var dtTable;
         $(document).ready(function() {
-            $('#table_Theme').DataTable({
+            dtTable = $('#table_Theme').DataTable({
                 language: {
                     sProcessing: "Đang xử lý...",
                     sSearch: "Tìm:",
@@ -174,12 +175,21 @@
                 },
                 "order": [
                     [4, "asc"]
-                ]
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
             });
+            dtTable.button(0).text('Sao chép');
+            dtTable.button(1).text('Xuất file CSV');
+            dtTable.button(2).text('Xuất file Excel');
+            dtTable.button(3).text('Xuất file PDF');
+            dtTable.button(4).text('In');
         });
 
         function rebuild() {
-            $('#table_Theme').DataTable({
+            dtTable = $('#table_Theme').DataTable({
                 language: {
                     sProcessing: "Đang xử lý...",
                     sSearch: "Tìm:",
@@ -205,8 +215,17 @@
                 },
                 "order": [
                     [4, "asc"]
-                ]
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
             });
+            dtTable.button(0).text('Sao chép');
+            dtTable.button(1).text('Xuất file CSV');
+            dtTable.button(2).text('Xuất file Excel');
+            dtTable.button(3).text('Xuất file PDF');
+            dtTable.button(4).text('In');
         }
     </script>
     <script type="text/javascript">
