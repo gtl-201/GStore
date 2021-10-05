@@ -72,7 +72,9 @@
                                     <tr id='colorTr-{{ $item->id }}'>
                                         <th scope="row">
                                             <div class="media align-items-center">
-                                                <div id='hexIndex-{{ $item->id }}' href="#" class="avatar rounded-circle mr-3" style="background-color: {{ $item->hex }}">
+                                                <div id='hexIndex-{{ $item->id }}' href="#"
+                                                    class="avatar rounded-circle mr-3"
+                                                    style="background-color: {{ $item->hex }}">
                                                 </div>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
@@ -123,8 +125,9 @@
         });
     </script> --}}
     <script>
+        var dtTable;
         $(document).ready(function() {
-            $('#table_Theme').DataTable({
+            dtTable = $('#table_Theme').DataTable({
                 language: {
                     sProcessing: "Đang xử lý...",
                     sSearch: "Tìm:",
@@ -142,12 +145,21 @@
                 },
                 "order": [
                     [2, "asc"]
-                ]
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
             });
+            dtTable.button(0).text('Sao chép');
+            dtTable.button(1).text('Xuất file CSV');
+            dtTable.button(2).text('Xuất file Excel');
+            dtTable.button(3).text('Xuất file PDF');
+            dtTable.button(4).text('In');
         });
 
         function rebuild() {
-            $('#table_Theme').DataTable({
+            dtTable = $('#table_Theme').DataTable({
                 language: {
                     sProcessing: "Đang xử lý...",
                     sSearch: "Tìm:",
@@ -165,8 +177,17 @@
                 },
                 "order": [
                     [2, "asc"]
-                ]
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
             });
+            dtTable.button(0).text('Sao chép');
+            dtTable.button(1).text('Xuất file CSV');
+            dtTable.button(2).text('Xuất file Excel');
+            dtTable.button(3).text('Xuất file PDF');
+            dtTable.button(4).text('In');
         }
     </script>
     <script type="text/javascript">
@@ -300,7 +321,7 @@
                         $('#table_Theme').DataTable().destroy();
                         // $('#table_Theme').empty();
                         let data = res.data;
-                        
+
                         $('#hexIndex-' + data.id).css("background-color", data.hex);
                         // document.getElementById('hexIndex-2').style.backgroundColor= e.hex;
                         $('#name-' + data.id).text(data.hex);
