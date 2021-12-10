@@ -57,7 +57,7 @@ class attributeAjaxController extends Controller
         return response()->json([
             'status' => 200,
             'data' => $color,
-            'message' => 'Tạo kho thành công'
+            'message' => 'Thêm màu thành công'
         ], 200);
     }
     function editColor($id)
@@ -95,7 +95,7 @@ class attributeAjaxController extends Controller
         return response()->json([
             'status' => 200,
             'data' => $size,
-            'message' => 'Tạo kho thành công'
+            'message' => 'Thêm kích cỡ thành công'
         ], 200);
     }
     function editSize($id)
@@ -138,7 +138,7 @@ class attributeAjaxController extends Controller
         return response()->json([
             'status' => 200,
             'data' => $brand,
-            'message' => 'Tạo kho thành công'
+            'message' => 'Thêm thương hiệu thành công'
         ], 200);
     }
     function editBrand($id)
@@ -182,7 +182,7 @@ class attributeAjaxController extends Controller
         return response()->json([
             'status' => 200,
             'data' => $type,
-            'message' => 'Tạo kho thành công'
+            'message' => 'Thêm loại sản phẩm thành công'
         ], 200);
     }
     function editType($id)

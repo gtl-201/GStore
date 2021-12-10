@@ -26,7 +26,7 @@ class supplierController extends Controller
         return response()->json([
             'status' => 200,
             'data' => $supplier,
-            'message' => 'Tạo kho thành công'
+            'message' => 'Thêm nhà cung cấp thành công'
         ], 200);
     }
     function edit($id)
