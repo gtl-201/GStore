@@ -82,7 +82,7 @@
                     <div id='multiImg' name='multiImg'>
                         <div class="form-group row">
                             <div class='col'>
-                                <label for="exampleFormControlFile1">Chọn ảnh kho thứ 1</label>
+                                <label for="exampleFormControlFile1">Chọn ảnh sản phẩm thứ 1</label>
                                 <input type="file" class="form-control-file" id="img1"
                                     name="img1">
                             </div>
@@ -151,7 +151,7 @@
         const newImage =
                     `<div class="form-group row">
                         <div class='col'>
-                            <label for="exampleFormControlFile1">Chọn ảnh kho thứ ${indexImg}</label>
+                            <label for="exampleFormControlFile1">Chọn ảnh sản phẩm thứ ${indexImg}</label>
                             <input type="file" class="form-control-file" id="img${indexImg}"
                                 name="img${indexImg}">
                         </div>

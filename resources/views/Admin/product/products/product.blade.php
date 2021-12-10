@@ -61,15 +61,15 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    <th scope="col" class="col-1">#</th>
+                                    <th scope="col" class="col-1 text-center">#</th>
                                     <th scope="col" class="sort col-3" data-sort="name">Tên</th>
                                     <th scope="col" class="sort col-4" data-sort="budget">Mô tả</th>
-                                    <th scope="col" class="sort col-1" data-sort="status">Loại hàng</th>
-                                    <th scope="col" class="col-1">Ảnh sản phẩm</th>
-                                    <th scope="col" class="col-1">Giá</th>
-                                    <th scope="col" class="col-1">Số lượng còn</th>
-                                    <th scope="col" class="col-1">Màu sắc</th>
-                                    <th scope="col" class="col-1">Thương hiệu</th>
+                                    <th scope="col" class="sort col-1 text-center" data-sort="status">Loại hàng</th>
+                                    <th scope="col" class="col-1 text-center">Ảnh sản phẩm</th>
+                                    <th scope="col" class="col-1 text-center">Giá</th>
+                                    <th scope="col" class="col-1 text-center">Số lượng còn</th>
+                                    <th scope="col" class="col-1 text-center">Màu sắc</th>
+                                    <th scope="col" class="col-1 text-center">Thương hiệu</th>
                                     <th scope="col" class="col-1">Size</th>
                                     {{-- <th scope="col" class="col-1">Trong kho</th> --}}
                                     <th scope="col" class="col-1">Ngày cập nhật</th>
@@ -80,7 +80,7 @@
                                     @if (count($product[0]->product_detail) > 0)
                                         @forelse ($product as $item)
                                             <tr id='productTr-{{ $item->id }}'>
-                                                <td class="text-right">
+                                                <td class="text-center">
                                                 <div class="dropdown">
                                                     <div class="dropdown">
                                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -118,33 +118,33 @@
                                                     {{ $item->descrip }}
                                                 </td>
 
-                                                <td class="text-sm col-1" id="typename-{{ $item->id }}">
+                                                <td class="text-sm col-1 text-center" id="typename-{{ $item->id }}">
                                                     {{ $item->typename }}
                                                 </td>
 
-                                                <td>
+                                                <td class='text-center'>
                                                     <div class="avatar-group">
                                                         @forelse ($item->image  as $itemImg)
                                                             <img class="avatar avatar-sm rounded-circle"
                                                                 alt="Image placeholder" id='img-{{ $itemImg->id }}'
-                                                                src='{{ $itemImg->image }}'>
+                                                                src= '{{ asset($itemImg->image) }}'>
                                                         @empty
                                                         @endforelse
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     <div class="avatar-group">
                                                         @forelse ($item->product_detail  as $itemProductDetail)
                                                             <a class="text-sm"
                                                                 id="price-{{ $itemProductDetail->id }}">
-                                                                {{ $itemProductDetail->price }} | 
+                                                                 {{ number_format($itemProductDetail->price) }} vnđ 
                                                             </a>
                                                         @empty
                                                         @endforelse
                                                     </div>
                                                 </td>
 
-                                                <td>
+                                                <td class="text-center">
                                                     <div class="avatar-group">
                                                         @forelse ($item->product_detail  as $itemProductDetail)
                                                             <a class="text-sm"
@@ -156,7 +156,7 @@
                                                     </div>
                                                 </td>
 
-                                                <td>
+                                                <td class="text-center">
                                                     @forelse ($item->product_detail  as $itemProductDetail)
                                                         @forelse ($itemProductDetail->color  as $itemProductcolor)
                                                             <a class="text-sm"
@@ -169,7 +169,7 @@
                                                     @endforelse
                                                 </td>
 
-                                                <td>
+                                                <td class='text-center'>
                                                     @forelse ($item->product_detail  as $itemProductDetail)
                                                         @forelse ($itemProductDetail->brand  as $itemProductbrand)
                                                             <a class="text-sm"
@@ -316,7 +316,7 @@
                     // $('#table_Theme').empty();
                     let item = response.data[0];
                     let th = `<tr id='productTr-${item.id }'>`;
-                    th += `<td class="text-right">
+                    th += `<td class="text-center">
                             <div class="dropdown">`;
 
                         th+=`<div class="dropdown">
@@ -347,14 +347,14 @@
                                     </div>
                                 </div>
                             </th>`;
-                    let td2 = `<td class="text-sm col-1" id="descript-${item.id }">
+                    let td2 = `<td class="text-sm col-1 text-center" id="descript-${item.id }">
                                 ${item.descrip }
                             </td>
 
                             <td class="text-sm col-1" id="typename-${item.id }">
                                 ${item.typename }
                             </td>`;
-                    let td3 = `<td>
+                    let td3 = `<td class='text-center'>
                                 <div class="avatar-group">`;
 
                     item.image.map(element => {
@@ -364,7 +364,7 @@
                     td3 += `</div>
                             </td>`;
 
-                    let td4 = `<td>
+                    let td4 = `<td class='text-center'>
                                 <div class="avatar-group">`;
                     item.product_detail.map(element => {
                         td4 += `<a class="text-sm"
@@ -375,7 +375,7 @@
                     td4 += `</div>
                             </td>`;
 
-                    let td5 = `<td>
+                    let td5 = `<td class='text-center'>
                             <div class="avatar-group">`;
                     item.product_detail.map(element => {
                         td5 += `<a class="text-sm"
@@ -386,7 +386,7 @@
                     td5 += `</div>
                         </td>`;
 
-                    let td6 = `<td>`;
+                    let td6 = `<td class='text-center'>`;
                     item.product_detail.map(element1 => {
                         element1.color.map(element2 => {
                             td6 += `<a class="text-sm" id="color-${element2.id }">
@@ -396,7 +396,7 @@
                     });
                     td6 += `</td>`;
 
-                    let td7 = `<td>`;
+                    let td7 = `<td class='text-center'>`;
                     item.product_detail.map(element1 => {
                         element1.brand.map(element2 => {
                             td7 += `<a class="text-sm" id="brand-${element2.id }">
@@ -404,7 +404,7 @@
                                         </a>`
                         });
                     });
-                    td7 += `</td>`;
+                    td7 += `</td class='text-center'>`;
                     let td8 = `<td>`;
                     item.product_detail.map(element1 => {
                         element1.size.map(element2 => {
