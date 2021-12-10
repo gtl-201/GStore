@@ -60,7 +60,7 @@
                     <div class="table-responsive">
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
-                                <tr>
+                                <tr class="pl-9">
                                     <th scope="col" class="sort col-3" data-sort="name">Kích cỡ</th>
                                     <th scope="col" class="col-1">Ngày cập nhật</th>
                                     <th scope="col" class="col-1"></th>
@@ -223,12 +223,12 @@
                     toastr.success(response.message, 'Thành công ✨🎉✨');
                     $('#myAddModal').modal('toggle');
                     $('#form-add')[0].reset();
-                    $('tbody').prepend(th + td1 + td2 );
+                    $('tbody').prepend(th + td1 + td2);
                     rebuild();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     toastr.options.positionClass = 'toast-bottom-left'
-                    toastr.error('Thêm kho thất bại', 'Thất bại 👺👹👺')
+                    toastr.error('Thêm kích cỡ thất bại', 'Thất bại 👺👹👺')
                 }
             })
         })
@@ -295,12 +295,12 @@
                         $('#myUpdateModal').modal('hide');
                         $('#form-edit')[0].reset();
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+                        toastr.success('Cập nhật kích cỡ thành công', 'Thành công ✨🎉✨');
                         rebuild();
                     },
                     error: function(res) {
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
+                        toastr.error('Cập nhật kích cỡ thất bại', 'Thất bại 👺👹👺')
                     }
                 })
             }

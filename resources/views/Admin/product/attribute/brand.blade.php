@@ -230,7 +230,7 @@
                                     <button ​type="button" data-toggle="modal"
                                         onclick="editWh(${item.id })"
                                         class="btn btn-warning btn-edit">Edit</button>
-                                    <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
+                                        <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
                                         onclick="deleteWh(${item.id })">Delete</button>
                                 </div>
                             </td>
@@ -246,7 +246,7 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     toastr.options.positionClass = 'toast-bottom-left'
-                    toastr.error('Thêm kho thất bại', 'Thất bại 👺👹👺')
+                    toastr.error('Thêm thương hiệu thất bại', 'Thất bại 👺👹👺')
                 }
             })
         })
@@ -315,12 +315,12 @@
                         $('#myUpdateModal').modal('hide');
                         $('#form-edit')[0].reset();
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+                        toastr.success('Cập nhật thương hiệu thành công', 'Thành công ✨🎉✨');
                         rebuild();
                     },
                     error: function(res) {
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
+                        toastr.error('Cập nhật thương hiệu thất bại', 'Thất bại 👺👹👺')
                     }
                 })
             }
