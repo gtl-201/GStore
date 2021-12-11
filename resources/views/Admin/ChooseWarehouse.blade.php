@@ -31,14 +31,11 @@
         <form method="POST" class="row block justify-content-around align-items-center h-70vh">
             @csrf
             @forelse ($warehouseList as $item)
-                {{-- <a href="#" class=""> --}}
-                <input type="submit"
-                    class="font-weight-bold rounded col-sm-3 m-4 p-4 text-xl-center border-0 choosedWareHouse"
-                    name="id"
-                    value="@php
-                        echo $item->id;
-                    @endphp" />
-                {{-- </a> --}}
+                <button type="submit"
+                class="font-weight-bold rounded col-sm-3 m-4 p-4 text-xl-center border-0 choosedWareHouse"
+                name="id"
+                value="{{$item->id}}-{{$item->name}}">
+                {{$item->name}}</button>
             @empty
                 <h2 class="text-uppercase text-danger">Không có dữ liệu kho hàng</h2>
             @endforelse

@@ -18,7 +18,7 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 col-7">
-                        <h6 class="h2 text-white d-inline-block mb-0">Kho Hàng {{Session::get('warehouseChoosedId')}}</h6>
+                        <h6 class="h2 text-white d-inline-block mb-0">{{Session::get('warehouseChoosed')}}</h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                 <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
@@ -77,136 +77,135 @@
                             </thead>
                             <tbody class="list" id='tbodyWarehouse'>
                                 @if (count($product) > 0)
-                                    @if (count($product[0]->product_detail) > 0)
                                         @forelse ($product as $item)
-                                            <tr id='productTr-{{ $item->id }}'>
-                                                <td class="text-center">
-                                                <div class="dropdown">
+                                            @if (count($item->product_detail) > 0)
+                                                <tr id='productTr-{{ $item->id }}'>
+                                                    <td class="text-center">
                                                     <div class="dropdown">
-                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            Hành động
-                                                        </button>
-                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                            <button  class="dropdown-item" ​type="button" data-toggle="modal"
-                                                            onclick="transfer({{ $item->product_detail[0]->id }})"
-                                                            class="btn btn-warning btn-edit">chuyển kho
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                Hành động
                                                             </button>
-                                                            
-                                                            <button  class="dropdown-item" ​type="button" data-toggle="modal"
-                                                                onclick="issue({{ $item->product_detail[0]->id }})"
-                                                                class="btn btn-warning btn-edit">xuất kho
-                                                            </button>
-                                                            <button  class="dropdown-item" ​type="button" data-toggle="modal"
-                                                                onclick="receipt({{ $item->product_detail[0]->id }})"
-                                                                class="btn btn-warning btn-edit">Nhập kho
-                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                <button  class="dropdown-item" ​type="button" data-toggle="modal"
+                                                                onclick="transfer({{ $item->product_detail[0]->id }})"
+                                                                class="btn btn-warning btn-edit">chuyển kho
+                                                                </button>
+                                                                
+                                                                <button  class="dropdown-item" ​type="button" data-toggle="modal"
+                                                                    onclick="issue({{ $item->product_detail[0]->id }})"
+                                                                    class="btn btn-warning btn-edit">xuất kho
+                                                                </button>
+                                                                <button  class="dropdown-item" ​type="button" data-toggle="modal"
+                                                                    onclick="receipt({{ $item->product_detail[0]->id }})"
+                                                                    class="btn btn-warning btn-edit">Nhập kho
+                                                                </button>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                    </td>
+                                                    <th scope="row" class="col-1">
+                                                        <div class="media align-items-center">
+                                                            <div class="media-body">
+                                                                <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
+                                                                    {{ $item->name }}
+                                                                </span>
+                                                            </div>
                                                         </div>
-                                                    </div> 
-                                                </div>
-                                                </td>
-                                                <th scope="row" class="col-1">
-                                                    <div class="media align-items-center">
-                                                        <div class="media-body">
-                                                            <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
-                                                                {{ $item->name }}
-                                                            </span>
+                                                    </th>
+
+                                                    <td class="text-sm col-1" id="descript-{{ $item->id }}">
+                                                        {{ $item->descrip }}
+                                                    </td>
+
+                                                    <td class="text-sm col-1 text-center" id="typename-{{ $item->id }}">
+                                                        {{ $item->typename }}
+                                                    </td>
+
+                                                    <td class='text-center'>
+                                                        <div class="avatar-group">
+                                                            @forelse ($item->image  as $itemImg)
+                                                                <img class="avatar avatar-sm rounded-circle"
+                                                                    alt="Image placeholder" id='img-{{ $itemImg->id }}'
+                                                                    src= '{{ asset($itemImg->image) }}'> q
+                                                            @empty
+                                                            @endforelse
                                                         </div>
-                                                    </div>
-                                                </th>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="avatar-group">
+                                                            @forelse ($item->product_detail  as $itemProductDetail)
+                                                                <a class="text-sm"
+                                                                    id="price-{{ $itemProductDetail->id }}">
+                                                                    {{ number_format($itemProductDetail->price) }} vnđ 
+                                                                </a>
+                                                            @empty
+                                                            @endforelse
+                                                        </div>
+                                                    </td>
 
-                                                <td class="text-sm col-1" id="descript-{{ $item->id }}">
-                                                    {{ $item->descrip }}
-                                                </td>
+                                                    <td class="text-center">
+                                                        <div class="avatar-group">
+                                                            @forelse ($item->product_detail  as $itemProductDetail)
+                                                                <a class="text-sm"
+                                                                    id="quantity-{{ $itemProductDetail->id }}">
+                                                                    {{ $itemProductDetail->quantity }} 
+                                                                </a>
+                                                            @empty
+                                                            @endforelse
+                                                        </div>
+                                                    </td>
 
-                                                <td class="text-sm col-1 text-center" id="typename-{{ $item->id }}">
-                                                    {{ $item->typename }}
-                                                </td>
-
-                                                <td class='text-center'>
-                                                    <div class="avatar-group">
-                                                        @forelse ($item->image  as $itemImg)
-                                                            <img class="avatar avatar-sm rounded-circle"
-                                                                alt="Image placeholder" id='img-{{ $itemImg->id }}'
-                                                                src= '{{ asset($itemImg->image) }}'>
-                                                        @empty
-                                                        @endforelse
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <div class="avatar-group">
+                                                    <td class="text-center">
                                                         @forelse ($item->product_detail  as $itemProductDetail)
-                                                            <a class="text-sm"
-                                                                id="price-{{ $itemProductDetail->id }}">
-                                                                 {{ number_format($itemProductDetail->price) }} vnđ 
-                                                            </a>
+                                                            @forelse ($itemProductDetail->color  as $itemProductcolor)
+                                                                <a class="text-sm"
+                                                                    id="color-{{ $itemProductcolor->id }}">
+                                                                    {{ $itemProductcolor->color }} | 
+                                                                </a>
+                                                            @empty
+                                                            @endforelse
                                                         @empty
                                                         @endforelse
-                                                    </div>
-                                                </td>
+                                                    </td>
 
-                                                <td class="text-center">
-                                                    <div class="avatar-group">
+                                                    <td class='text-center'>
                                                         @forelse ($item->product_detail  as $itemProductDetail)
-                                                            <a class="text-sm"
-                                                                id="quantity-{{ $itemProductDetail->id }}">
-                                                                {{ $itemProductDetail->quantity }} 
-                                                            </a>
+                                                            @forelse ($itemProductDetail->brand  as $itemProductbrand)
+                                                                <a class="text-sm"
+                                                                    id="brand-{{ $itemProductbrand->id }}">
+                                                                    {{ $itemProductbrand->brand }} | 
+                                                                </a>
+                                                            @empty
+                                                            @endforelse
                                                         @empty
                                                         @endforelse
-                                                    </div>
-                                                </td>
+                                                    </td>
 
-                                                <td class="text-center">
-                                                    @forelse ($item->product_detail  as $itemProductDetail)
-                                                        @forelse ($itemProductDetail->color  as $itemProductcolor)
-                                                            <a class="text-sm"
-                                                                id="color-{{ $itemProductcolor->id }}">
-                                                                {{ $itemProductcolor->color }} | 
-                                                            </a>
+                                                    <td>
+                                                        @forelse ($item->product_detail  as $itemProductDetail)
+                                                            @forelse ($itemProductDetail->size  as $itemProductsize)
+                                                                <a class="text-sm"
+                                                                    id="size-{{ $itemProductsize->id }}">
+                                                                    {{ $itemProductsize->size }} | 
+                                                                </a>
+                                                            @empty
+                                                            @endforelse
                                                         @empty
                                                         @endforelse
-                                                    @empty
-                                                    @endforelse
-                                                </td>
+                                                    </td>
 
-                                                <td class='text-center'>
-                                                    @forelse ($item->product_detail  as $itemProductDetail)
-                                                        @forelse ($itemProductDetail->brand  as $itemProductbrand)
-                                                            <a class="text-sm"
-                                                                id="brand-{{ $itemProductbrand->id }}">
-                                                                {{ $itemProductbrand->brand }} | 
-                                                            </a>
-                                                        @empty
-                                                        @endforelse
-                                                    @empty
-                                                    @endforelse
-                                                </td>
-
-                                                <td>
-                                                    @forelse ($item->product_detail  as $itemProductDetail)
-                                                        @forelse ($itemProductDetail->size  as $itemProductsize)
-                                                            <a class="text-sm"
-                                                                id="size-{{ $itemProductsize->id }}">
-                                                                {{ $itemProductsize->size }} | 
-                                                            </a>
-                                                        @empty
-                                                        @endforelse
-                                                    @empty
-                                                    @endforelse
-                                                </td>
-
-                                                <td class="text-sm" id="updated-{{ $item->id }}">
-                                                    {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
-                                                </td>
-                                            </tr>
+                                                    <td class="text-sm" id="updated-{{ $item->id }}">
+                                                        {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
+                                                    </td>
+                                                </tr>
+                                            @else
+                                            @endif
                                         @empty
                                         @endforelse
-                                    @else
 
-                                    @endif
                                 @endif
                             </tbody>
-
                         </table>
                     </div>
                 </div>

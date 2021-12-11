@@ -315,8 +315,9 @@ class AdminControler extends Controller
     }
     function chooseWarehouseHandle(Request $rq)
     {
-        Session::put('warehouseChoosed', $rq->name);
-        Session::put('warehouseChoosedId', $rq->id);
+        $index = strpos($rq->id,'-');
+        Session::put('warehouseChoosed', substr($rq->id, $index + 1, strlen($rq->id)));
+        Session::put('warehouseChoosedId', substr($rq->id, 0, $index));
         return redirect('admin/dashboard');
     }
 

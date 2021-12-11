@@ -77,7 +77,7 @@
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
                                                     <img id="avt-{{ $item->id }}" alt=""
-                                                        src="../../{{ $item->avatar }}">
+                                                        src="{{ asset($item->avatar) }}">
                                                 </a>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm" id="name-{{ $item->id }}">
@@ -105,8 +105,8 @@
                                             {{ date('d-m-Y H:i:s', strtotime($item->updated_at)) }}
                                         </td>
 
-                                        <td class="text-right">
-                                            <div class="dropdown">
+                                        <td class="text-left">
+                                            <div class="dropdown flex-row">
                                                 {{-- <a class="text-light px-3">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a> --}}
@@ -119,8 +119,20 @@
                                                 <button ​type="button" data-toggle="modal"
                                                     onclick="editWh({{ $item->id }})"
                                                     class="btn btn-warning btn-edit">Edit</button>
+                                                
                                                 <button ​type="button" data-toggle="modal" class="btn btn-danger btn-delete"
                                                     onclick="deleteWh({{ $item->id }})">Delete</button>
+                                                    {{-- {{Session::put('warehouseChoosedId',)}}  --}}
+                                                @if ($item->id - Session::get('warehouseChoosedId') !== 0)
+                                                        <form class="d-inline" method="POST" action="chooseWarehouse" >
+                                                            @csrf
+                                                                <button type="submit"
+                                                                    class="btn btn-twitter btn-edit"
+                                                                    name="id"
+                                                                    value="{{$item->id}}-{{$item->name}}"
+                                                                >Check out</button>
+                                                        </form>
+                                                @endif                          
                                             </div>
                                         </td>
                                     </tr>
@@ -351,7 +363,6 @@
                 console.log(e.avatar);
             });
         }
-
         $("#form-edit").submit(function(e) {
             e.preventDefault();
 

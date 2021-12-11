@@ -8,7 +8,7 @@
                         <h6 class="h2 text-white d-inline-block mb-0">
                             @php
                                 echo Session::get('warehouseChoosed') !== null ? Session::get('warehouseChoosed') : null;
-                                echo Session::get('warehouseChoosedId') !== null ? Session::get('warehouseChoosedId') : null;
+                                // echo Session::get('warehouseChoosedId') !== null ? Session::get('warehouseChoosedId') : null;
                             @endphp
                         </h6>
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
@@ -41,7 +41,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Tổng tiền thu</h5>
-                                        <span class="h2 font-weight-bold mb-0">{{ $totalReceiptInYear[0]->prices }} <span
+                                        <span class="h2 font-weight-bold mb-0">{{ number_format($totalIssueInYear[0]->prices) }} <span
                                                 class="text-gray font-weight-600 text-sm">(VNĐ)</span></span>
                                     </div>
                                     <div class="col-auto">
@@ -64,7 +64,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Tổng tiền chi</h5>
-                                        <span class="h2 font-weight-bold mb-0">{{ $totalIssueInYear[0]->prices }} <span
+                                        <span class="h2 font-weight-bold mb-0">{{ number_format($totalReceiptInYear[0]->prices) }} <span
                                                 class="text-gray font-weight-600 text-sm">(VNĐ)</span></span>
                                     </div>
                                     <div class="col-auto">
@@ -87,7 +87,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Tổng sản phẩm xuất</h5>
-                                        <span class="h2 font-weight-bold mb-0">{{ $totalReceiptInYear[0]->prices }} <span
+                                        <span class="h2 font-weight-bold mb-0">{{ number_format($totalIssueInYear[0]->quantity) }} <span
                                                 class="text-gray font-weight-600 text-sm"></span></span>
                                     </div>
                                     <div class="col-auto">
@@ -110,7 +110,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Tổng sản phẩm nhập</h5>
-                                        <span class="h2 font-weight-bold mb-0">{{ $totalIssueInYear[0]->prices }} <span
+                                        <span class="h2 font-weight-bold mb-0">{{ number_format($totalReceiptInYear[0]->quantity) }} <span
                                                 class="text-gray font-weight-600 text-sm"></span></span>
                                     </div>
                                     <div class="col-auto">
