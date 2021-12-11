@@ -29,10 +29,9 @@
                         <input required type="number" class="form-control" onblur="checkTransfer()"  placeholder="Số lượng" name='quantity_transfer' id="quantity_transfer">
                         <small id="error" style="height: 5px" class="text-danger"></small>
                     </div>
-                    <div class="form-group">
-                        {{-- <label for="email">Tên Kho:</label> --}}
+                    {{-- <div class="form-group">
                         <input required type="date" class="form-control" onblur="checkTransfer()" placeholder="Ngày chuyển" name='date_transfer' id="date_transfer">
-                    </div>
+                    </div> --}}
                     
                     <div class="modal-footer">
                         <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>

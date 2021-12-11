@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\issue;
 use App\Models\productDetail;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Session;
 class issueController extends Controller
 {
     public function index()
     {
+        $warehouseId = Session::get('warehouseChoosedId');
+        
         $issue = DB::table('issue')
         ->join('product_detail','issue.id_product_detail','=','product_detail.id')
         ->join('product','product_detail.id_product','=','product.id')
@@ -26,6 +29,7 @@ class issueController extends Controller
         'admin.name as nameAdmin',
         'warehouse.name as nameWarehouse',
         ])
+        ->where('issue.id_warehouse','=',$warehouseId)
         ->get();
 
         return view('Admin.warehouse.issue', [
@@ -44,7 +48,7 @@ class issueController extends Controller
         $issue -> id_product_detail = $request -> id_product_detail;
         $issue -> id_admin = Auth::guard('admin')->user()->id;
         $issue -> id_warehouse = $product_detail -> id_warehouse;
-        $issue -> date_issue = $request -> date_issue;
+        $issue -> date_issue = new DateTime();
         $issue -> quantity = $request -> quantity_issue;
         $issue -> save();
 

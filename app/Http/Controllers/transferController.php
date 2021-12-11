@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\productDetail;
 use App\Models\receipt;
 use App\Models\transfer;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,8 @@ class transferController extends Controller
     public function index()
     {
         // $transfer = transfer::orderBy('id', 'desc')->get();
+        $warehouseId =Session::get('warehouseChoosedId');
+
         $transfer = DB::table('warehouse_transfer')
         ->join('product_detail','warehouse_transfer.id_product_detail','=','product_detail.id')
         ->join('product','product_detail.id_product','=','product.id')
@@ -31,6 +34,7 @@ class transferController extends Controller
         'warehouse.name as nameWarehouse',
         
         ])
+        ->where('warehouse_transfer.id_warehouse_old','=',$warehouseId)
         ->get();
 
         $warehouse_old = [];
@@ -51,7 +55,7 @@ class transferController extends Controller
         $transfer -> id_admin = Auth::guard('admin')->user()->id;
         $transfer -> id_warehouse = $request -> id_warehouse;
         $transfer -> id_warehouse_old = Session::get('warehouseChoosedId');
-        $transfer -> date_transfer = $request -> date_transfer;
+        $transfer -> date_transfer = new DateTime();
         $transfer -> quantity = $request -> quantity_transfer;
        
         $transfer -> save();

@@ -173,7 +173,7 @@
                     },
                 },
                 "order": [
-                    [6, "desc"]
+                    [5, "asc"]
                 ],
                 dom: 'Bfrtip',
                 buttons: [

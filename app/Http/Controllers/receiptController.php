@@ -8,16 +8,18 @@ use App\Models\receiptDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Session;
 class receiptController extends Controller
 {
     public function index()
     {
+        $warehouseId = Session::get('warehouseChoosedId');
         $receipt = DB::table('receipt')
         ->join('admin','receipt.id_admin','=','admin.id')
         ->join('warehouse','receipt.id_warehouse','=','warehouse.id')
         ->join('supplier','receipt.id_supplier','=','supplier.id')
         ->select('receipt.id','receipt.id_admin','receipt.id_product_detail','admin.name as adminName','warehouse.name as warehouseName','supplier.name as supplierName')
+        ->where('receipt.id_warehouse','=',$warehouseId)
         ->get();
 
         $receipt_detail = [];

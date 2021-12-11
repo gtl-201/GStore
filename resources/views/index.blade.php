@@ -564,7 +564,7 @@
         <!-- END MainContent -->
 
         <!-- START Footer -->
-        <footer class="footer pt-0 pb-3 position-absolute w-100 px-3 mt-4" style="bottom: 0">
+        {{-- <footer class="footer pt-0 pb-3 position-absolute w-100 px-3 mt-4" style="bottom: 0">
             <div class="row align-items-center justify-content-lg-between">
                 <div class="col-lg-6">
                     <div class="copyright text-center  text-lg-left  text-muted">
@@ -589,7 +589,7 @@
                     </ul>
                 </div>
             </div>
-        </footer>
+        </footer> --}}
         <!-- END Footer -->
     </div>
     <!-- Argon Scripts -->

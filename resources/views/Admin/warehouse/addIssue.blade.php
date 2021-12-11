@@ -25,10 +25,9 @@
                         <input required type="tel" class="form-control" onblur="checkIssue()" placeholder="Số lượng" name='quantity_issue' id="quantity_issue">
                         <small id="error2_issue" style="height: 5px" class="text-danger"></small>
                     </div>
-                    <div class="form-group">
-                        {{-- <label for="email">Tên Kho:</label> --}}
+                    {{-- <div class="form-group">
                         <input required type="date" class="form-control" onblur="checkIssue()" placeholder="Ngày xuất" name='date_issue' id="date_issue">
-                    </div>
+                    </div> --}}
                     
                     <div class="modal-footer">
                         <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
