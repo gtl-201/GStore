@@ -127,7 +127,7 @@
                                                             @forelse ($item->image  as $itemImg)
                                                                 <img class="avatar avatar-sm rounded-circle"
                                                                     alt="Image placeholder" id='img-{{ $itemImg->id }}'
-                                                                    src= '{{ asset($itemImg->image) }}'> q
+                                                                    src= '{{ asset($itemImg->image) }}'>
                                                             @empty
                                                             @endforelse
                                                         </div>
@@ -242,9 +242,9 @@
                 },
                 scrollY: "100%",
                 scrollX: tableheight,
-                "order": [
-                    [10, "desc"]
-                ],
+                // "order": [
+                //     [10, "desc"]
+                // ],
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
@@ -277,9 +277,9 @@
                 scrollY: "100%",
                 scrollX: tableheight,
 
-                "order": [
-                    [10, "desc"]
-                ],
+                // "order": [
+                //     [10, "desc"]
+                // ],
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
@@ -680,5 +680,118 @@
                     }
             });  
         }
+        function validateProduct() {
+            var checkname= false;
+            var checkdescrip = false;
+            var checktypename= false;
+            var checkemptybrand = false;
+            var checkemptysupplier = false;
+            var checkemptycolor = false;
+            var checkemptysize = false;
+            var checkemptyprice = false;
+            var checkemptyquantity = false;
+
+            if($('#quantity').val() != ''){
+                if($('#quantity').val() < 1){
+                    document.getElementById('quantity').style.borderColor = '#fc403e';
+                    document.getElementById('errorquantity').innerText = 'Số lượng không được < 1';
+                    checkemptyquantity = false;
+                }else{
+                    document.getElementById('quantity').style.borderColor = '#09c002';
+                    document.getElementById('errorquantity').innerText = '';
+                    checkemptyquantity = true;
+                }
+            }else{
+                document.getElementById('quantity').style.borderColor = '#fc403e';
+                document.getElementById('errorquantity').innerText = 'Số lượng không được để trống!';
+                checkemptyquantity = false;
+            }
+
+            if($('#price').val() != ''){
+                if($('#price').val() < 1){
+                    document.getElementById('price').style.borderColor = '#fc403e';
+                    document.getElementById('errorprice').innerText = 'Giá không được < 1';
+                    checkemptyprice = false;
+                }else{
+                    document.getElementById('price').style.borderColor = '#09c002';
+                    document.getElementById('errorprice').innerText = '';
+                    checkemptyprice = true;
+                }
+            }else{
+                document.getElementById('price').style.borderColor = '#fc403e';
+                document.getElementById('errorprice').innerText = 'Giá không được để trống!';
+                checkemptyprice = false;
+            }
+            
+            if($('#size').val()  == 'Kích cỡ'){
+                document.getElementById('size').style.borderColor = '#fc403e';
+                document.getElementById('errorsize').innerText = 'Hãy chọn kích cỡ!';
+                checkemptysize = false;
+            }else{
+                document.getElementById('size').style.borderColor = '#09c002';
+                document.getElementById('errorsize').innerText = '';
+                checkemptysize = true;
+            }
+            if($('#color').val()  == 'Màu sắc'){
+                document.getElementById('color').style.borderColor = '#fc403e';
+                document.getElementById('errorcolor').innerText = 'Hãy chọn màu!';
+                checkemptycolor = false;
+            }else{
+                document.getElementById('color').style.borderColor = '#09c002';
+                document.getElementById('errorcolor').innerText = '';
+                checkemptycolor = true;
+            }
+            if($('#supplier').val()  == 'Nhà cung cấp'){
+                document.getElementById('supplier').style.borderColor = '#fc403e';
+                document.getElementById('errorsupplier').innerText = 'Hãy chọn nhà cung cấp!';
+                checkemptysupplier = false;
+            }else{
+                document.getElementById('supplier').style.borderColor = '#09c002';
+                document.getElementById('errorsupplier').innerText = '';
+                checkemptysupplier = true;
+            }
+            if($('#brand').val()  == 'Thương hiệu'){
+                document.getElementById('brand').style.borderColor = '#fc403e';
+                document.getElementById('errorbrand').innerText = 'Hãy chọn thương hiệu!';
+                checkemptybrand = false;
+            }else{
+                document.getElementById('brand').style.borderColor = '#09c002';
+                document.getElementById('errorbrand').innerText = '';
+                checkemptybrand = true;
+            }
+            if($('#typename').val()  == 'Loại sản phẩm'){
+                document.getElementById('typename').style.borderColor = '#fc403e';
+                document.getElementById('errortypename').innerText = 'Hãy chọn loại sản phẩm!';
+                checktypename = false;
+            }else{
+                document.getElementById('typename').style.borderColor = '#09c002';
+                document.getElementById('errortypename').innerText = '';
+                checktypename = true;
+            }
+            if($('#descrip').val()  == ''){
+                document.getElementById('descrip').style.borderColor = '#fc403e';
+                document.getElementById('errordescrip').innerText = 'Hãy chọn mô tả!';
+                checkdescrip = false;
+            }else{
+                document.getElementById('descrip').style.borderColor = '#09c002';
+                document.getElementById('errordescrip').innerText = '';
+                checkdescrip = true;
+            }
+            if($('#name').val()  == ''){
+                document.getElementById('name').style.borderColor = '#fc403e';
+                document.getElementById('errorname').innerText = 'Hãy chọn tên sản phẩm!';
+                checkname = false;
+            }else{
+                document.getElementById('name').style.borderColor = '#09c002';
+                document.getElementById('errorname').innerText = '';
+                checkname = true;
+            }
+
+            if(checkname === true && checkdescrip === true && checktypename === true && checkemptybrand === true && checkemptysupplier === true && checkemptycolor === true && checkemptysize === true && checkemptyprice === true && checkemptyquantity){
+                return true;
+                }else {
+                    return false;
+                }
+            }
     </script>
 @endsection

@@ -35,6 +35,7 @@ class transferController extends Controller
         
         ])
         ->where('warehouse_transfer.id_warehouse_old','=',$warehouseId)
+        ->orderByDesc('warehouse_transfer.updated_at')
         ->get();
 
         $warehouse_old = [];

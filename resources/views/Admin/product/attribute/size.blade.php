@@ -130,7 +130,7 @@
                     },
                 },
                 "order": [
-                    [1, "asc"]
+                    [1, "desc"]
                 ],
                 dom: 'Bfrtip',
                 buttons: [
@@ -162,7 +162,7 @@
                     },
                 },
                 "order": [
-                    [1, "asc"]
+                    [1, "desc"]
                 ],
                 dom: 'Bfrtip',
                 buttons: [
