@@ -18,8 +18,9 @@ class receiptController extends Controller
         ->join('admin','receipt.id_admin','=','admin.id')
         ->join('warehouse','receipt.id_warehouse','=','warehouse.id')
         ->join('supplier','receipt.id_supplier','=','supplier.id')
-        ->select('receipt.id','receipt.id_admin','receipt.id_product_detail','admin.name as adminName','warehouse.name as warehouseName','supplier.name as supplierName')
+        ->select('receipt.id','receipt.id_admin','receipt.updated_at','receipt.id_product_detail','admin.name as adminName','warehouse.name as warehouseName','supplier.name as supplierName')
         ->where('receipt.id_warehouse','=',$warehouseId)
+        ->orderByDesc('receipt.updated_at')
         ->get();
 
         $receipt_detail = [];

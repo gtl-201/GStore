@@ -54,7 +54,7 @@
                     </div>
                    
                     <div id='multiAttribute'>
-                        <div class="w-100 text-center mb-2">--------------------- Thuộc tính 1 ---------------------
+                        <div class="w-100 text-center mb-2">--------------------- Thuộc tính ---------------------
                         </div>
                         <div class="row px-3" style="height: 50px">
                             <select class="form-select col" aria-label="" id='color' onchange="validateProduct()" name='color1'>
@@ -93,12 +93,12 @@
                         </div>
                     </div>
 
-                    <div class="btn btn-success btn-sm" style='margin-top:40px; margin-bottom: 20px' onclick="addMoreAttribute()">Add more</div>
+                    {{-- <div class="btn btn-success btn-sm" style='margin-top:40px; margin-bottom: 20px' onclick="addMoreAttribute()">Add more</div> --}}
 
                     <div id='multiImg' name='multiImg'>
                         <div class="form-group row px-2">
                             <div class='col'>
-                                <label for="exampleFormControlFile1">Chọn ảnh sản phẩm thứ 1</label>
+                                <label for="exampleFormControlFile1">Chọn ảnh sản phẩm</label>
                                 <input type="file" class="form-control-file" id="img1"
                                     name="img1">
                             </div>
@@ -107,7 +107,7 @@
                                 style="width: auto;max-height: 100px"> --}}
                         </div>
                     </div>
-                    <div class="btn btn-success btn-sm" style='margin-top:-10px; margin-bottom: 20px' onclick="addMoreImage()">Add more</div>
+                    {{-- <div class="btn btn-success btn-sm" style='margin-top:-10px; margin-bottom: 20px' onclick="addMoreImage()">Add more</div> --}}
                     
                     <input type="hidden" id='CountImg' name='countImg' value="1">
                     <input type="hidden" value="1" id='Count' name='count'>

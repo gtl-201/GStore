@@ -30,6 +30,7 @@ class issueController extends Controller
         'warehouse.name as nameWarehouse',
         ])
         ->where('issue.id_warehouse','=',$warehouseId)
+        ->orderByDesc('issue.updated_at')
         ->get();
 
         return view('Admin.warehouse.issue', [

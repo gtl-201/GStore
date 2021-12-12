@@ -27,6 +27,7 @@ class productController extends Controller
                 'product.updated_at',
                 'type_product.name as typename',
             ])
+            ->orderByDesc('product.updated_at')
             ->get();
 
         $img_product = [];
