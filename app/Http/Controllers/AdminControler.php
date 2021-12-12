@@ -47,6 +47,7 @@ class AdminControler extends Controller
         ->groupBy(DB::raw("DATE_FORMAT(issue.updated_at, '%m')"))
         ->where('issue.id_warehouse','=',$warehouseId)
         ->get();
+        // dd($issueInYear);
         $totalIssueInYear = DB::table('issue')
         ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
         ->where('issue.updated_at','like','%'.date('Y').'%')
@@ -104,6 +105,16 @@ class AdminControler extends Controller
         ->where('issue.id_warehouse','=',$warehouseId)
         ->get();
 
+        $bestSeller = DB::table('issue')
+        ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
+        ->join('product','product.id', '=', 'product_detail.id_product')
+        ->where('issue.updated_at','like','%'.(date('m')).'%')
+        ->select(DB::raw('product.name as name'),DB::raw('product_detail.quantity as quantityStock'),DB::raw('issue.quantity as quantity'),DB::raw('product_detail.price as priceStock'),DB::raw('(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%y') AS year"))
+        ->orderBy('quantity','DESC')
+        ->limit(10)
+        ->get();
+        // dd($bestSeller);
+
         $warehouse_transferInYear_old = DB::table('warehouse_transfer')
         ->join('product_detail','product_detail.id', '=', 'warehouse_transfer.id_product_detail')
         ->where('warehouse_transfer.updated_at','like','%'.(date('Y') - 1).'%')
@@ -133,6 +144,7 @@ class AdminControler extends Controller
             'totalIssueInYear_old'=> isEmpty($totalIssueInYear_old) ? 0 : $totalIssueInYear_old,
             'warehouse_transferInYear_old'=> isEmpty($warehouse_transferInYear_old) ? 0 : $warehouse_transferInYear_old,
             'totalWarehouse_transferInYear_old'=> isEmpty($totalWarehouse_transferInYear_old) ? 0 : $totalWarehouse_transferInYear_old,
+            'bestSeller' => $bestSeller,
         ]);
     }
     function getByMonth(Request $request)

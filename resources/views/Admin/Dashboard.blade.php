@@ -33,6 +33,8 @@
                     </div>
                 </div>
                 <!-- Card stats -->
+                {{-- {{print($bestSeller)}} --}}
+
                 <div class="row">
                     <div class="col-xl-3 col-md-6">
                         <div class="card card-stats">
@@ -257,6 +259,75 @@
                     </div>
                 </div>
             </div>
+
+            
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Best seller in {{print date("d/m/Y")}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    
+                                    <th scope="col">Name</th>
+                                    <th scope="col">SL trong kho</th>
+                                    <th scope="col">Gia Sp</th>
+                                    <th scope="col">Tong SP ban duoc</th>
+                                    <th scope="col">Tong tien ban duoc</th>
+                                </tr>
+                            </thead>
+                            <tbody id='percentTableIssue'>
+                                @forelse ($bestSeller as $item)
+                                    <tr>
+                                        <td scope="col">{{$item->name}}</td>
+                                        <td scope="col">{{$item->quantityStock}}</td>
+                                        <td scope="col">{{$item->priceStock}}</td>
+                                        <td scope="col">{{$item->quantity}}</td>
+                                        <td scope="col">{{$item->prices}}</td>
+                                    </tr>
+                                @empty
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Tang truong theo thang cua nam {{print date("Y")}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Tháng</th>
+                                    <th scope="col">Hiện tại</th>
+                                    <th scope="col">Tỷ lệ tăng trưởng</th>
+                                    <th scope="col">Lai so voi thang truoc</th>
+                                </tr>
+                            </thead>
+                            <tbody id='percentTableMonth'>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
         @php
             
@@ -352,7 +423,7 @@
         var totalwarehouse_transferInYear = '<?php echo $totalwarehouse_transferInYear; ?>';
 
         // console.log(totalReceiptInYear);
-        // console.log();
+        // console.log(issueInYearJson);
         var totalReceiptPercent = [];
         var totalIssuePercent = [];
         for (let index = 1; index <= 12; index++) {
@@ -436,6 +507,22 @@
                         </td>
                     </tr>`;
             $('#percentTableIssue').append(t2);
+
+            var t3 = `<tr>
+                        <th scope="row">
+                            Tháng ${i}
+                        </th>
+                        <td>
+                            ${issueInYearJson[i-1]} (vnđ)
+                        </td>
+                        <td>
+                            <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${(issueInYearJson[i-1] - issueInYearJson[i-2])/100}%
+                        </td>
+                        <td>
+                            <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${issueInYearJson[i - 1] / (issueInYearJson[i - 1] + issueInYearJson[i - 2]) * 100} %
+                        </td>
+                    </tr>`;
+            $('#percentTableMonth').append(t3);
         }
 
 

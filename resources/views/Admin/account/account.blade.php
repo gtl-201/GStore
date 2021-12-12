@@ -60,13 +60,13 @@
                         <table class="table align-items-center table-flush" id='table_Theme'>
                             <thead class="___class_+?23___" id='thead_Theme'>
                                 <tr>
-                                    <th scope="col" class="col">Tên</th>
-                                    <th scope="col" class="col">Email</th>
-                                    <th scope="col" class="col">User_Name</th>
-                                    <th scope="col" class="col">Số điện thoại</th>
-                                    <th scope="col" class="col">Địa chỉ</th>
-                                    <th scope="col" class="col">Quyền</th>
-                                    <th scope="col" class="col">Ngày cập nhật</th>
+                                    <th scope="col" class="col-1 text-center">Tên</th>
+                                    <th scope="col" class="col-3">Email</th>
+                                    <th scope="col" class="col-2">User_Name</th>
+                                    <th scope="col" class="col-3">Số điện thoại</th>
+                                    <th scope="col" class="col-1">Địa chỉ</th>
+                                    <th scope="col" class="col-2">Quyền</th>
+                                    <th scope="col" class="col-4">Ngày cập nhật</th>
                                     <th scope="col" class="col"></th>
                                 </tr>
                             </thead>
@@ -84,7 +84,7 @@
                                                 </div>
                                             </div>
                                         </th>
-                                        <td class="text-sm" id="email-{{ $item->id }}">
+                                        <td class="text-sm text-left" id="email-{{ $item->id }}">
                                             {{ $item->email }}
                                         </td>
 
