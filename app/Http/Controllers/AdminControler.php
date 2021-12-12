@@ -39,7 +39,15 @@ class AdminControler extends Controller
         ->groupBy(DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%y')"))
         ->where('receipt.id_warehouse','=',$warehouseId)
         ->get();
-        
+
+        $totalReceiptInYearAll = DB::table('receipt')
+        ->join('receipt_detail','receipt_detail.id_receipt', '=', 'receipt.id')
+        ->join('product_detail','product_detail.id', '=', 'receipt.id_product_detail')
+        ->where('receipt_detail.updated_at','like','%'.date('Y').'%')
+        ->select(DB::raw('SUM(receipt_detail.quantity) as quantity'),DB::raw('SUM(product_detail.price * receipt_detail.quantity) as prices'),DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%y') AS year"))
+        ->groupBy(DB::raw("DATE_FORMAT(receipt_detail.updated_at, '%y')"))
+        ->get();
+
         $issueInYear = DB::table('issue')
         ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
         ->where('issue.updated_at','like','%'.date('Y').'%')
@@ -54,6 +62,12 @@ class AdminControler extends Controller
         ->select(DB::raw('SUM(issue.quantity) as quantity'),DB::raw('SUM(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%y') AS year"))
         ->groupBy(DB::raw("DATE_FORMAT(issue.updated_at, '%y')"))
         ->where('issue.id_warehouse','=',$warehouseId)
+        ->get();
+        $totalIssueInYearAll = DB::table('issue')
+        ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
+        ->where('issue.updated_at','like','%'.date('Y').'%')
+        ->select(DB::raw('SUM(issue.quantity) as quantity'),DB::raw('SUM(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%y') AS year"))
+        ->groupBy(DB::raw("DATE_FORMAT(issue.updated_at, '%y')"))
         ->get();
 
         $warehouse_transferInYear = DB::table('warehouse_transfer')
@@ -133,8 +147,10 @@ class AdminControler extends Controller
         return view('Admin.Dashboard', [
             'receiptInYear'=>$receiptInYear,
             'totalReceiptInYear'=>$totalReceiptInYear,
+            'totalReceiptInYearAll'=>$totalReceiptInYearAll,
             'issueInYear'=>$issueInYear,
             'totalIssueInYear'=>$totalIssueInYear,
+            'totalIssueInYearAll'=>$totalIssueInYearAll,
             'warehouse_transferInYear'=>$warehouse_transferInYear,
             'totalwarehouse_transferInYear'=>$totalWarehouse_transferInYear,
 
