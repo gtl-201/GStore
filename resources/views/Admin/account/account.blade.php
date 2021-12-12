@@ -427,20 +427,20 @@
 
         function checkpass() {
            var regExPhone = /(0[3|5|7|8|9])+([0-9]{8})\b/g;
-           var checkPass = 0;
-           var checkPhone = 0;
+           var checkPass = false;
+           var checkPhone = false;
 
            if(regExPhone.test($('#phone').val()) == false){
                 document.getElementById('phone').style.borderColor = '#fc403e';
                 document.getElementById('error').innerText = 'Cần nhập đúng số điện thoại!';
-                checkPhone = 0;
+                checkPhone = false;
            }else{
             document.getElementById('phone').style.borderColor = '#43fa38';
             document.getElementById('error').innerText = '';
-            checkPhone = 1;
+            checkPhone = true;
            }
 
-           if($('#pass').val() >= 4 && $('#repass').val() >= 4){
+           if($('#pass').val().length >= 4 && $('#repass').val().length >= 4){
             document.getElementById('pass').style.borderColor = '#43fa38';
             document.getElementById('error2').innerText = '';
                
@@ -448,12 +448,12 @@
                 document.getElementById('repass').style.borderColor = '#43fa38';
                 document.getElementById('pass').style.borderColor = '#43fa38';
                 document.getElementById('error3').innerText = '';
-                checkPass = 1;
+                checkPass = true;
             } else {
                 document.getElementById('repass').style.borderColor = '#fc403e';
                 document.getElementById('pass').style.borderColor = '#fc403e';
                 document.getElementById('error3').innerText = 'Mật khẩu Không khớp nhau!';
-                checkPass = 0;
+                checkPass = false;
             }
 
            }
@@ -461,10 +461,10 @@
                 document.getElementById('repass').style.borderColor = '#fc403e';
                 document.getElementById('pass').style.borderColor = '#fc403e';
                 document.getElementById('error2').innerText = 'Mật khẩu cần 4 kí tự trở lên!';
-                checkPass = 0;
+                checkPass = false;
             }
             
-            if(checkpass == 1 && checkPhone ==1){
+            if(checkpass == true && checkPhone ==true){
                 return true;
             }else{
                 return false;
