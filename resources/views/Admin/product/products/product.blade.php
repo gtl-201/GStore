@@ -242,9 +242,9 @@
                 },
                 scrollY: "100%",
                 scrollX: tableheight,
-                // "order": [
-                //     [10, "desc"]
-                // ],
+                "order": [
+                    [10, "desc"]
+                ],
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
@@ -277,9 +277,9 @@
                 scrollY: "100%",
                 scrollX: tableheight,
 
-                // "order": [
-                //     [10, "desc"]
-                // ],
+                "order": [
+                    [10, "desc"]
+                ],
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
