@@ -516,10 +516,11 @@
                             ${issueInYearJson[i-1]} (vnđ)
                         </td>
                         <td>
-                            <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${(issueInYearJson[i-1] - issueInYearJson[i-2])/100}%
+                            <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${isNaN(issueInYearJson[i - 1] / (issueInYearJson[i - 1] + issueInYearJson[i - 2]) * 100) ? 0 : (issueInYearJson[i - 1] / (issueInYearJson[i - 1] + issueInYearJson[i - 2]) * 100)} %
+                            
                         </td>
                         <td>
-                            <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${issueInYearJson[i - 1] / (issueInYearJson[i - 1] + issueInYearJson[i - 2]) * 100} %
+                            <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${isNaN((issueInYearJson[i-1] - issueInYearJson[i-2])/100) ? 0 : (issueInYearJson[i-1] - issueInYearJson[i-2])/100 } vnd
                         </td>
                     </tr>`;
             $('#percentTableMonth').append(t3);
