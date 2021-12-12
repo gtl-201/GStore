@@ -43,6 +43,7 @@ class productController extends Controller
             $product_detail = DB::table('product_detail')
                 ->where('id_warehouse', Session::get('warehouseChoosedId'))
                 ->where('id_product', $value->id)
+                ->orderByDesc('product_detail.updated_at')
                 ->get();
             $product[$key]->product_detail = $product_detail;
         }
