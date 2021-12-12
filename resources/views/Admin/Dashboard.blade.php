@@ -300,8 +300,27 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-uppercase text-muted ls-1 mb-1">BĐ cột</h6>
+                                <h5 class="h3 mb-0">Tổng Sản phẩm Tat Ca Kho</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="horizontalBarAll" class="chart-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
         </div>
+        
+        
         <div class="row">
             <div class="col-xl-6">
                 <div class="card">
@@ -520,6 +539,10 @@
         var totalIssueInInYear = '<?php echo $totalIssueInYear; ?>';
         var totalwarehouse_transferInYear = '<?php echo $totalwarehouse_transferInYear; ?>';
 
+        var totalReceiptInYearAll = '<?php echo $totalReceiptInYear; ?>';
+        var totalIssueInInYearAll = '<?php echo $totalIssueInYear; ?>';
+        var totalwarehouse_transferInYearAll = '<?php echo $wareHouseAll; ?>';
+
         // console.log(totalReceiptInYear);
         // console.log(issueInYearJson);
         var totalReceiptPercent = [];
@@ -620,7 +643,6 @@
                             ? 0
                             : (issueInYearJson[i - 1] / (issueInYearJson[i - 1] + issueInYearJson[i - 2]) * 100)
                             : ((-issueInYearJson[i - 2] === 0 && -issueInYearJson[i - 1] === 0) || isNaN(-issueInYearJson[i - 2])) ? 0 : 100} %
-                            
                         </td>
                         <td>
                             <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${isNaN((issueInYearJson[i-1] - issueInYearJson[i-2])) ? 0 : (issueInYearJson[i-1] - issueInYearJson[i-2]) } vnd
@@ -727,6 +749,33 @@
                         "data": [JSON.parse(totalIssueInInYear)[0].quantity, JSON.parse(totalReceiptInYear)[
                                 0]
                             .quantity, JSON.parse(totalwarehouse_transferInYear)[0].quantity
+                        ],
+                        "fill": false,
+                        "backgroundColor": ['#00e7ff66', '#fff70059', '#10ff0063'],
+                        "borderColor": ['#00fff3', '#ffee76', '#27ff00'],
+                        "borderWidth": 1
+                    }]
+                },
+                "options": {
+                    "scales": {
+                        "xAxes": [{
+                            "ticks": {
+                                "beginAtZero": true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            new Chart(document.getElementById("horizontalBarAll"), {
+                "type": "horizontalBar",
+                "data": {
+                    "labels": ["Xuất", "Nhập", "Chuyển"],
+                    "datasets": [{
+                        "label": "",
+                        "data": [JSON.parse(totalIssueInInYearAll)[0].quantity, JSON.parse(totalReceiptInYearAll)[
+                                0]
+                            .quantity, JSON.parse(totalwarehouse_transferInYearAll)[0].quantity
                         ],
                         "fill": false,
                         "backgroundColor": ['#00e7ff66', '#fff70059', '#10ff0063'],

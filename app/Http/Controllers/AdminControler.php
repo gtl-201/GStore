@@ -85,6 +85,14 @@ class AdminControler extends Controller
         ->where('warehouse_transfer.id_warehouse','=',$warehouseId)
         ->get();
 
+        $totalWarehouse_transferInYearAll = DB::table('warehouse_transfer')
+        ->join('product_detail','product_detail.id', '=', 'warehouse_transfer.id_product_detail')
+        ->where('warehouse_transfer.updated_at','like','%'.date('Y').'%')
+        ->select(DB::raw('SUM(warehouse_transfer.quantity) as quantity'),DB::raw('SUM(product_detail.price * warehouse_transfer.quantity) as prices'),DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%y') AS year"))
+        ->groupBy(DB::raw("DATE_FORMAT(warehouse_transfer.updated_at, '%y')"))
+        ->get();
+        
+
 
 
         $receiptInYear_old = DB::table('receipt')
@@ -160,6 +168,7 @@ class AdminControler extends Controller
             'totalIssueInYear_old'=> isEmpty($totalIssueInYear_old) ? 0 : $totalIssueInYear_old,
             'warehouse_transferInYear_old'=> isEmpty($warehouse_transferInYear_old) ? 0 : $warehouse_transferInYear_old,
             'totalWarehouse_transferInYear_old'=> isEmpty($totalWarehouse_transferInYear_old) ? 0 : $totalWarehouse_transferInYear_old,
+            'wareHouseAll'=>$totalWarehouse_transferInYearAll,
             'bestSeller' => $bestSeller,
         ]);
     }
