@@ -2,19 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ImportExcel;
+use App\Models\brand;
+use App\Models\color;
 use App\Models\imageProduct;
 use App\Models\nameProduct;
 use App\Models\productDetail;
 use App\Models\receipt;
 use App\Models\receiptDetail;
+use App\Models\size;
+use App\Models\supplier;
+use App\Models\type;
 use App\Models\wareHouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class productController extends Controller
 {
+    public function importExcel(Request $request){
+        $data = Excel::toCollection(new ImportExcel, $request->file('excelFile'));
+        $dataTmp = [];
+        $dataType = [];
+        $dataBrand = [];
+        $dataSup = [];
+        $dataColor = [];
+        $dataSize = [];
+        foreach ($data[0] as $key => $value) {
+            if($key !== 0){
+                $dataTmp[$key - 1] = $value;
+                $dataType[$key - 1] = type::where('name',$value[2])->first()->id;
+                $dataBrand[$key - 1] = brand::where('brand',$value[3])->first()->id;
+                $dataSup[$key - 1] = supplier::where('name',$value[4])->first()->id;
+                $dataColor[$key - 1] = color::where('color',$value[5])->first()->id;
+                $dataSize[$key - 1] = size::where('size',$value[6])->first()->id;
+                // DB::table('type')->select('id')->where('name',$value[])
+            }
+        }
+        // dd($dataColor);
+        foreach ($dataTmp as $key => $value) {
+            $product = new nameProduct();
+            $product->name = $value[0];
+            $product->descrip = $value[1];
+            $product->id_type =  $dataType[$key];
+            $product->save();
+            // foreach ($dataTmp as $key2 => $value2) {
+            $product_detail = new productDetail();
+            $product_detail->id_product = $product->id;
+            $product_detail->id_size = $dataSize[$key];
+            $product_detail->id_color = $dataColor[$key];
+            $product_detail->id_brand = $dataBrand[$key];
+            $product_detail->id_warehouse = Session::get('warehouseChoosedId');
+            $product_detail->quantity = $value[8];
+            $product_detail->price = $value[7];
+            $product_detail->save();
+            // }
+        }
+        
+        
+
+        return response()->json($dataTmp);
+        // $e = $this->overView($data);
+        // return response()->json(['data'=>$e]);
+    }
     public function indexProduct()
     {
         $product = DB::table('product')

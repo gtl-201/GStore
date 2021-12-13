@@ -44,7 +44,18 @@
                     <div class="card-header border-0" id='header_table' onclick="tb_theme()">
                         <h3 class="mb-0" id='table_header_name'>Danh sách sản phẩm trong kho {{Session::get('warehouseChoosedId')}} </h3>
                     </div>
+                    <form method="POST" action="importExcel" class="row block h-70vh" id='formExcel'>
+                        @csrf
+                        <div class="d-flex">
+                            <div class="btn-success btn w-100 mb-2 ml-5" onclick="clickImportExcel()">
+                                Chọn file excel để import
+                            </div>
+                            {{-- <button class="btn-success btn w-100 mb-2 ml-2">Import</button> --}}
+                            <input type="file" name="excelFile" id="excelFile" accept=".xlsx" hidden onchange="changeExcelFile()">
+                        </div>
+                    </form>
                     <script>
+                        
                         function tb_theme() {
                             document.getElementById('card_table').classList.toggle('bg-default');
                             document.getElementById('card_table').classList.toggle('shadow');
@@ -220,6 +231,44 @@
     @include('Admin.warehouse.addIssue')
     @include('Admin.warehouse.addReceipt')
 
+    <div id="ModalExcel" class="modal fade w-100" role="dialog">
+        <div class="ModalExcelclass">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Thêm loại sản phẩm mới</h2>
+                </div>
+                <div class=" justify-content-center align-items-center text-center">
+                    <table border="1px black solid" class="ml-5">
+                        <tr>
+                            <th>name</th>
+                            <th>description</th>
+                            <th>type</th>
+                            <th>brand</th>
+                            <th>suplier</th>
+                            <th>color</th>
+                            <th>size</th>
+                            <th>price</th>
+                            <th>quantity</th>
+                        </tr>
+                        <tbody id='dtExcel'>
+
+                        </tbody>
+                    </table>
+                    <form action="" id="form-add-excel" method="POST" role="form">
+                        @csrf
+                        <textarea name="" id="dataEx" cols="30" rows="10"></textarea>
+                        <button>Add</button>
+                    </form>
+                    <button onclick="$('#ModalExcel').modal('toggle')">Cancel</button>
+
+                </div>
+    
+            </div>
+    
+        </div>
+    </div>
+
     <script>
         let tableheight = $('#card_table').width() - 5;
         var dtTable;
@@ -293,6 +342,51 @@
         }
     </script>
     <script type="text/javascript">
+        function clickImportExcel() {
+            $('#excelFile').click();
+        }
+        function changeExcelFile() {
+            var url = 'importExcel';
+            let formSend = new FormData($('#formExcel')[0]);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'post',
+                url: url,
+                enctype: 'multipart/form-data',
+                contentType: false,
+                processData: false,
+                data: formSend,
+                success: function(response) {
+                    // response.forEach(element => {
+                    //     let tr1 = `<td>${element[0]}</td>`
+                    //     let tr2 = `<td>${element[1]}</td>`
+                    //     let tr3 = `<td>${element[2]}</td>`
+                    //     let tr4 = `<td>${element[3]}</td>`
+                    //     let tr5 = `<td>${element[4]}</td>`
+                    //     let tr6 = `<td>${element[5]}</td>`
+                    //     let tr7 = `<td>${element[6]}</td>`
+                    //     let tr8 = `<td>${element[7]}</td>`
+                    //     let tr9 = `<td>${element[8]}</td>`
+                    //     console.log(element);
+                    // $('#dtExcel').prepend(`<tr>` + tr1 + tr2 + tr3 + tr4 + tr5 + tr6 + tr7 + tr8 + tr9 + `</tr>`);
+
+                    // });
+                    // $('#dataEx').val(response);
+                    // $('#ModalExcel').modal('toggle');
+
+                    toastr.options.positionClass = 'toast-bottom-left'
+                    toastr.success('Thêm SP Thanh cong................', 'Thanh cong 👺👹👺')
+                },
+                error: function(err) {
+                    console.log(err)
+                    toastr.options.positionClass = 'toast-bottom-left'
+                    toastr.error('Thêm SP thất bại', 'Thất bại 👺👹👺')
+                }
+            })
+        
+        }
         function ClickNew() {
             $('#myAddModal').modal('toggle');
         }
@@ -438,7 +532,7 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     toastr.options.positionClass = 'toast-bottom-left'
-                    toastr.error('Thêm kho thất bại', 'Thất bại 👺👹👺')
+                    toastr.error('Thêm SP thất bại', 'Thất bại 👺👹👺')
                 }
             })
         })
@@ -491,7 +585,7 @@
                         $.get('product/product_detail/' + id, function(result) {
                         $('#quantity-' + data.id_product_detail).text(result[0].quantity)});
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+                        toastr.success('Cập nhật SP thành công', 'Thành công ✨🎉✨');
                         $('#myAddModalTransfer').modal('hide');
                         $('#form-add-transfer')[0].reset();
                         
@@ -499,7 +593,7 @@
                     },
                     error: function(res) {
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
+                        toastr.error('Cập nhật SP thất bại', 'Thất bại 👺👹👺')
                     }
                 })
             }
@@ -530,7 +624,7 @@
                         $.get('product/product_detail/' + id, function(result) {
                         $('#quantity-' + data.id_product_detail).text(result[0].quantity)});
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+                        toastr.success('Cập nhật SP thành công', 'Thành công ✨🎉✨');
                         $('#myAddModalIssue').modal('hide');
                         $('#form-add-issue')[0].reset();
                         
@@ -538,7 +632,7 @@
                     },
                     error: function(res) {
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
+                        toastr.error('Cập nhật SP thất bại', 'Thất bại 👺👹👺')
                     }
                 })
             }
@@ -570,7 +664,7 @@
                         $('#quantity-' + data.id).text(result[0].quantity)});
                         console.log(data);
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.success('Cập nhật kho thành công', 'Thành công ✨🎉✨');
+                        toastr.success('Cập nhật SP thành công', 'Thành công ✨🎉✨');
                         $('#myAddModalReceipt').modal('hide');
                         $('#form-add-receipt')[0].reset();
                         
@@ -578,7 +672,7 @@
                     },
                     error: function(res) {
                         toastr.options.positionClass = 'toast-bottom-left'
-                        toastr.error('Cập nhật kho thất bại', 'Thất bại 👺👹👺')
+                        toastr.error('Cập nhật SP thất bại', 'Thất bại 👺👹👺')
                     }
                 })
             }

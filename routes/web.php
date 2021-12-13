@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [AdminControler::class, 'index']);
 Route::prefix('admin')->group(function () {
+    Route::post('/importExcel', [productController::class, 'importExcel']);
+
     Route::middleware(['auth.admin'])->group(function () {
         Route::get('/', [AdminControler::class, 'login'])->withoutMiddleware('auth.admin');
         Route::get('/login', [AdminControler::class, 'login'])->name('admin.login')->withoutMiddleware('auth.admin');
@@ -52,6 +54,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/login', [AdminControler::class, 'handleLogin'])->withoutMiddleware('auth.admin');
 
         Route::prefix('/product')->group(function () {
+
             Route::prefix('/attribute')->group(function () {
                 Route::prefix('/color')->group(function () {
                     Route::get('/', [attributeAjaxController::class, 'indexColor']);

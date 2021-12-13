@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\ImportExcel;
+use App\Imports\UsersImport;
 use App\Models\brand;
 use App\Models\color;
 use App\Models\image;
@@ -10,6 +12,8 @@ use App\Models\size;
 use App\Models\type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Input;
 
 class attributeAjaxController extends Controller
 {
