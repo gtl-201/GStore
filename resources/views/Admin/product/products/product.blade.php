@@ -378,6 +378,9 @@
 
                     toastr.options.positionClass = 'toast-bottom-left'
                     toastr.success('Thêm SP Thanh cong................', 'Thanh cong 👺👹👺')
+                    setTimeout(() => {
+                        location.reload()  
+                    }, 1000);
                 },
                 error: function(err) {
                     console.log(err)
@@ -440,11 +443,11 @@
                                     </div>
                                 </div>
                             </th>`;
-                    let td2 = `<td class="text-sm col-1 text-center" id="descript-${item.id }">
+                    let td2 = `<td class="text-sm col-1 text-left" id="descript-${item.id }">
                                 ${item.descrip }
                             </td>
 
-                            <td class="text-sm col-1" id="typename-${item.id }">
+                            <td class="text-sm col-1 text-center" id="typename-${item.id }">
                                 ${item.typename }
                             </td>`;
                     let td3 = `<td class='text-center'>
@@ -518,7 +521,7 @@
                     // });
                     // td9 += `</td>`;
                     let td10 = `<td class="text-sm" id="updated-${item.id }">
-                                    ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : new Date(item.updated_at).getMonth()}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
+                                    ${ new Date(item.updated_at).getDate() < 10 ? '0' + new Date(item.updated_at).getDate() : new Date(item.updated_at).getDate() }-${new Date(item.updated_at).getMonth() < 10 ? '0' + new Date(item.updated_at).getMonth() : (new Date(item.updated_at).getMonth() + 1)}-${new Date(item.updated_at).getFullYear()} ${new Date(item.updated_at).getHours()}:${new Date(item.updated_at).getMinutes()}:${new Date(item.updated_at).getSeconds()}
                                 </td>
                             </tr>`;
 
