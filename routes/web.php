@@ -32,6 +32,9 @@ Route::prefix('admin')->group(function () {
         Route::prefix('/dashboard')->group(function () {
             Route::get('/', [AdminControler::class, 'index'])->name('dashboard');
             Route::post('/', [AdminControler::class, 'getByMonth']);
+            Route::get('/{id}', [AdminControler::class, 'getDBCot']);
+            Route::get('/BDCong/{id}', [AdminControler::class, 'getDBCong']);
+            Route::get('/getNhap/{id}', [AdminControler::class, 'getNhap']);
         });
         
         Route::prefix('account')->group(function () {
