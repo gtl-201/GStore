@@ -364,8 +364,23 @@
                 <div class="card">
                     <div class="card-header border-0">
                         <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="mb-0">Best seller in {{print date("d/m/Y")}}</h3>
+                            <div class="d-flex row justify-content-between w-100 align-items-center px-2">
+                                <h3 class="mb-0">Best seller in {{print date("m/Y")}}</h3>
+                                <div class="mt-2">
+                                   <select class="h3 col" style="border: 0px"  onchange='bestSeller(this.value)' aria-label="" id='warehouse' name='warehouse'>
+                                    <option value='9999'>Tất cả</option>
+                                    @forelse ($warehouseAll as $item)
+                                        @if (Session::get('warehouseChoosedId') == $item->id)
+                                        <option value='{{ $item->id }}' selected>{{ $item->name }}</option>
+                                    
+                                        @else
+                                        <option value='{{ $item->id }}' >{{ $item->name }}</option>
+                                            
+                                        @endif
+                                    @empty
+                                    @endforelse
+                                </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -376,20 +391,20 @@
                                 <tr>
                                     
                                     <th scope="col">Name</th>
-                                    <th scope="col">SL trong kho</th>
+                                    {{-- <th scope="col">SL trong kho</th> --}}
                                     <th scope="col">Gia Sp</th>
                                     <th scope="col">Tong SP ban duoc</th>
                                     <th scope="col">Tong tien ban duoc</th>
                                 </tr>
                             </thead>
-                            <tbody id='percentTableIssue'>
+                            <tbody id='bestSeller'>
                                 @forelse ($bestSeller as $item)
-                                    <tr>
+                                    <tr class="bestSeller">
                                         <td scope="col">{{$item->name}}</td>
-                                        <td scope="col">{{$item->quantityStock}}</td>
-                                        <td scope="col">{{$item->priceStock}}</td>
+                                        {{-- <td scope="col">{{$item->quantityStock}}</td> --}}
+                                        <td scope="col">{{number_format($item->priceStock)}} vnd</td>
                                         <td scope="col">{{$item->quantity}}</td>
-                                        <td scope="col">{{$item->prices}}</td>
+                                        <td scope="col">{{number_format($item->prices)}} vnd</td>
                                     </tr>
                                 @empty
                                 @endforelse
@@ -451,6 +466,7 @@
         var myLineChart;
         var ctxL;
         var formatter = new Intl.NumberFormat();
+        
         function getAll(id) {
             $.get('dashboard/' + id, function(e) {
                
@@ -462,6 +478,22 @@
                 document.getElementById('nhap').innerText = e.totalReceiptInYear[0].quantity;
             });
         };
+        function bestSeller(id) {
+            $('.bestSeller').remove();
+            $.get('dashboard/bestSeller/' + id, function(e) {
+            for (let i = 1; i <= 10; i++) {
+                    var t = `<tr class='bestSeller'>
+                        <td scope="col">${e.bestSeller[i-1].name}</td>
+                        <td scope="col">${formatter.format(e.bestSeller[i-1].priceStock)} vnd</td>
+                        <td scope="col">${e.bestSeller[i-1].quantity}</td>
+                        <td scope="col">${formatter.format(e.bestSeller[i-1].prices)} vnd</td>
+                    </tr> `;
+                $('#bestSeller').append(t);
+
+                }
+               
+        });
+        }
         function getDB(id) {
             chart.destroy();
             $.get('dashboard/' + id, function(e) {

@@ -35,6 +35,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/{id}', [AdminControler::class, 'getDBCot']);
             Route::get('/BDCong/{id}', [AdminControler::class, 'getDBCong']);
             Route::get('/getNhap/{id}', [AdminControler::class, 'getNhap']);
+            Route::get('/bestSeller/{id}', [AdminControler::class, 'bestSeller']);
         });
         
         Route::prefix('account')->group(function () {

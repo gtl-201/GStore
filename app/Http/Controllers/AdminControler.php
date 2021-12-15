@@ -134,6 +134,7 @@ class AdminControler extends Controller
         ->select(DB::raw('product.name as name'),DB::raw('product_detail.quantity as quantityStock'),DB::raw('issue.quantity as quantity'),DB::raw('product_detail.price as priceStock'),DB::raw('(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%y') AS year"))
         ->orderBy('quantity','DESC')
         ->limit(10)
+        ->where('issue.id_warehouse','=',$warehouseId)
         ->get();
         // dd($bestSeller);
 
@@ -421,6 +422,35 @@ class AdminControler extends Controller
         return response()->json([
         'issueInYear' => $issueInYear,
         'receiptInYear' => $receiptInYear,
+    ]);
+    }
+    function bestSeller($warehouseId){
+        
+        $bestSeller = [];
+        if($warehouseId !== strVal(9999)){
+            $bestSeller = DB::table('issue')
+            ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
+            ->join('product','product.id', '=', 'product_detail.id_product')
+            ->where('issue.updated_at','like','%'.(date('m')).'%')
+            ->select(DB::raw('product.name as name'),DB::raw('product_detail.quantity as quantityStock'),DB::raw('issue.quantity as quantity'),DB::raw('product_detail.price as priceStock'),DB::raw('(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%y') AS year"))
+            ->orderBy('quantity','DESC')
+            ->limit(10)
+            ->where('issue.id_warehouse','=',$warehouseId)
+            ->get();
+        }
+        else{
+            $bestSeller = DB::table('issue')
+            ->join('product_detail','product_detail.id', '=', 'issue.id_product_detail')
+            ->join('product','product.id', '=', 'product_detail.id_product')
+            ->where('issue.updated_at','like','%'.(date('m')).'%')
+            ->select(DB::raw('product.name as name'),DB::raw('product_detail.quantity as quantityStock'),DB::raw('issue.quantity as quantity'),DB::raw('product_detail.price as priceStock'),DB::raw('(product_detail.price * issue.quantity) as prices'),DB::raw("DATE_FORMAT(issue.updated_at, '%y') AS year"))
+            ->orderBy('quantity','DESC')
+            ->limit(10)
+            ->get();
+        }
+        
+        return response()->json([
+        'bestSeller' => $bestSeller,
     ]);
     }
     function icons()
