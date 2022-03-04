@@ -31,7 +31,7 @@
                 {{-- <h6 class="h2 text-white d-inline-block mb-2">
                     Tất cả kho
                 </h6> --}}
-            
+                
                 <h6 class="h2 text-white d-inline-block mb-2">
                     <select class=" h3 col" style="border: 0px" onchange='getAll(this.value)' aria-label="" id='warehouse' name='warehouse'>
                         <option value='9999'>Tất cả</option>
@@ -56,7 +56,7 @@
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Tổng tiền thu</h5>
                                         <span class="h2 font-weight-bold mb-0" id="thu">{{ number_format($totalIssueInYear[0]->prices) }} </span><span
-                                        class="text-gray font-weight-600 text-sm" id="VND">(VNĐ)</span>
+                                        class="text-gray font-weight-600 text-sm" id="vnđ">(VNĐ)</span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
@@ -79,7 +79,7 @@
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Tổng tiền chi</h5>
                                         <span class="h2 font-weight-bold mb-0" id="chi">{{ number_format($totalReceiptInYear[0]->prices) }} </span><span
-                                        class="text-gray font-weight-600 text-sm" id="VND2">(VNĐ)</span>
+                                        class="text-gray font-weight-600 text-sm" id="vnđ2">(VNĐ)</span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
@@ -277,7 +277,7 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="d-flex row justify-content-between w-100 align-items-center px-2">
-                                <h3 class="mb-0">Mức độ tăng trưởng <span class="text-orange">nhập</span> hàng</h3>
+                                <h3 class="mb-0">Mức độ tăng trưởng <span class="text-orange">nhập</span> hàng các tháng của năm 2020 với 2021</h3>
                                 <div class="mt-2">
                                    <select class="h3 col" style="border: 0px"  onchange='NhapTang(this.value)' aria-label="" id='warehouse' name='warehouse'>
                                     <option value='9999'>Tất cả</option>
@@ -319,7 +319,7 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="d-flex row justify-content-between w-100 align-items-center px-2">
-                                <h3 class="mb-0">Mức độ tăng trưởng <span class="text-green">xuất</span> hàng</h3>
+                                <h3 class="mb-0">Mức độ tăng trưởng <span class="text-green">xuất</span> hàng các tháng của năm 2020 với 2021</h3>
                                 <div class="mt-2">
                                    <select class=" h3 col" style="border: 0px"  onchange='XuatTang(this.value)' aria-label="" id='warehouse' name='warehouse'>
                                     <option value='9999'>Tất cả</option>
@@ -365,7 +365,7 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="d-flex row justify-content-between w-100 align-items-center px-2">
-                                <h3 class="mb-0">Best seller in {{print date("m/Y")}}</h3>
+                                <h3 class="mb-0">Top sản phẩm bán chạy nhất tháng 12/2021</h3>
                                 <div class="mt-2">
                                    <select class="h3 col" style="border: 0px"  onchange='bestSeller(this.value)' aria-label="" id='warehouse' name='warehouse'>
                                     <option value='9999'>Tất cả</option>
@@ -402,9 +402,9 @@
                                     <tr class="bestSeller">
                                         <td scope="col">{{$item->name}}</td>
                                         {{-- <td scope="col">{{$item->quantityStock}}</td> --}}
-                                        <td scope="col">{{number_format($item->priceStock)}} vnd</td>
+                                        <td scope="col">{{number_format($item->priceStock)}} vnđ</td>
                                         <td scope="col">{{$item->quantity}}</td>
-                                        <td scope="col">{{number_format($item->prices)}} vnd</td>
+                                        <td scope="col">{{number_format($item->prices)}} vnđ</td>
                                     </tr>
                                 @empty
                                 @endforelse
@@ -419,7 +419,7 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="d-flex row justify-content-between w-100 align-items-center px-2">
-                                <h3 class="mb-0">Tang truong theo thang cua nam {{print date("Y")}}</h3>
+                                <h3 class="mb-0">Mức độ tăng trưởng từng tháng trong năm 2021</h3>
                                 <div class="mt-2">
                                    <select class=" h3 col" style="border: 0px"  onchange='XuatNam(this.value)' aria-label="" id='warehouse' name='warehouse'>
                                     <option value='9999'>Tất cả</option>
@@ -472,8 +472,8 @@
                
                 document.getElementById('chi').innerText = formatter.format(e.totalReceiptInYear[0].prices);
                 document.getElementById('thu').innerText = formatter.format(e.totalIssueInYear[0].prices);
-                document.getElementById('VND').innerText = " (VNĐ)";
-                document.getElementById('VND2').innerText = " (VNĐ)";
+                document.getElementById('vnđ').innerText = " (VNĐ)";
+                document.getElementById('vnđ2').innerText = " (VNĐ)";
                 document.getElementById('xuat').innerText = e.totalIssueInYear[0].quantity;
                 document.getElementById('nhap').innerText = e.totalReceiptInYear[0].quantity;
             });
@@ -484,9 +484,9 @@
             for (let i = 1; i <= 10; i++) {
                     var t = `<tr class='bestSeller'>
                         <td scope="col">${e.bestSeller[i-1].name}</td>
-                        <td scope="col">${formatter.format(e.bestSeller[i-1].priceStock)} vnd</td>
+                        <td scope="col">${formatter.format(e.bestSeller[i-1].priceStock)} vnđ</td>
                         <td scope="col">${e.bestSeller[i-1].quantity}</td>
-                        <td scope="col">${formatter.format(e.bestSeller[i-1].prices)} vnd</td>
+                        <td scope="col">${formatter.format(e.bestSeller[i-1].prices)} vnđ</td>
                     </tr> `;
                 $('#bestSeller').append(t);
 
@@ -799,7 +799,7 @@
                             : ((-issueInYearJson[i - 2] === 0 && -issueInYearJson[i - 1] === 0) || isNaN(-issueInYearJson[i - 2])) ? 0 : 100} %
                         </td>
                         <td>
-                            <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${isNaN((issueInYearJson[i-1] - issueInYearJson[i-2])) ? 0 : formatter.format((issueInYearJson[i-1] - issueInYearJson[i-2])) } vnd
+                            <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${isNaN((issueInYearJson[i-1] - issueInYearJson[i-2])) ? 0 : formatter.format((issueInYearJson[i-1] - issueInYearJson[i-2])) } vnđ
                         </td>
                     </tr>`;
             $('#percentTableMonth').append(t3);
@@ -1020,7 +1020,7 @@
                             : ((-issueInYearJson[i - 2] === 0 && -issueInYearJson[i - 1] === 0) || isNaN(-issueInYearJson[i - 2])) ? 0 : 100} %
                         </td>
                         <td>
-                            <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${isNaN((issueInYearJson[i-1] - issueInYearJson[i-2])) ? 0 : formatter.format((issueInYearJson[i-1] - issueInYearJson[i-2])) } vnd
+                            <i class="fas ${(issueInYearJson[i-1] - issueInYearJson[i-2]) > 0 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning '} mr-3"></i> ${isNaN((issueInYearJson[i-1] - issueInYearJson[i-2])) ? 0 : formatter.format((issueInYearJson[i-1] - issueInYearJson[i-2])) } vnđ
                         </td>
                     </tr>`;
                 $('#percentTableMonth').append(t3);

@@ -50,6 +50,7 @@
                             <div class="btn-success btn w-100 mb-2 ml-5" onclick="clickImportExcel()">
                                 Chọn file excel để import
                             </div>
+                            <a href="{{asset('fileMauSp.xlsx')}}" download="FileMauImportSp">Tải file mẫu excel</a>
                             {{-- <button class="btn-success btn w-100 mb-2 ml-2">Import</button> --}}
                             <input type="file" name="excelFile" id="excelFile" accept=".xlsx" hidden onchange="changeExcelFile()">
                         </div>
@@ -231,10 +232,10 @@
     @include('Admin.warehouse.addIssue')
     @include('Admin.warehouse.addReceipt')
 
-    <div id="ModalExcel" class="modal fade w-100" role="dialog">
-        <div class="ModalExcelclass">
+    <div id="ModalExcel" class="modal fade">
+        <div class="ModalExcelclass modal-dialog modal-dialog70Width" style="min-width: auto !important">
             <!-- Modal content-->
-            <div class="modal-content">
+            <div class="modal-content w-100">
                 <div class="modal-header">
                     <h2 class="modal-title">Thêm loại sản phẩm mới</h2>
                 </div>
@@ -252,16 +253,16 @@
                             <th>quantity</th>
                         </tr>
                         <tbody id='dtExcel'>
-
                         </tbody>
                     </table>
-                    <form action="" id="form-add-excel" method="POST" role="form">
-                        @csrf
-                        <textarea name="" id="dataEx" cols="30" rows="10"></textarea>
-                        <button>Add</button>
-                    </form>
-                    <button onclick="$('#ModalExcel').modal('toggle')">Cancel</button>
+                    <div class="d-flex flex-row w-100 text-rigth justify-content-end">
+                        <button class="text-right mr-3 btn btn-danger mt-3 mb-3" onclick="$('#ModalExcel').modal('toggle')">Cancel</button>
 
+                        <form action="sentToImportExcel" class="text-right mr-3 mt-3 mb-3" id="form-add-excel" method="POST" role="form">
+                            @csrf
+                            <button class="btn btn-success" type="submit">Add</button>
+                        </form>
+                    </div>
                 </div>
     
             </div>
@@ -359,28 +360,58 @@
                 processData: false,
                 data: formSend,
                 success: function(response) {
-                    // response.forEach(element => {
-                    //     let tr1 = `<td>${element[0]}</td>`
-                    //     let tr2 = `<td>${element[1]}</td>`
-                    //     let tr3 = `<td>${element[2]}</td>`
-                    //     let tr4 = `<td>${element[3]}</td>`
-                    //     let tr5 = `<td>${element[4]}</td>`
-                    //     let tr6 = `<td>${element[5]}</td>`
-                    //     let tr7 = `<td>${element[6]}</td>`
-                    //     let tr8 = `<td>${element[7]}</td>`
-                    //     let tr9 = `<td>${element[8]}</td>`
-                    //     console.log(element);
-                    // $('#dtExcel').prepend(`<tr>` + tr1 + tr2 + tr3 + tr4 + tr5 + tr6 + tr7 + tr8 + tr9 + `</tr>`);
+                    response.forEach(element => {
+                        let tr1 = `<td>${element[0]}</td>`
+                        let tr2 = `<td>${element[1]}</td>`
+                        let tr3 = `<td>${element[2]}</td>`
+                        let tr4 = `<td>${element[3]}</td>`
+                        let tr5 = `<td>${element[4]}</td>`
+                        let tr6 = `<td>${element[5]}</td>`
+                        let tr7 = `<td>${element[6]}</td>`
+                        let tr8 = `<td>${element[7]}</td>`
+                        let tr9 = `<td>${element[8]}</td>`
 
-                    // });
-                    // $('#dataEx').val(response);
-                    // $('#ModalExcel').modal('toggle');
+                        $('#dtExcel').prepend(`<tr>` + tr1 + tr2 + tr3 + tr4 + tr5 + tr6 + tr7 + tr8 + tr9 + `</tr>`);
+                    });
+
+                    $('#ModalExcel').modal('toggle');
 
                     toastr.options.positionClass = 'toast-bottom-left'
-                    toastr.success('Thêm SP Thanh cong................', 'Thanh cong 👺👹👺')
+                    toastr.success('Tạo bảng từ excel thành công', 'Thanh cong 👺👹👺')
+                    // setTimeout(() => {
+                    //     location.reload()  
+                    // }, 1000);
+                },
+                error: function(err) {
+                    console.log(err)
+                    toastr.options.positionClass = 'toast-bottom-left'
+                    toastr.error('Tạo bảng từ excel thất bại', 'Thất bại 👺👹👺')
+                }
+            })
+        
+        }
+
+        $('#form-add-excel').submit(e => {
+            e.preventDefault();
+            console.log({dataExcel: localStorage.getItem('dataExcel')});
+            var url = 'sentToImportExcel';
+            let formSend = new FormData($('#form-add-excel')[0]);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'post',
+                url: url,
+                // enctype: 'multipart/form-data',
+                contentType: false,
+                processData: false,
+                data: {dataExcel: JSON.parse(JSON.stringify(localStorage.getItem('dataExcel')))},
+                success: function(response) {
+                    toastr.options.positionClass = 'toast-bottom-left'
+                    toastr.success('Thêm SP Thành Công', 'Thành công👺👹👺')
                     setTimeout(() => {
-                        location.reload()  
-                    }, 1000);
+                        location.reload();
+                    }, 500);
                 },
                 error: function(err) {
                     console.log(err)
@@ -388,8 +419,7 @@
                     toastr.error('Thêm SP thất bại', 'Thất bại 👺👹👺')
                 }
             })
-        
-        }
+        })
         function ClickNew() {
             $('#myAddModal').modal('toggle');
         }

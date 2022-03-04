@@ -25,12 +25,28 @@ class productController extends Controller
     public function importExcel(Request $request){
         $data = Excel::toCollection(new ImportExcel, $request->file('excelFile'));
         $dataTmp = [];
+        
+        foreach ($data[0] as $key => $value) {
+            if($key !== 0){
+                $dataTmp[$key - 1] = $value;
+            }
+        }
+        Session::put('exValue', $dataTmp);
+        return response()->json($dataTmp);
+        // $e = $this->overView($data);
+        // return response()->json(['data'=>$e]);
+    }
+
+    public function sentToImportExcel(){
+        $dataEx = Session::get('exValue');
+        $dataTmp=[];
+        // dd($dataEx);
         $dataType = [];
         $dataBrand = [];
         $dataSup = [];
         $dataColor = [];
         $dataSize = [];
-        foreach ($data[0] as $key => $value) {
+        foreach ($dataEx as $key => $value) {
             if($key !== 0){
                 $dataTmp[$key - 1] = $value;
                 $dataType[$key - 1] = type::where('name',$value[2])->first()->id;
@@ -41,7 +57,6 @@ class productController extends Controller
                 // DB::table('type')->select('id')->where('name',$value[])
             }
         }
-        // dd($dataColor);
         foreach ($dataTmp as $key => $value) {
             $product = new nameProduct();
             $product->name = $value[0];
@@ -60,12 +75,8 @@ class productController extends Controller
             $product_detail->save();
             // }
         }
+        // dd($dataColor);
         
-        
-
-        return response()->json($dataTmp);
-        // $e = $this->overView($data);
-        // return response()->json(['data'=>$e]);
     }
     public function indexProduct()
     {

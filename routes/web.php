@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', [AdminControler::class, 'index']);
 Route::prefix('admin')->group(function () {
     Route::post('/importExcel', [productController::class, 'importExcel']);
+    Route::post('/sentToImportExcel', [productController::class, 'sentToImportExcel']);
 
     Route::middleware(['auth.admin'])->group(function () {
         Route::get('/', [AdminControler::class, 'login'])->withoutMiddleware('auth.admin');
